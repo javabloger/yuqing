@@ -50,6 +50,12 @@
 -   用户名：demo
 -   密码：stonedt
 
+
+## 运行版本
+
+
+
+
 ## 产品手册
 
 https://gitee.com/stonedtx/yuqing/blob/master/%E4%BA%A7%E5%93%81%E6%89%8B%E5%86%8CV1.0.pdf
