@@ -37,6 +37,7 @@
 ![输入图片说明](ProIMG/main4.png)
 ![输入图片说明](ProIMG/report.png)
 ![输入图片说明](ProIMG/shijian.png)
+![输入图片说明](ProIMG/xiangqing.png)
 ![输入图片说明](ProIMG/secher.png)
 ![输入图片说明](ProIMG/jiance.png)
 
