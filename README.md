@@ -45,4 +45,5 @@
 -   用户名：demo
 -   密码：stonedt
 
-## 微信群
+## 微信
+<img src="https://gitee.com/stonedtx/free-bidding-data-interface/blob/master/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC-%E4%B8%AA%E4%BA%BA%E5%BE%AE%E4%BF%A1.jpg" width="156" height="156"/>
