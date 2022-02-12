@@ -66,15 +66,6 @@
 2.  以 root 用户执行如下命令安装 思通舆情。
 
 
-## License & Copyright
-
-Copyright (c) 2014-2022 思通数科 StoneDT, All rights reserved.
-
-Licensed under The GNU General Public License version 3 (GPLv3)  (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-<https://www.gnu.org/licenses/gpl-3.0.html>
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 ## 产品手册
 
@@ -100,3 +91,12 @@ https://gitee.com/stonedtx/yuqing/blob/master/%E4%BA%A7%E5%93%81%E6%89%8B%E5%86%
 欢迎您在下方留言，或添加微信与我们交流。
 
 
+## License & Copyright
+
+Copyright (c) 2014-2022 思通数科 StoneDT, All rights reserved.
+
+Licensed under The GNU General Public License version 3 (GPLv3)  (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+<https://www.gnu.org/licenses/gpl-3.0.html>
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
