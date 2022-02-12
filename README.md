@@ -21,6 +21,10 @@
 - 数据库：MySQL
 - 数据检索：Elasticsearch
 - 文章储存：Mongodb
+- 系统缓存：Redis
+- 消息队列：kafak & rabbitMQ
+- 深度学习：PaddlePaddle
+- 网络爬虫：WebMagic(java) & scrapy（python）
 - 开发框架：SpringBoot
 - 开发语言：Java JEE
 
