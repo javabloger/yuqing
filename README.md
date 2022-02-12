@@ -46,4 +46,4 @@
 -   密码：stonedt
 
 ## 微信
-<img src="http://pro.stonedt.com/assets/images/login-left.png" width="156" height="156"/>
+ ![输入图片说明](ProIMG/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC-%E4%B8%AA%E4%BA%BA%E5%BE%AE%E4%BF%A1.jpg)
