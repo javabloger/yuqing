@@ -62,7 +62,7 @@
 ## 在线体验
 
 -   环境地址：<http://pro.stonedt.com/>
--   用户名：demo
+-   用户名：13900000000
 -   密码：stonedt
 
 
