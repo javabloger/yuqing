@@ -79,7 +79,7 @@
 -  3.下载 [stonedt-yuqing.jar](https://gitee.com/stonedtx/yuqing/attach_files/965888/download/stonedt-yuqing.jar) 程序，与 config.properties 在同目录下，执行 java -jar stonedt-yuqing.jar
 
 运行程序目录结构如下：
-![输入图片说明](ProIMG/run-dir.png =258x82)
+![输入图片说明](ProIMG/run-dir.png)
 
 
 -  发行版本下载地址：https://gitee.com/stonedtx/yuqing/releases/v1.0
