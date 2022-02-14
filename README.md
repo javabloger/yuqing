@@ -81,6 +81,11 @@
 
 -  发行版本下载地址：https://gitee.com/stonedtx/yuqing/releases/v1.0
 
+-  本地访问：http://127.0.0.1/
+
+-  用户名：13900000000
+
+-  密码：stonedt
 
 
 
