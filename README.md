@@ -52,7 +52,7 @@
 
 
 ## 功能架构
-
+![输入图片说明](ProIMG/gongneng-jiagou.png)
 
 
 ## 运行版本
