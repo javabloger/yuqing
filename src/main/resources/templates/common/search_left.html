@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+    	.comactive a{
+    		color: #fff;
+    	}
+    </style>
+</head>
+<body>
+<aside class="left-sidebar" th:fragment="search_left">
+    <div class="allleft-menu" style="height:100%;">
+        <nav class="sidebar-nav" style="height:100%;">
+            <ul id="sidebarnav">
+        		
+            </ul>
+            <div class="left-foot-wechact">
+	         	<div class="wechat-logo-box-card">
+	         		<div class="manual-logo-box" title="产品手册在线查看">
+	         			<a target="_blank" th:href="@{/system/productmanual/online}">
+			         		<svg class="icon" aria-hidden="true">
+						    <use xlink:href="#icon-manual3"></use>
+							</svg>
+						</a>
+	         		</div>
+	         		<!-- <div class="wechat-logo-box">
+		         		<svg class="icon" aria-hidden="true">
+					    <use xlink:href="#icon-wechat-logo"></use>
+						</svg>
+	         		</div> -->
+	         		<div class="home-footer__bottom-content__share__qrcode" id="home-footer__bottom-content__share__qrcode">
+			          	<!-- <img th:src="@{/assets/images/QRcode.jpg}" alt="wechat" style="width:120px;height:120px;border-radius:4px;"> -->
+			        </div>
+	         		<div class="download-logo-box" title="反馈建议">
+	         			<!-- <a th:href="@{/system/feedback}"> -->
+	         			<a href="#">
+			         		<svg class="icon" aria-hidden="true">
+						    <use xlink:href="#icon-serve"></use>
+							</svg>
+						</a>
+	         		</div>
+	         	</div>
+         	</div>
+        </nav>
+    </div>
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/common/common.js}"></script>
+    <script th:inline="javascript">
+    	var ctx = [[@{/}]];
+    	var full_type = [[${fulltype}]];
+    	var full_poly = [[${full_poly}]];
+    	console.log(full_poly+"dwaf")
+    	var menuStyle = [[${menuStyle}]];
+    	var pageSize = [[${pageSize}]];
+    	var searchWord = [[${searchWord}]]
+    	console.log(menuStyle)
+    	console.log(!menuStyle)
+    	 //0聚合模式  1展开模式 默认为聚合模式
+    	if(!full_poly) full_poly = 1
+    	var idList = ''
+        /* getwechatqrcode(); */
+        
+    </script>
+    <script th:src="@{/dist/search_left.js}"></script>
+    <!-- <script th:src="@{/dist/search_result.js}"></script> -->
+</aside>
+</body>
+</html>

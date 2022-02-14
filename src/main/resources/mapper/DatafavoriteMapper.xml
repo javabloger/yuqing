@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.DatafavoriteDao">
+
+
+
+
+<insert id="adddata" parameterType="com.stonedt.intelligence.entity.DatafavoriteEntity">
+
+insert into data_favorite(title,article_public_id,publish_time,user_id,favoritetime,status,emotionalIndex,projectid,groupid,source_name)
+
+values(#{title},#{article_public_id},#{publish_time},#{user_id},Now(),1,#{emotionalIndex},#{projectid},#{groupid},#{source_name})
+
+
+
+
+</insert>
+
+<update id="updatedata" parameterType="com.stonedt.intelligence.entity.DatafavoriteEntity">
+
+update data_favorite 
+set 
+title=#{title},publish_time=#{publish_time},
+favoritetime=Now(),status=1,
+emotionalIndex=#{emotionalIndex},
+projectid=#{projectid},groupid=#{groupid},
+source_name=#{source_name}  
+where 
+article_public_id=#{article_public_id} 
+and 
+user_id=#{user_id}
+
+</update>
+
+
+
+<select id="getdatafavoriteByUser" resultType="com.stonedt.intelligence.entity.DatafavoriteEntity">
+	select * from data_favorite where user_id = #{user_id} order by favoritetime desc limit 5
+</select>
+
+<select id="selectdata" parameterType="java.util.Map" resultType="com.stonedt.intelligence.entity.DatafavoriteEntity">
+	select * from data_favorite where user_id = #{user_id} and article_public_id = #{public_id}
+</select>
+
+<select id="getdatafavoriteByUser2" resultType="com.stonedt.intelligence.entity.DatafavoriteEntity">
+	select af.* from data_favorite af
+	left join project p on af.projectid=p.project_id
+	where af.user_id = #{user_id} and p.is_selected=1
+	order by af.favoritetime desc limit 5
+</select>
+
+
+
+
+</mapper>

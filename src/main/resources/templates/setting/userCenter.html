@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href=" ../assets/images/favicon.png">
+    <title>账号管理·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- Custom CSS -->
+    <link href=" ../dist/css/style.min.css" rel="stylesheet">
+    <link href=" ../dist/css/custom.css" rel="stylesheet">
+    <link href="../assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="../assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+<!--     <div class="preloader"> -->
+<!--         <div class="lds-ripple"> -->
+<!--             <div class="lds-pos"></div> -->
+<!--             <div class="lds-pos"></div> -->
+<!--         </div> -->
+<!--     </div> -->
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <div th:replace="common/header::header"></div>
+        <div th:replace="common/setting_left::setting_left"></div>
+        <div class="page-wrapper">
+
+            <div class="right-part right-content">
+                <!-- nav start-->
+                <div class="page-breadcrumb">
+                    <div class="row">
+                        <div class="col-lg-5 align-self-center">
+                            <div class="d-flex align-items-center">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">系统设置</li>
+                                        <li class="breadcrumb-item">帐号管理</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 align-self-center ">
+                            <!-- <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                                <button class="growl btn btn-outline-secondary btn-sm bnone" type="button" id="goedit">
+                                    <i class="mdi mdi-plus-circle"></i>
+                                    新增
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary  btn-sm bnone">
+                                    <i class="mdi mdi-delete"></i>
+                                    删除
+                                </button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- nav end-->
+                <div class="p-20">
+                    <div class="card">
+                        <div class="card-body  p-0">
+                            <!-- <div class="text-center over-load t2" id="loading1">
+                                <div class="spinner-border spinner-border text-info" role="status">
+                                    <span class="sr-only">加载中...</span>
+                                </div>
+                            </div> -->
+                            <!-- line start -->
+                            <div class="usercenter-list-box">
+                                <div class="usercenter-title">
+                                    <div> 用户名 </div>
+                                    <div> 公司名称 </div>
+                                    <div> 邮箱地址 </div>
+                                    <div> 用户状态 </div>
+                                    <div> 登录次数 </div>
+                                    <div> 最近一次登录 </div>
+                                    <div> 操作</div>
+                                </div>
+                                <div id="user-content" class="usercenter-content">
+                                </div>
+                               
+                            </div>
+                            <!-- line end -->
+                             <!-- pages start -->
+                             <!-- <div class="all-pagebox m-r-20 m-b-20 m-t-20">
+                                <ul class="pagination float-right" id="page">
+                                </ul>
+                            </div> -->
+                            <!-- pages end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer start  -->
+            <!-- ============================================================== -->
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer end  -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    </div>
+    <!-- 修改密码 -->
+    <div class="usercenter-box" id="changepassword" style="display: none;">
+        <!-- Row -->
+        <div class="user-info-box">
+            <div class="col-12">
+                <div class="card ">
+                    <div class="card-body">
+                        <span class="card-title">修改信息</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- <div class="col-sm-12 col-lg-6">
+                                <div class="form-group row">
+                                    <label for="fname2" class="col-sm-3 text-right control-label col-form-label">系统名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="fname2" placeholder="请输入系统名称">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <div class="form-group row">
+                                    <label for="lname2"
+                                        class="col-sm-3 text-right control-label col-form-label">公司名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname2" placeholder="请输入公司名称">
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <div class="form-group row">
+                                    <label for="uname1" class="col-sm-3 text-right control-label col-form-label">旧密码</label>
+                                    <div class="col-sm-9">
+                                        <input autocomplete="off" type="password" class="form-control" id="old-pwd" placeholder="请输入旧密码">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <div class="form-group row">
+                                    <label for="nname" class="col-sm-3 text-right control-label col-form-label">新密码</label>
+                                    <div class="col-sm-9">
+                                        <input autocomplete="off" type="password" class="form-control" id="pwd" placeholder="请输入新密码">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tipsinfo">*不修改密码可不填写密码</div>
+                    </div>
+                    
+                    <div class="card-body showtips">
+                        <div id="usercenter-tips" class="usercenter-tips">*错误提示</div>
+                        <div class="form-group m-b-0 text-right">
+                            <button id="sure" class="btn btn-info waves-effect waves-light">确定</button>
+                            <button id="canle" class="btn btn-secondary waves-effect waves-light">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src=" ../assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src=" ../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src=" ../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- apps -->
+    <script src=" ../dist/js/app.min.js"></script>
+    <script src=" ../dist/js/app.init.light-sidebar.js"></script>
+    <script src=" ../dist/js/app-style-switcher.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src=" ../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src=" ../assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src=" ../dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src=" ../dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src=" ../dist/js/custom.min.js"></script>
+    <!-- this pages -->
+    <script src="../dist/js/projectlist.js"></script>
+    <script src="../dist/js/pages.js"></script>
+    <!-- 右上角提示 -->
+    <script src="../assets/libs/block-ui/jquery.blockUI.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+	    $(function(){
+	  	  getuser()
+	    });
+	    
+        function goedit(param) { 
+            $("#changepassword").show()
+         }
+         $("#canle").click(function (param) { 
+            $("#changepassword").hide()
+          })
+          
+          $("#sure").click(function (param) { 
+        	  
+        	  var oldPwd = $('#old-pwd').val()
+        	  var pwd = $('#pwd').val()
+        	  if(oldPwd.length < 1 || pwd < 1){
+        		  showtips("密码不能为空！")
+        		  return
+        	  }
+        	  
+        	  $.ajax({
+           		url: ctxPath + 'user/edit',
+           		type: 'post',
+           		dataType: 'json',
+           		data: {
+           			oldPassword:oldPwd,
+           			newPassword:pwd
+           		},
+           		success: function(res){
+           			console.log(res)
+           			var status = res.status;
+           			if(status == 200){
+           				$("#changepassword").hide()
+           				showtips("密码修改成功！")
+           			}
+           			if(status == 201){
+           				showtips("密码修改失败！")
+           			}
+           			if(status == 203){
+           				showtips("旧密码输入错误！")
+           			}
+           		},
+                  error:function (xhr, ajaxOptions, thrownError) {
+                      if (xhr.status == 403) {
+                          window.location.href = ctxPath + "login";
+                      }
+                  }
+           	});
+          })
+          
+         function getuser(){
+        	 $.ajax({
+         		url: ctxPath + 'user/detail',
+         		type: 'post',
+         		dataType: 'json',
+         		data: {},
+         		beforeSend: function(){
+         			loading("#user-content")
+         		},
+         		success: function(res){
+         			var user = res.data;
+         			var status = '注销'
+         			if(user.status == 1){
+         				status = '正常'
+         			}
+         			$('#user-content').html('')
+         			var emailStr =  user.email;
+         			if(!emailStr) emailStr = '暂未设置邮箱';
+         			var html = '<div>'+ user.telephone +'</div> ' +
+		                        '<div> '+ user.organization_name +' </div> ' +
+		                        '<div> '+ emailStr +' </div> ' +
+		                        '<div> '+ status +' </div> ' +
+		                        '<div> '+ user.login_count +' </div> ' +
+		                       ' <div> '+ getMyDate(user.end_login_time) +' </div> ' +
+		                        '<div>  ' +
+		                        '    <div class="edit" onclick="goedit()"> ' +
+		                         '       <i class="fas fas fa-pencil-alt"></i> ' +
+		                         '   </div> ' +
+		                        '</div>';
+		             $('#user-content').append(html)
+         		},
+         		error: function(res){
+         			console.log(res);
+         		}
+         	});
+         }
+         
+         function getMyDate(str){
+             var oDate = new Date(str),
+             oYear = oDate.getFullYear(),
+             oMonth = oDate.getMonth()+1,
+             oDay = oDate.getDate(),
+             oHour = oDate.getHours(),
+             oMin = oDate.getMinutes(),
+             oSen = oDate.getSeconds(),
+             oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) +' '+ getzf(oHour) +':'+
+         	getzf(oMin) +':'+getzf(oSen);//最后拼接时间
+             return oTime;
+         };
+         //补0操作
+        function getzf(num){
+           if(parseInt(num) < 10){
+               num = '0'+num;
+           }
+            return num;
+        }
+         
+        $('.navLi').click(function(){
+        	jumpNavLocation($(this).data('type'), null, null);
+        })
+          
+    </script>
+</body>
+
+</html>

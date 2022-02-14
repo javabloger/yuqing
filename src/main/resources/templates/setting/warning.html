@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href=" ../assets/images/favicon.png">
+    <title>预警设置·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <link href=" ../dist/css/style.min.css" rel="stylesheet">
+    <link href=" ../dist/css/custom.css" rel="stylesheet">
+    <link href="../assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="../assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="../assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet"
+          type="text/css">
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/setting_left::setting_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">系统设置</li>
+                                    <li class="breadcrumb-item">预警设置</li>
+                                    <li class="breadcrumb-item">配置列表</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center ">
+
+                    </div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="d-flex no-block justify-content-start align-items-center"
+                             style="padding: 20px;padding-bottom: 0;">
+                            <select name="group-select" id="group-select" class="form-control custom-select"
+                                    style="width: 120px;">
+                                <option th:each="group:${groupInfoList}" th:value="${group.group_id}"
+                                        th:text="${group.group_name}"></option>
+                            </select>
+                        </div>
+                        <!-- content start -->
+                        <div class="table-responsive">
+                            <!-- line start -->
+                            <div class="project-warning-title project-warning-list">
+                                <div>方案名称</div>
+                                <div>预警名称</div>
+                                <div>方案组</div>
+                                <div>预警内容</div>
+                                <div>预警类型</div>
+                                <div>预警间隔</div>
+                                <div>预警方式</div>
+                                <div>预警开关</div>
+                                <div style="margin-left:15px;">操作</div>
+                            </div>
+                            <div class="prolist-warning-box" id="projectlist">
+                                <!-- line start -->
+                            </div>
+
+                        </div>
+                        <!-- maill list end -->
+                        <!-- content end -->
+                        <!-- pages start -->
+                        <div class="all-pagebox m-r-20 m-b-20 m-t-20">
+                            <ul class="pagination float-right" id="page">
+                            </ul>
+                        </div>
+                        <!-- pages end -->
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer start  -->
+            <!-- ============================================================== -->
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer end  -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src=" ../assets/libs/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script src=" ../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src=" ../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- apps -->
+<script src=" ../dist/js/app.min.js"></script>
+<script src=" ../dist/js/app.init.light-sidebar.js"></script>
+<script src=" ../dist/js/app-style-switcher.js"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script src=" ../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src=" ../assets/extra-libs/sparkline/sparkline.js"></script>
+<!--Wave Effects -->
+<script src=" ../dist/js/waves.js"></script>
+<!--Menu sidebar -->
+<script src=" ../dist/js/sidebarmenu.js"></script>
+<!--Custom JavaScript -->
+<script src=" ../dist/js/custom.min.js"></script>
+<!-- this pages -->
+<script src="../dist/js/projectlist.js"></script>
+<script src="../dist/js/pages.js"></script>
+<!-- 右上角提示 -->
+<script src="../assets/libs/block-ui/jquery.blockUI.js"></script>
+<script src="../assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+
+<!--<script th:src="@{/common/common.js}"></script>-->
+<script type="text/javascript" th:inline="javascript">
+    var groupId = [[${groupid}]];
+    var options = $('#group-select option:selected');
+    $('#group-select').val(groupId)
+    if (!groupId) {
+        groupId = options.val();
+        $('#group-select').val(groupId)
+    }
+    var pageNum = [[${page}]];
+//    if (!pageNum) pageNum = 1;
+    if (pageNum == null || pageNum == "" || pageNum == "null"){
+        pageNum = 1;
+    }
+
+    $(document).ready(function () {
+
+        //radioswitch.init()
+        createprolist(pageNum, groupId);
+    });
+    $('#group-select').on('change', function () {
+        var options = $('#group-select option:selected');
+        groupId = options.val();
+        pageNum = 1;
+        createprolist(pageNum, groupId);
+        setBrowserUrl()
+    });
+
+    //列表
+    function createprolist(pageNum, groupId) {
+        $.ajax({
+            url: ctxPath + 'system/listWarning',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                page: pageNum,
+                groupId: groupId
+            },
+            beforeSend: function () {
+                var html = '<div class="text-center over-load t2" id="loading1">' +
+                    '<div class="spinner-border spinner-border text-info" role="status">' +
+                    '<span class="sr-only">加载中...</span>' +
+                    '</div>' +
+                    '</div>';
+                $('#projectlist').css("min-height", "100px");
+                $('#projectlist').html(html);
+            },
+            success: function (res) {
+                var data = JSON.parse(res.data);
+                var list = data.list;
+                $('#projectlist').html('');
+                if (list.length == 0) {
+                    $('#projectlist').html('<div class="report-list-box">暂无数据！</div>');
+                }
+                for (var i = 0; i < list.length; i++) {
+                    var contentStr = '全部'
+                    var warning_content = list[i].warning_content
+                    if (warning_content == 1) {
+                        contentStr = '敏感'
+                    }
+                    var warning_interval = JSON.parse(list[i].warning_interval);
+                    var intervalType = warning_interval.type;
+                    var intervalStr = '实时预警'
+                    if (intervalType == 2) {
+                        intervalStr = '定时预警'
+                    }
+                    var warning_source = JSON.parse(list[i].warning_source);
+                    var sourceType = warning_source.type;
+                    var sourceStr = '系统推送'
+                    if (sourceType == 2) {
+                        sourceStr = '邮箱推送'
+                    }
+                    var statusStr = '   <input type="checkbox" class="change_status" data-on-color="success" data-off-color="warning" value="' + list[i].project_id + '"> '
+                    if (list[i].warning_status == 1) {
+                        statusStr = '   <input type="checkbox" class="change_status" checked data-on-color="success" data-off-color="warning" value="' + list[i].project_id + '"> '
+                    }
+                    var html = '<div class="project-warning-list" data-id="' + list[i].project_id + '"> ' +
+                        '<div>' + list[i].project_name + '</div> ' +
+                        '<div class="text-over">' + list[i].warning_name + '</div> ' +
+                        '<div>' + list[i].group_name + '</div> ' +
+                        '<div>' + contentStr + '</div> ' +
+                        '<div>实时预警</div> ' +
+                        '<div>' + intervalStr + '</div> ' +
+                        '<div>' + sourceStr + '</div> ' +
+                        '<div class="bt-switch" onclick="changeStatus(&quot;' + list[i].project_id + '&quot;)"> ' +
+                        statusStr +
+                        '</div> ' +
+                        '<div style="margin-left:15px;"> ' +
+                        '    <div class="pro-data-edit" onclick="warnEdit(&quot;' + list[i].project_id + '&quot;)"> ' +
+                        '        <i class="fas fas fa-pencil-alt"></i> ' +
+                        '    </div> ' +
+                        '</div> ' +
+                        '</div>'
+                    $("#projectlist").append(html)
+                }
+                $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch({
+                    onText: "ON",
+                    offText: "OFF",
+                    onColor: "success",
+                    offColor: "warning",
+                    size: "small",
+                    onSwitchChange: function (event, state) {
+                        window.parent.Warn_Start = state;
+                        var $el = $(event.el)
+                            , value = event.value;
+                        var step = this.value;
+                        if (state == true) {
+                            changeStatus(step, state)
+                        } else {
+                            changeStatus(step, state)
+                        }
+                    }
+
+                })
+                page(pageNum, data.pageCount);
+                setBrowserUrl()
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                } else {
+                    $('#projectlist').html('<div class="report-list-box">暂无数据！</div>');
+                }
+            }
+        });
+    }
+
+
+    // 修改预警开关
+    function changeStatus(project_id, state) {
+        var warning_status = 0;
+        if (state) {
+            warning_status = 1;
+        }
+        $.ajax({
+            url: ctxPath + 'system/updateWarningStatusById',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                project_id: project_id,
+                warning_status: warning_status
+            },
+            success: function (res) {
+                if (res.status == 200) {
+                    showtips("预警修改成功！")
+                } else {
+                    showtips("预警修改失败！")
+                }
+            },
+            error:function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+
+    // 编辑预警
+    function warnEdit(project_id) {
+        window.location.href = '/system/warningedit?groupid=' + groupId + '&page=' + pageNum + '&project_id=' + project_id
+    }
+
+
+    // 分页条初始化
+    function page(currentPage, totalPages) {
+        if (totalPages < 1) totalPages = 1;
+        $("#page").bootstrapPaginator({
+            bootstrapMajorVersion: 3, //版本
+            currentPage: currentPage, //当前页数
+            numberOfPages: 20, //每次显示页数
+            totalPages: totalPages, //总页数
+            shouldShowPage: true, //是否显示该按钮
+            useBootstrapTooltip: false,
+            onPageClicked: function (event, originalEvent, type, page) {
+                pageNum = page;
+                createprolist(pageNum, groupId)
+                setBrowserUrl()
+            }
+        });
+    }
+
+    // 设置浏览器地址变换
+    function setBrowserUrl() {
+        var url = location.pathname + '?groupid=' + groupId + '&page=' + pageNum;
+        setUrl(url);
+    }
+    
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), null, null);
+    })
+
+</script>
+</body>
+
+</html>

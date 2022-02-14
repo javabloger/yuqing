@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="referrer" content="no-referrer"/>
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>文章详情·网络情报分析系统</title>
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <link th:href="@{/assets/extra-libs/c3/c3.min.css}" rel="stylesheet">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .detail-content div {
+            visibility: unset !important;
+        }
+
+        .page-up-next {
+
+            justify-content: space-between;
+            padding-top: 40px;
+            border-top: 1px dashed rgba(0, 0, 0, .1);
+            align-items: center;
+        }
+
+        .page-up-next > a {
+            width: calc(50% - 10px);
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            color: #2962FF !important;
+        }
+
+        .page-up-next > a:first-child {
+            text-align: left;
+        }
+
+        .page-up-next > a:last-child {
+            text-align: right;
+        }
+
+        .page-up-next > a > span {
+            margin-right: 10px;
+        }
+        .mainTable{
+			border-spacing:0;
+			border-collapse:collapse;
+		}
+		.tb{
+			background:#F2F9FC;
+			width:13%;
+		}
+		.mainTable td{
+		    padding:10px 10px 11px 10px;border:#E4EEF6 1px solid;word-break:break-all;font-size:14px;
+		    line-height: 1.6;
+		    color: #222;
+		    word-wrap: break-word;
+		}
+		.mainTable2 .tx{
+			 text-align: center;
+		    width: 56px;
+		}
+		.mainTable2 th{
+			text-align:center;
+			background:#F2F9FC;
+			border:#E4EEF6 1px solid;
+			border-collapse: collapse;
+		    padding:12px 12px 12px 12px;
+		    font-weight: normal;
+		    color: #444;
+		    line-height: 19px;
+		}
+		
+		.mainTable2 td{
+		    padding:10px 10px 11px 10px;border:#E4EEF6 1px solid;word-break:break-all;font-size:14px;
+		    line-height: 1.6;
+		    color: #222;
+		    word-wrap: break-word;
+		}
+		table{
+			margin-bottom:40px;
+		}
+		.lcontent{
+		    float: left;
+		    margin:18px 0px 10px 10px;
+		    font-size: 14px;
+		    color: #000;
+		}
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb" id="breadCrumbs">
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+<!--                     <div class="col-lg-7 align-self-center "> -->
+<!--                         <div class="d-flex no-block justify-content-end align-items-center data-number-min"> -->
+<!--                             <button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goback"> -->
+<!--                                 <i class="mdi mdi-redo-variant"></i> 返回 -->
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <!-- basic table -->
+                <div class="row m-b-20">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title" id="title"></h4>
+                                <div class="detail-tips">
+                                    <span id="phone"></span>
+                                    <span id="address"></span>
+                                    <span id="publish_time"></span>
+                                    <span id="yuanwen"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card m-b-0" style="min-height: 100vh;">
+                            <div class="card-body">
+                                <div class="detail-content" id="content">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+<script th:src="@{/common/tools.js}"></script>
+<script th:src="@{/dist/search_detail.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    var articleId = [[${articleid}]];
+    var menu = [[${menu}]];
+    var type = [[${type}]];
+    
+
+    $(function () {
+        breadCrumbs();
+        articleDetail();
+    });
+
+    // 文章详情
+    function articleDetail() {
+        $.ajax({
+                url: ctxPath + 'fullsearch/companyDetails',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                	article_public_id: articleId,
+                },
+                success: function (res) {
+        			let phone=res.phone_number;
+        			let address=res.address;
+        			let legal_person=res.legal_representative;
+        			let code=res.uniformSocialCreditCode;
+        			let insured_num=res.insured_num;
+        			if(typeof phone=="undefined"){
+        				phone=res.phone;
+        			}
+        			if(typeof address=="undefined"){
+        				address=res.location;
+        			}
+        			if(typeof legal_person=="undefined"){
+        				legal_person=res.legal_person;
+        			}
+        			if(typeof code=="undefined"){
+        				code=res.taxpayer_identification;
+        			}
+        			if(typeof insured_num=="undefined"){
+        				insured_num=res.insureds;
+        			}
+        			//主要人员
+        			var keypersonhtml='';
+        			let keypersion=res.key_person;
+        			var keypersonhead='';
+        			if(keypersion!=null){
+        				keypersonhead+='<h3>主要人员</h3><table class="mainTable2"><tbody>'+
+                    			'<tr>'+
+                    			'<th style="width:100px;">序号</th>'+
+                    			'<th style="width:300px;">姓名</th>'+
+                    			'<th style="width:410px;">职务</th>'+
+                    			'</tr>';
+        				let person=JSON.parse(keypersion);
+        				var keypersoncon='';
+        				console.log(person);
+        				for(var i=0;i<person.length;i++){
+        					keypersoncon+='<tr>'+
+            				'<td>'+person[i].id+'</td>'+
+            				'<td>'+person[i].name+'</td>'+
+            				'<td>'+person[i].position+'</td>'+
+            			'</tr>';
+        				}	
+                    				
+        				keypersoncon+='</tbody></table>';
+        				keypersonhtml=keypersonhead+keypersoncon;
+        			}
+        			var changeRecordHtml='';
+        			if(res.change_record!=null){
+        				//变更记录
+        				let changeRecord=JSON.parse(res.change_record);
+            			if(changeRecord.length!=0){
+            				var changeRecordhead='';
+            				changeRecordhead+='<h3>变更记录</h3><table class="mainTable2"><tbody>'+
+                			'<tr>'+
+                			'<th style="width:100px;">序号</th>'+
+                			'<th style="width:200px;">变更日期</th>'+
+                			'<th style="width:220px;">变更项目</th>'+
+                			'<th style="width:287px;">变更前</th>'+
+                			'<th style="width:288px;">变更后</th>'+
+                			'</tr>';
+        				var changeRecordcon='';
+        				for(var i=0;i<changeRecord.length;i++){
+        					changeRecordcon+='<tr>'+
+            				'<td>'+changeRecord[i].id+'</td>'+
+            				'<td>'+changeRecord[i].alterDate+'</td>'+
+            				'<td>'+changeRecord[i].alterItem+'</td>'+
+            				'<td>'+changeRecord[i].alterBefore+'</td>'+
+            				'<td>'+changeRecord[i].alterAfter+'</td>'+
+            			'</tr>';
+        				}	
+                    				
+        				changeRecordcon+='</tbody></table>';
+        				changeRecordHtml+=changeRecordhead+changeRecordcon;
+        				
+            		}
+        			}
+        			//股东
+        			var gudonghtml='';
+        			if(res.shareholder!=null){
+        				let gu=JSON.parse(res.shareholder);
+            			//股东信息
+            			if(gu.length!=0){
+            				var gudonghead='';
+            				gudonghead+='<h3>股东信息</h3><table class="mainTable2"><tbody>'+
+                			'<tr>'+
+                			'<th style="width:100px;">序号</th>'+
+                			'<th style="width:300px;">发起人/股东</th>'+
+                			'<th style="width:410px;">认缴出资额</th>'+
+                			'<th style="width:410px;">实际出资额</th>'+
+                			'</tr>';
+        				var gucon='';
+        				for(var i=0;i<gu.length;i++){
+        					gucon+='<tr>'+
+            				'<td>'+gu[i].id+'</td>'+
+            				'<td>'+gu[i].name+'</td>'+
+            				'<td>'+gu[i].capital_contribution+'</td>'+
+            				'<td>'+gu[i].actual_contribution+'</td>'+
+            			'</tr>';
+        				}	
+        				gucon+='</tbody></table>';
+        				gudonghtml+=gudonghead+gucon;
+            		}
+        			}
+        			var push_time=res.establish_time;
+        	           push_time=/\d{4}-\d{1,2}-\d{1,2}/g.exec(push_time);
+        	        $('#title').html(res.name)
+        	        $('#phone').html('电话：' + phone)
+        	        $('#address').html('地址：' + address)
+        			var html='<div class="row" style="margin-left:0px;margin-bottom:20px">'+
+               		'</div>'+
+               		'<h3>工商信息</h3>'+
+                	'<table class="mainTable">'+
+                		'<tbody>'+
+                		'<tr>'+
+                			'<td class="tb">法定代表人</td>'+
+                			'<td style="width:20%">'+legal_person+'</td>'+
+                			'<td class="tb">企业名称</td>'+
+                			'<td style="width:20%">'+res.name+'</td>'+
+                			'<td  class="tb">统一社会信用代码</td>'+
+                			'<td style="width:14%">'+code+'</td>'+
+                		'</tr>'+
+                		'<tr>'+
+                			'<td class="tb">工商注册号</td>'+
+                			'<td style="width:20%">'+res.registration+'</td>'+
+                			'<td class="tb">核准日期</td>'+
+                			'<td style="width:20%">'+push_time+'</td>'+
+                			'<td  class="tb">成立日期</td>'+
+                			'<td style="width:14%">'+push_time+'</td>'+
+                		'</tr><tr>'+
+                			'<td class="tb">参保人数</td>'+
+                			'<td style="width:20%">'+insured_num+'</td>'+
+                			'<td class="tb">登记状态</td>'+
+                			'<td style="width:20%">'+res.status+'</td>'+
+                			'<td  class="tb">纳税人识别号</td>'+
+                			'<td style="width:14%">'+code+'</td>'+
+                		'</tr>'+
+                		'<tr>'+
+            			'<td class="tb">企业类型</td>'+
+            			'<td style="width:20%">'+res.enterprise_type+'</td>'+
+            			'<td class="tb">注册资本</td>'+
+            			'<td style="width:20%">'+res.registered_capital_str+'</td>'+
+            			'<td  class="tb">所属行业</td>'+
+            			'<td style="width:14%">'+res.industry_involved+'</td>'+
+            		'</tr>'+
+                			'<tr>'+
+                			'<td class="tb">经营范围</td>'+
+                			'<td colspan=5>'+res.business_scope+'</td>'+
+                		'</tr>'+
+                			'</tbody></table>';
+    					 html+=keypersonhtml+gudonghtml+changeRecordHtml; 
+					$('#content').html(html);
+                    
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr);
+                    if (xhr.status == 403) {
+                        window.location.href = ctxPath + "login";
+                    }
+                }
+            }
+        );
+    }
+
+    $('.navLi').click(function () {
+        jumpNavLocation($(this).data('type'), groupId, projectId);
+    })
+
+
+    $("#goback1").click(function (param) {
+//        window.location.href = ctxPath + "monitor?projectId="+projectId+"&groupid="+groupId+"&page=6";
+    });
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" type="image/png" sizes="16x16"
+	th:href="@{/assets/images/favicon.png}">
+<title>监测分析·网络情报分析系统</title>
+<link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+<link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+<link href="assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+<link href="assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<!-- <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}"> -->
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <![endif]-->
+<style>
+/*.overview-media-title, .overview-media-content {*/
+/*width: 100%;*/
+/*display: flex;*/
+/*align-items: center;*/
+/*padding: 0 10px;*/
+/*font-size: 13px;*/
+/*color: inherit;*/
+/*line-height: 35px;*/
+/*user-select: none;*/
+/*justify-content: space-between;*/
+/*}*/
+.overview-media-title, .overview-media-content {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+	font-size: 13px;
+	color: inherit;
+	line-height: 35px;
+	user-select: none;
+	justify-content: space-between;
+}
+
+.overview-media-title span:nth-child(2), span:nth-child(3), span:nth-child(4),
+	span:nth-child(5), .overview-media-content span:nth-child(2), span:nth-child(3),
+	span:nth-child(4), span:nth-child(5) {
+	/*min-width: 73px;*/
+	min-width: 103px;
+	text-align: center;
+}
+
+#dataSourceAnalysis {
+	/*width: 90%;*/
+	
+}
+.badge-info {
+    color: #fff !important;
+    background-color: #6184e6 !important;
+}
+.content-logo {
+    display: inline-block;
+    height: 19px;
+    width: 18px;
+    border-radius: 70%;
+    overflow: hidden;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+    margin-right: 10px;
+    box-shadow: 0 0 2px 2px rgb(97 132 230 / 40%);
+}
+
+</style>
+</head>
+<body>
+	<div id="main-wrapper">
+		<div th:replace="common/header::header"></div>
+		<div th:replace="common/monitor_left::monitor_left"></div>
+		<div class="page-wrapper">
+			<div class="right-part right-content">
+				<!-- nav start-->
+				<div class="page-breadcrumb">
+					<div class="row" id="chu">
+						<div class="col-lg-5 align-self-center">
+							<div class="d-flex align-items-center">
+								<nav aria-label="breadcrumb">
+									<ol class="breadcrumb" id="navname">
+										<li class="breadcrumb-item">监测分析</li>
+										<li class="breadcrumb-item"></li>
+										<li class="breadcrumb-item"></li>
+									</ol>
+								</nav>
+							</div>
+						</div>
+						<div id="nodata"></div>
+						<div class="col-lg-7 align-self-center ">
+							<div
+								class="d-flex no-block justify-content-end align-items-center data-number-min">
+
+								<small class="font-13" id="updateanalysis"
+									style="cursor: pointer"> <i class="mdi mdi-refresh"></i>刷新
+								</small> <small class="font-13"> <i class="mdi mdi-clock"></i>数据统计更新于：<span
+									id="updateTime"></span>
+								</small>
+								<!-- <h4 class="text-info m-b-0 m-l-10"> 58256</h4> -->
+								<select id="timePeriodSelect" onchange="timePeriodSelectFunc()"
+									class="form-control custom-select select-outline"
+									style="width: 100px; margin-left: 10px;">
+									<option value="1">24小时</option>
+									<option value="2">3天</option>
+									<option value="3">7天</option>
+									<option value="4">15天</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- nav end-->
+				<div class="p-20">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body p-10">
+									<!--<div class="card-title">数据概览</div>-->
+									<h4 class="card-title">数据概览</h4>
+									<div class="card-body border-top">
+										<div class="row m-t-10" id="dataOverview"
+											style="min-height: 85px;">
+											<!-- 									<div class="col-sm-12 col-md-6 col-lg-3"> -->
+											<!-- 										<div class="d-flex align-items-center"> -->
+											<!-- 											<div class="m-r-20"> -->
+											<!-- 												<div data-label="20%" class="css-bar m-b-0 css-bar-primary css-bar-100"> -->
+											<!-- 													<i class="mdi mdi-database text-info"></i> -->
+											<!-- 												</div> -->
+											<!-- 											</div> -->
+											<!-- 											<div style="position: relative;"> -->
+											<!-- 												<span>全部舆情</span> -->
+											<!-- 												<h3 class="m-b-0">40192</h3> -->
+											<!-- 												<div class="progress m-t-10"> -->
+											<!-- 													<div class="progress-bar bg-cyan" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+											<!-- 												</div> -->
+											<!-- 											</div> -->
+											<!-- 										</div> -->
+											<!-- 									</div> -->
+											<!-- 									<div class="col-sm-12 col-md-6 col-lg-3"> -->
+											<!-- 										<div class="d-flex align-items-center"> -->
+											<!-- 											<div class="m-r-20"> -->
+											<!-- 												<div data-label="20%" class="css-bar m-b-0 css-bar-danger css-bar-20"> -->
+											<!-- 													<i class="mdi mdi-emoticon-sad text-danger"></i> -->
+											<!-- 												</div> -->
+											<!-- 											</div> -->
+											<!-- 											<div style="position: relative;"><span>敏感舆情</span> -->
+											<!-- 												<h3 class="m-b-0">10714</h3> -->
+											<!-- 												<div class="progress m-t-10"> -->
+											<!-- 													<div class="progress-bar bg-cyan" role="progressbar" style="width: 20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+											<!-- 												</div> -->
+											<!--                                                 <div style="position: absolute;right: -55px;bottom: -8px;">41.59%</div> -->
+											<!-- 											</div> -->
+											<!-- 										</div> -->
+											<!-- 									</div> -->
+											<!-- 									<div class="col-sm-12 col-md-6 col-lg-3"> -->
+											<!-- 										<div class="d-flex align-items-center"> -->
+											<!-- 											<div class="m-r-20"> -->
+											<!-- 												<div data-label="20%" class="css-bar m-b-0 css-bar-success css-bar-80"> -->
+											<!-- 													<i class="mdi mdi-emoticon-happy text-cyan"></i> -->
+											<!-- 												</div> -->
+											<!-- 											</div> -->
+											<!-- 											<div style="position: relative;"><span>非敏感舆情</span> -->
+											<!-- 												<h3 class="m-b-0">23478</h3> -->
+											<!-- 												<div class="progress m-t-10"> -->
+											<!-- 													<div class="progress-bar bg-cyan" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+											<!-- 												</div> -->
+											<!--                                                 <div style="position: absolute;right: -55px;bottom: -8px;">41.59%</div> -->
+											<!-- 											</div> -->
+											<!-- 										</div> -->
+											<!-- 									</div> -->
+											<!-- 									<div class="col-sm-12 col-md-6 col-lg-3"> -->
+											<!-- 										<div class="d-flex align-items-center"> -->
+											<!-- 											<div class="m-r-20"> -->
+											<!-- 												<div data-label="20%" class="css-bar m-b-0 css-bar-purple css-bar-10"><i class="mdi mdi-bell-ring-outline text-purple"></i> -->
+											<!-- 												</div> -->
+											<!-- 											</div> -->
+											<!-- 											<div  style="position: relative;"><span>预警舆情</span> -->
+											<!-- 												<h3 class="m-b-0">23478</h3> -->
+											<!-- <!-- 												<div style="position: relative;"> -->
+											<!-- <!-- 												<button class="growl btn btn-outline-secondary btn-sm bnone font-14" type="button"> -->
+											<!-- <!-- 	                                                  <i class="mdi mdi-plus-circle"></i>新增预警 -->
+											<!-- <!-- 	                                            </button> -->
+											<!-- <!-- 												</div> -->
+											<!-- 												<div class="progress m-t-10"> -->
+											<!-- 													<div class="progress-bar bg-info" role="progressbar" style="width: 1%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> -->
+											<!-- 												</div> -->
+											<!--                                                 <div style="position: absolute;right: -55px;bottom: -8px;">41.59%</div> -->
+											<!-- 											</div> -->
+											<!-- 										</div> -->
+											<!-- 									</div> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- line 1 start-->
+					<div class="row">
+						<!-- zixun  start -->
+						<div class="col-lg-4">
+							<div class="card m-h-372">
+								<div class="card-body overview-content">
+									<!--<div class="card-title">最新资讯</div>-->
+									<h4 class="card-title">最新资讯</h4>
+									<div class="over-conbox">
+										<ul id="relative_news">
+											<!--  <li>
+                                              <a th:href="@{/monitor/detail/123}">
+                                                  <div class="over-newsbox">
+                                                      <div class="content-title">
+                                                          <div class="over-title">每日行情解读 | 美联储宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+                                                          <span class="emotion">负面 96.80%</span>
+                                                      </div>
+                                                      <div class="over-tips">
+                                                          <span>刚刚</span>
+                                                          <span>来源：互联脉搏</span>
+                                                      </div>
+                                                  </div>
+                                                  <i class="mdi mdi-chevron-right font-20"></i>
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a th:href="@{/monitor/detail/123}">
+                                                  <div class="over-newsbox">
+                                                      <div class="content-title">
+                                                          <div class="over-title">储宣布无步观察</div>
+                                                          <span class="emotion zm">正面 96.80%</span>
+                                                      </div>
+                                                      <div class="over-tips">
+                                                          <span> 10分钟前</span>
+                                                          <span>来源：互联脉搏</span>
+                                                      </div>
+                                                  </div>
+                                                  <i class="mdi mdi-chevron-right font-20"></i>
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a th:href="@{/monitor/detail/123}">
+                                                  <div class="over-newsbox">
+                                                      <div class="content-title">
+                                                          <div class="over-title">宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+                                                          <span class="emotion">负面 96.80%</span>
+                                                      </div>
+                                                      <div class="over-tips">
+                                                          <span> 3小时前</span>
+                                                          <span>来源：互联脉搏</span>
+                                                      </div>
+                                                  </div>
+                                                  <i class="mdi mdi-chevron-right font-20"></i>
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a th:href="@{/monitor/detail/123}">
+                                                  <div class="over-newsbox">
+                                                      <div class="content-title">
+                                                          <div class="over-title">储宣布无限量化宽松否反弹需进一步观察</div>
+                                                          <span class="emotion fm">负面 96.80%</span>
+                                                      </div>
+                                                      <div class="over-tips">
+                                                          <span> 今天下午</span>
+                                                          <span>来源：互联脉搏</span>
+                                                      </div>
+                                                  </div>
+                                                  <i class="mdi mdi-chevron-right font-20"></i>
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a th:href="@{/monitor/detail/123}">
+                                                  <div class="over-newsbox">
+                                                      <div class="content-title">
+                                                          <div class="over-title">全球金融资产价美联储宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+                                                          <span class="emotion zx">中性 99.99%</span>
+                                                      </div>
+                                                      <div class="over-tips">
+                                                          <span> 今天上午</span>
+                                                          <span>来源：互联脉搏</span>
+                                                      </div>
+                                                  </div>
+                                                  <i class="mdi mdi-chevron-right font-20"></i>
+                                              </a>
+                                          </li>  -->
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- zixun  end -->
+						<!-- qinggan start -->
+						<div class="col-lg-4">
+							<div class="card m-h-372">
+								<div class="card-body overview-content">
+									<!--<div class="card-title">情感占比</div>-->
+									<h4 class="card-title">情感占比</h4>
+									<!--                                 <div class="text-center over-load" id="loading2"> -->
+									<!--                                     <div class="spinner-border spinner-border text-info" role="status"> -->
+									<!--                                         <span class="sr-only">加载中...</span> -->
+									<!--                                     </div> -->
+									<!--                                 </div> -->
+									<div id="emotionRateChart" style="height: 260px; width: 100%;"
+										class="m-t-20"></div>
+									<!-- row -->
+									<div class="emtion-number" id="emotional_proportion">
+										<!-- column -->
+										<!--  <div class="col-4 birder-right text-center">
+                                         <h4 class="m-b-0 ">28%
+                                             <small><i class="mdi mdi-emoticon-happy zm"></i></small>
+                                         </h4>正面
+                                     </div>
+                                     column
+                                     <div class="col-4 birder-right text-center">
+                                         <h4 class="m-b-0">60%
+                                             <small><i class="mdi mdi-emoticon-neutral zx"></i></small>
+                                         </h4>中性
+                                     </div>
+                                     column
+                                     <div class="col-4 text-center">
+                                         <h4 class="m-b-0">12%
+                                             <small><i class="mdi mdi-emoticon-sad fm"></i></small>
+                                         </h4>负面
+                                     </div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- qinggan start -->
+						<!-- fang an start -->
+						<div class="col-lg-4">
+							<div class="card m-h-372">
+								<div class="card-body overview-content">
+									<!--<div class="card-title">方案命中主体词</div>-->
+									<h4 class="card-title">方案命中主体词</h4>
+									<!--                                 <div class="text-center over-load" id="loading3"> -->
+									<!--                                     <div class="spinner-border spinner-border text-info" role="status"> -->
+									<!--                                         <span class="sr-only">加载中...</span> -->
+									<!--                                     </div> -->
+									<!--                                 </div> -->
+									<div class="secondtitle">方案配置关键词命中数量排名</div>
+									<ul class="list-style-none keywords-box" id="planwordhit">
+										<!-- <li>
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h6 class="m-b-0 "><span  >武汉热干面</span></h6>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <h6 class="m-b-0 font-bold">2355</h6>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-10">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </li>
+                                    <li class="m-t-25">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h6 class="m-b-0 "><span  >陈道明演钟南山</span></h6>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <h6 class="m-b-0 font-bold">2131</h6>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-10">
+                                            <div class="progress-bar bg-cyan" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </li>
+                                    <li class="m-t-25">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h6 class="m-b-0"><span  >特朗普</span></h6>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <h6 class="m-b-0 font-bold">8127</h6>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-10">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </li>
+                                    <li class="m-t-25">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h6 class="m-b-0"><span  >姜思达</span></h6>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <h6 class="m-b-0 font-bold">8977</h6>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-10">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </li>
+                                    <li class="m-t-25">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h6 class="m-b-0"><span  >表演艺术家曲云</span></h6>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <h6 class="m-b-0 font-bold">21271</h6>
+                                            </div>
+                                        </div>
+                                        <div class="progress m-t-10">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </li> -->
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- fang an start -->
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body">
+									<!--<div class="card-title"><i class=" fa fas"></i> 关注热点事件排名</div>-->
+									<h4 class="card-title">
+										<i class=" fa fas"></i> 关注热点事件排名
+									</h4>
+									<ul class="create-tab-report pro-bb" id="search-tab">
+										<li class="" data-type="0">全部</li>
+										<li class="" data-type="1">正面</li>
+										<li class="create-tab-act" data-type="3">负面</li>
+									</ul>
+									<div class="table-responsive">
+										<table id="hotEventRankingTable"
+											class="table v-middle hot-rank" style="position: relative;">
+											<tbody id="hotEventRanking">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+					
+					
+					
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body p-10">
+									<div class="card-title volume-title">
+										<!--<span>关键词情感分析数据走势</span>-->
+										<h4>关键词情感分析数据走势</h4>
+									</div>
+									<!--                                 <div class="text-center over-load" id="loading10"> -->
+									<!--                                     <div class="spinner-border spinner-border text-info" role="status"> -->
+									<!--                                         <span class="sr-only">加载中...</span> -->
+									<!--                                     </div> -->
+									<!--                                 </div> -->
+									<div class="volume-tips" id="keywordsMood"></div>
+									<div id="category-line" style="height: 370px;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- line 1 end-->
+					<!-- line 4 start-->
+					<!-- <div class="row">
+                   	 资讯 start
+                    <div class="col-lg-12">
+                        <div class="card" style="min-height:40px">
+                            <div class="card-body overview-content">
+                                <div class="card-title"><i class=" fa fas fa-fire"></i> 热门资讯
+                                    <small>(24小时内)</small>
+                                </div>
+                                <div class="m-t-10 over-event-box">
+                                    <div class="over-event-titlermzx">
+                                        <span>标题</span>
+                                        <span>数量</span>
+                                        <span>占比</span>
+                                        <span>时间</span>
+                                        <span>最早来源</span>
+                                    </div>
+                                    <div id="popularinformation" style="position: relative;">
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot v-hot1">1</span> <a th:href="@{/monitor/detail/123}">后疫情时代餐饮业发展趋势预判</a></span>
+                                            <span>刚刚</span>
+                                            <span>微博</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot v-hot2">2</span> <a th:href="@{/monitor/detail/123}">原油亚盘：美国WTI原油大涨8%后回落 历史性减产协议仍存在隐患</a></span>
+                                            <span>1小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot v-hot3">3</span> <a th:href="@{/monitor/detail/123}">投资者提问：据贵公司披露的3月份 财务数据，请问贵公司3月份单月的营业收入为</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot">4</span> <a th:href="@{/monitor/detail/123}">A股异动 | 新化股份跌停 异丙醇价格短期波动可持续性具有不确定性</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot">5</span> <a th:href="@{/monitor/detail/123}">A股异动 | 新化股份跌停 异丙醇价格短期波动可持续性具有不确定性</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot">6</span> <a th:href="@{/monitor/detail/123}">A股异动 | 新化股份跌停 异丙醇价格短期波动可持续性具有不确定性</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot">7</span> <a th:href="@{/monitor/detail/123}">A股异动 | 新化股份跌停 异丙醇价格短期波动可持续性具有不确定性</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot">8</span> <a th:href="@{/monitor/detail/123}">A股异动 | 新化股份跌停 异丙醇价格短期波动可持续性具有不确定性</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot">9</span> <a th:href="@{/monitor/detail/123}">A股异动 | 新化股份跌停 异丙醇价格短期波动可持续性具有不确定性</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                        <div class="over-event-listrmzx">
+                                            <span class="text-over"><span class="v-hot">10</span> <a th:href="@{/monitor/detail/123}">A股异动 | 新化股份跌停 异丙醇价格短期波动可持续性具有不确定性</a></span>
+                                            <span>2小时前</span>
+                                            <span>微信</span>
+                                            <span>8799</span>
+                                            <span>12%</span>
+                                            <span>新浪微博</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                more
+                                <div class="over-more">
+                                    <a href="#">查看更多</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    	资讯 end
+                </div> -->
+					<!-- line 4 end-->
+					<!-- line 2 start-->
+					<div class="row">
+						<div class="col-lg-7">
+							<div class="card">
+								<div class="card-body p-10">
+									<div class="card-title volume-title">
+										<!--<span>关键词高频分布统计</span>-->
+										<h4>关键词高频分布统计</h4>
+									</div>
+									<div class="analysis-data">
+										<div id="keywords" style="height: 435px; width: 100%;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-5">
+							<div class="card m-h-544">
+								<div class="card-body overview-content">
+									<!--<div class="card-title">高频词指数</div>-->
+									<h4 class="card-title">高频词指数</h4>
+									<div class="m-t-10 over-event-box">
+										<div class="over-event-titlegpc">
+											<span>高频词</span> <span>趋势</span> <span>数量</span> <span>指数</span>
+										</div>
+										<div id="keywordindex"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- <div class="row" id="govrow">
+
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="card-title"><i class=" fa fas"></i> 关注热点事件排名</div>
+									<h4 class="card-title">
+										<i class="fa fas"></i> 政府及事业单位统计排名
+									</h4>
+									<ul class="create-tab-report pro-bb" id="institutionalunits-tab">
+										<li class="" data-type="0">学校</li>
+										<li class="create-tab-act" data-type="1">医院</li>
+										<li class="" data-type="2">银行</li>
+										<li class="" data-type="3">政府</li>
+									</ul>
+									<div class="table-responsive">
+										<table id="InstitutionalunitsTable"
+											class="table v-middle hot-rank" style="position: relative;">
+											<tbody id="InstitutionalunitsRanking">
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div> -->
+					
+					<!-- <div class="row" id="orgrow">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="card-title"><i class=" fa fas"></i> 关注热点事件排名</div>
+									<h4 class="card-title">
+										<i class="fa fas"></i> 企业及上市公司统计排名
+									</h4>
+									<ul class="create-tab-report pro-bb" id="org-tab">
+									</ul>
+									<div class="table-responsive">
+										<table id="orgTable"
+											class="table v-middle hot-rank" style="position: relative;">
+											<tbody id="orgRanking">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+					
+					<div class="row">
+
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-body">
+									<!--<div class="card-title"><i class=" fa fas"></i> 关注热点事件排名</div>-->
+									<h4 class="card-title">
+										<i class=" fa fas"></i> 热门行业&事件统计
+									</h4>
+									<ul class="create-tab-report pro-bb" id="industryandevent-tab">
+										<li class="create-tab-act" data-type="0">热门行业</li>
+										<li class="" data-type="1">热门事件</li>
+									</ul>
+									<div style="margin-top: 10px;" id="labletab">
+									<span data-emotion="1" class="badge badge-pill badge-light badge-info">教育行业</span>
+									<span data-emotion="2" class="badge badge-pill badge-light">互联网</span>
+									<span data-emotion="3" class="badge badge-pill badge-light">农业服务</span>
+									<span data-emotion="4" class="badge badge-pill badge-light">文化传媒</span>
+									<span data-emotion="5" class="badge badge-pill badge-light">人工智能</span>
+									</div>
+									<div class="table-responsive">
+										<table id="IndustryANDEventTable"
+											class="table v-middle hot-rank" style="position: relative;">
+											<tbody id="IndustryANDEvent">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					
+					
+					
+					<div class="row">
+						<div class="col-sm-12 col-lg-5">
+							<div class="card">
+								<div class="card-body" style="height: 720px; overflow: hidden;">
+									<h4 class="card-title">媒体活跃度分析</h4>
+									<div class="d-flex align-items-center flex-row m-t-30"
+										id="mediaActivityAnalysis">
+										<!--                                 	<div class="display-5 text-info"><i class="mdi mdi-pulse"></i><span>13</span></div><div class="m-l-10"><h3 class="m-b-0">个站点日均</h3><small>41条数据更新，排名如下</small></div> -->
+									</div>
+									<table class="table no-border report-media ">
+										<tbody id="mediaActivityAnalysisList">
+											<!--                                     	<tr> -->
+											<!--                                     		<td> -->
+											<!--                                     			<img class="rounded-circle" width="45" src="https://bjhcdn.bdstatic.com/fe-react-register/static/media/header-logo.49a28edc.png" alt=""> -->
+											<!--                                     		</td> -->
+											<!--                                     		<td class="text-muted">百家号</td> -->
+											<!--                                     		<td>24.39%</td> -->
+											<!--                                     		<td class="font-medium">10</td> -->
+											<!--                                     	</tr> -->
+											<!--                                     	<tr> -->
+											<!--                                     		<td> -->
+											<!--                                     			<img class="rounded-circle" width="45" src="data:image/png;base64,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" alt=""></td><td class="text-muted">搜狐号</td><td>14.63%</td><td class="font-medium">6</td></tr><tr><td><img class="rounded-circle" width="45" src="https://image.uc.cn/s/uae/g/1v/wm-website-static/wm-website/hash-version/imgs/header/logo_a5979d7.png" alt=""></td><td class="text-muted">大鱼号</td><td>12.2%</td><td class="font-medium">5</td></tr><tr><td><img class="rounded-circle" width="45" src="https://p4.ssl.qhimg.com/t011af7db107dc7d8c6.png" alt=""></td><td class="text-muted">快传号</td><td>12.2%</td><td class="font-medium">5</td></tr><tr><td><img class="rounded-circle" width="45" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAACr1BMVEVHcEzRFxvUHBz/MzPRFxrRGBrRFxrRFxrRGBrRGBrSFxvXFx/VGCDRFxrRGBrRFxrSFxvRFxrTGBvSFxrRFxrRFxrRGBrSGBvTGBzRGBrSFxvSGB3RFxrRFxrRFxrRGRvRFxrUHBzRGBrVGxvSFxrRFxrSFxrRGBrRGBrSFxziHBzRFxvSFxvSFxvRFxrSFxvRFxvRFxrfHx/RFxrRFxrRGBvVLTD////SHyLkd3nZQUTfXmD88/PcTlDbSUzqlpfRGh331tfWMzXYPT/niIrhbG7qmJnzw8TojY7wuLjSHSDnhYfoj5D9+fnpk5X+/v7VLC/99PX0zMzkdXfibG7fX2H329v9+PjWNDbeWVv88vLTIiXdWFroi4z66OjUJyribW/cT1HcU1X0y8vpkpT439/TISTha2354+TpkZPhaGr66urjcXP209P0ysrnhojxu7znh4nRGx7zx8jfYWP99vbwt7jqlZbicXLywMHjdnjrnp/XNzr65+f1zs/gZWf55OTtpKbwtbbcTVDeW13cSUvZPUDcSkzkc3bbSEriamzfXV/dV1nmg4XZOz7bTlDeV1nYODrSHB/TJCfibG/mhYbYOjzSICLWLzLbTE7SHiHaQ0XaQkTcUlTywsLTIybib3H88PD99fbXNTjkeHrZP0Lke3zyvb755eXxuLnZQ0bqmpvtpqf1zM3qmZrzxMXvr7D77O3jdXfuqaraSErxvL3tpab43Nzrm53cUFLaRkjtqKngY2X10NHRGRzdVljUKSvYP0H++vr89PTkenvdVFf10dLWNTf76+z77e3vrq/zxcbXODv21tbjdHb77+/WMTTyvr/YPD7ura70ycr1z9DVLjH32NnSISP0yMnxurvxubrfXWDdU1brnJ7TJSj44ODUKCvaRUfrmpzkeXr+LzQ/AAAANHRSTlMA7BIF/NR1wL++SyAf3L39u/Vdm+jwtFw107w08brneq4knCXSrbZ7k2wJlm6Vw7GXrwj+oTlZPAAAAh1JREFUGBl9wWVXFAEYgNFXAZ0lBOzu7nh2l+7uFBSku5WWUuzu7u7u7u7u9oc4uvqBc2TuFVXLVj1s7G1pwryDxYBOZvKHZQua0b+PqCzNaVZPa5GWLdDQRqQVmrqJHZp6iQ2a2ok9Kj3N6SjjANe4U6iu7nfawm+phS6R+Yd2o+oqgENORq3Hd5fQN5fGh/sAscGpU6YkpJXvAnQCOHrq/b4GRHl7vZ3svh04nOtzO9PzTrUjoAgQXBpR3+j7o6Hx07sr+4CQmghDRDL1xYAiwOX3RuO3rCjDz5DPPieAi9cDXz56dffGSUARVFFVU6cTHhpZ92GiO6rE+9PKHrzIRqUIkBdI7bQgly/B018XBEBaXknhw8kVYcaSIFAE8M2v9K8xlEeG59y7kIF+z+my58/CHCbcKj0OigAe2WcfO32sLkqBAj/Aa1KS89P0m0w9CooAKTtD3J5UhlU0VOU6FoGny0GDY50z+iPuoAgwfmum64Fjzk7n/AJ8t4F3srP/meJr5wP3xoMisHxiwuZ4p3QHVG5xehJDkyYFuRqN/jsARYAVrOcfA2Rt8gDcvPlNEbTphL/mMw9WrmaDQ8xaL9ZtxEQn5phEL4iFRctYsyomGpbMwcROumMyY/ZCmLsYJrAUZs3EZIxYoGmw9EbTEGmLFnNrMeuChmEi0q89zRo5VlRWOv7PdvRQMek8qO9AXesm2owaMdxKVL8AEfoIquxxmAsAAAAASUVORK5CYII=" alt=""></td><td class="text-muted">网易号</td><td>9.76%</td><td class="font-medium">4</td></tr><tr><td><img class="rounded-circle" width="45" src="https://new.qq.com/favicon.ico" alt=""></td><td class="text-muted">企鹅号</td><td>7.32%</td><td class="font-medium">3</td></tr><tr><td><img class="rounded-circle" width="45" src="data:image/png;base64,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" alt=""></td><td class="text-muted">Zaker</td><td>4.88%</td><td class="font-medium">2</td></tr><tr><td><img class="rounded-circle" width="45" src="http://news.eastday.com/favicon.ico" alt=""></td><td class="text-muted">东方网</td><td>2.44%</td><td class="font-medium">1</td></tr><tr><td><img class="rounded-circle" width="45" src="http://caacnews.com.cn//favicon.ico" alt=""></td><td class="text-muted">中国民航网</td><td>2.44%</td><td class="font-medium">1</td></tr><tr><td><img class="rounded-circle" width="45" src="https://rmh.pdnews.cn/public/images/logo-header.png" alt=""></td><td class="text-muted">人民号</td><td>2.44%</td><td class="font-medium">1</td></tr></tbody> -->
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-lg-7">
+							<div class="card">
+								<div class="card-body" style="height: 720px; overflow: hidden;">
+									<h4 class="card-title">热点地区排名</h4>
+									<div id="hotSpotRankingChart"
+										style="width: 100%; height: 480px;"></div>
+									<div id="hotSpotRankingList">
+										<div class="row m-b-15">
+											<div class="col-3">江苏</div>
+											<div class="col-7">
+												<div class="progress m-t-5">
+													<div class="progress-bar bg-info" role="progressbar"
+														style="width: 24.17%" aria-valuenow="48" aria-valuemin="0"
+														aria-valuemax="100"></div>
+												</div>
+											</div>
+											<div class="col-2">24.17%</div>
+										</div>
+										<div class="row m-b-15">
+											<div class="col-3">北京</div>
+											<div class="col-7">
+												<div class="progress m-t-5">
+													<div class="progress-bar bg-cyan" role="progressbar"
+														style="width: 20.86%" aria-valuenow="48" aria-valuemin="0"
+														aria-valuemax="100"></div>
+												</div>
+											</div>
+											<div class="col-2">20.86%</div>
+										</div>
+										<div class="row m-b-15">
+											<div class="col-3">上海</div>
+											<div class="col-7">
+												<div class="progress m-t-5">
+													<div class="progress-bar bg-purple" role="progressbar"
+														style="width: 14.66%" aria-valuenow="48" aria-valuemin="0"
+														aria-valuemax="100"></div>
+												</div>
+											</div>
+											<div class="col-2">14.66%</div>
+										</div>
+										<div class="row m-b-15">
+											<div class="col-3">湖北</div>
+											<div class="col-7">
+												<div class="progress m-t-5">
+													<div class="progress-bar bg-orange" role="progressbar"
+														style="width: 10.91%" aria-valuenow="48" aria-valuemin="0"
+														aria-valuemax="100"></div>
+												</div>
+											</div>
+											<div class="col-2">10.91%</div>
+										</div>
+										<div class="row m-b-15">
+											<div class="col-3">广东</div>
+											<div class="col-7">
+												<div class="progress m-t-5">
+													<div class="progress-bar bg-blue" role="progressbar"
+														style="width: 7.03%" aria-valuenow="48" aria-valuemin="0"
+														aria-valuemax="100"></div>
+												</div>
+											</div>
+											<div class="col-2">7.03%</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- <div class="row">
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 703px;">
+								<div class="card-body overview-content">
+									<h4 class="card-title">热点企业</h4>
+									<div class="secondtitle">方案配置企业命中数量排名</div>
+									<ul class="list-style-none keywords-box" id="orglist">
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 703px;">
+								<div class="card-body overview-content">
+									<h4 class="card-title">热点政府部门</h4>
+									<div class="secondtitle">方案配置政府部门命中数量排名</div>
+									<div class="table-responsive">
+										<table class="table v-middle">
+											<thead>
+												<tr>
+													<th class="border-top-0">名称</th>
+													<th class="text-center border-top-0">词频</th>
+													<th class="text-center border-top-0">占比</th>
+												</tr>
+											</thead>
+											<tbody id="highNtoIndexList">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+					<!-- <div class="row">
+
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 703px;">
+								<div class="card-body overview-content">
+									<h4 class="card-title">热点上市企业</h4>
+									<div class="secondtitle">方案配置上市企业命中数量排名</div>
+									<div class="table-responsive">
+										<table class="table v-middle">
+											<thead>
+												<tr>
+													<th class="border-top-0">名称</th>
+													<th class="text-center border-top-0">词频</th>
+													<th class="text-center border-top-0">占比</th>
+												</tr>
+											</thead>
+											<tbody id="highIPOChinaIndexList">
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 703px;">
+								<div class="card-body overview-content">
+									<h4 class="card-title">热点海外上市企业</h4>
+									<div class="secondtitle">方案配置海外上市企业命中数量排名</div>
+									<ul class="list-style-none keywords-box"
+										id="highIPOForeignIndexList">
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div> -->
+					
+
+                    <div class="row">
+
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 502px;">
+								<div class="card-body overview-content">
+									<!--<div class="card-title">数据来源分布排名</div>-->
+									<h4 class="card-title">数据来源分布排名</h4>
+									<!-- 								<div class="text-center over-load" id="loading10"> -->
+									<!-- 									<div class="spinner-border spinner-border text-info" role="status"> -->
+									<!-- 										<span class="sr-only">加载中...</span> -->
+									<!-- 									</div> -->
+									<!-- 								</div> -->
+									<div class="m-t-10 over-event-box">
+										<div id="dataSourceDistributionChart"
+											 style="width: 100%; height: 440px; margin-left: 15px;"></div>
+									</div>
+									<!-- <div class="over-more">
+                                      <a href="#">查看更多</a>
+                                  </div> -->
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 502px;">
+
+
+								<div class="card-body overview-content">
+									<!--<div class="card-title">数据来源分析</div>-->
+									<!--<div class="card-title">数据来源分析</div>-->
+									<h4 class="card-title">数据来源分析</h4>
+									<!-- 								<div class="text-center over-load" id="loading11"> -->
+									<!-- 									<div class="spinner-border spinner-border text-info" role="status"> -->
+									<!-- 										<span class="sr-only">加载中...</span> -->
+									<!-- 									</div> -->
+									<!-- 								</div> -->
+									<ul class="create-tab-report pro-bb" id="search-tab2"
+										style="margin-left: 15px;">
+										<!-- 									<li class="create-tab-act" data-type="0">全部</li> -->
+										<!-- 									<li class="" data-type="1">微信</li> -->
+										<!-- 									<li class="" data-type="2">微博</li> -->
+										<!-- 									<li class="" data-type="3">政务</li> -->
+										<!-- 									<li class="" data-type="4">论坛</li> -->
+										<!-- 									<li class="" data-type="5">新闻</li> -->
+										<!-- 									<li class="" data-type="6">报刊</li> -->
+										<!-- 									<li class="" data-type="7">客户端</li> -->
+										<!-- 									<li class="" data-type="8">网站</li> -->
+										<!-- 									<li class="" data-type="9">外媒</li> -->
+										<!-- 									<li class="" data-type="10">视频</li> -->
+										<!-- 									<li class="" data-type="11">博客</li> -->
+									</ul>
+									<div class="volume-data" style="margin-left: 15px;">
+										<div class="overview-media-title">
+											<span>排名</span> <span>媒体/账号名称</span> <span>媒体类型</span>
+											<!--<span>舆情条数</span>-->
+											<span>总条数</span>
+											<!--<span>敏感舆情条数</span>-->
+											<span>敏感舆情</span>
+										</div>
+										<div id="dataSourceAnalysis">
+											<!-- 										<div class="overview-media-content"> -->
+											<!-- 											<span><span class="v-hot v-hot1">1</span></span> -->
+											<!-- 											<span>搜狐新闻</span> -->
+											<!-- 											<span>客户端</span> -->
+											<!-- 											<span style="color: #8eb9f5;">11290</span> -->
+											<!-- 											<span style="color: #f54545;">1092</span> -->
+											<!-- 										</div> -->
+										</div>
+									</div>
+									<!--<div class="m-t-10 over-event-box">
+                                    <div id="activewebsite" style="height: 320px;"></div>
+                                </div>-->
+									<!-- more -->
+									<!-- <div class="over-more">
+                                  <a href="#">查看更多</a>
+                              </div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="row">
+						<div class="col-sm-12 col-lg-6">
+							<div class="card" style="min-height: 515px;">
+								<div class="card-body p-10">
+									<!--<h4 class="card-title volume-title">自媒体渠道声量排名</h4>-->
+									<div class="card-title volume-title">
+										<h4 class="card-title">自媒体渠道声量排名</h4>
+									</div>
+
+									<div class="table-responsive">
+										<table class="table v-middle">
+											<thead>
+											<tr>
+												<th class="border-top-0">媒体号</th>
+												<th class="border-top-0">平台(数量)</th>
+												<th class="border-top-0">声量</th>
+											</tr>
+											</thead>
+											<tbody id="media_user_volume_rank">
+											<!-- 											<tr> -->
+											<!-- 												<td> -->
+											<!-- 													<div class="d-flex align-items-center"> -->
+											<!-- 														<div class="m-r-10"><img src="  assets/images/users/d1.jpg" alt="user" class="rounded-circle" width="45" /> -->
+											<!-- 														</div> -->
+											<!-- 														<div class=""> -->
+											<!-- 															<h4 class="m-b-0 font-16">I黑马</h4> -->
+											<!-- 														</div> -->
+											<!-- 													</div> -->
+											<!-- 												</td> -->
+											<!-- 												<td>Zaker,百家号</td> -->
+											<!-- 												<td>35</td> -->
+											<!-- 											</tr> -->
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-lg-6">
+							<div class="card" style="min-height: 531px;">
+								<div class="card-body  p-10">
+									<div class="card-title volume-title">
+										<!--<span>关键词曝光度环比排行</span>-->
+										<h4>关键词曝光度环比排行</h4>
+									</div>
+									<div style="width: 100%; height: 415px" class="volume-data"
+										 id="keyword_exposure_rank">
+										<!--<div class="expose-rank-title">-->
+										<!--<span>关键词</span>-->
+										<!--<span>曝光量</span>-->
+										<!--<span>环比增速(%)</span>-->
+										<!--<span>排名</span>-->
+										<!--</div>-->
+										<!-- 									<div class="expose-rank-content"> -->
+										<!-- 										<span>武汉</span> -->
+										<!-- 										<span> -->
+										<!--                                               <div>986665</div> -->
+										<!--                                               <div> -->
+										<!--                                                   <div class="expose-zm" style="width: 10%;" title="正面"></div> -->
+										<!--                                                   <div class="expose-zx" style="width: 55%;left: 10%;" title="中性"> -->
+										<!--                                                   </div> -->
+										<!--                                                   <div class="expose-fm" style="width: 35%;left: 65%;" title="负面"> -->
+										<!--                                                   </div> -->
+										<!--                                               </div> -->
+										<!--                                         </span> -->
+										<!-- 										<span>-0.21 <i class="e-fm mdi mdi-arrow-down"></i></span> -->
+										<!-- 										<span>1</span> -->
+										<!-- 									</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+						<div class="row">
+							<!-- shi jian start -->
+
+							<div class="col-lg-6">
+								<div class="card m-h-544">
+									<div class="card-body overview-content">
+										<!--<div class="card-title">数据来源分布排名</div>-->
+										<h4 class="card-title">事件统计</h4>
+										<!-- 								<div class="text-center over-load" id="loading10"> -->
+										<!-- 									<div class="spinner-border spinner-border text-info" role="status"> -->
+										<!-- 										<span class="sr-only">加载中...</span> -->
+										<!-- 									</div> -->
+										<!-- 								</div> -->
+										<div class="m-t-10 over-event-box">
+											<div id="eventStatisticsChart"
+												 style="width: 100%; height: 440px; margin-left: 0px;"></div>
+										</div>
+										<!-- <div class="over-more">
+                                          <a href="#">查看更多</a>
+                                      </div> -->
+									</div>
+								</div>
+							</div>
+
+
+							<div class="col-lg-6">
+								<div class="card m-h-544">
+									<div class="card-body overview-content">
+										<!--<div class="card-title">数据来源分布排名</div>-->
+										<h4 class="card-title">行业分布统计</h4>
+										<!-- 								<div class="text-center over-load" id="loading10"> -->
+										<!-- 									<div class="spinner-border spinner-border text-info" role="status"> -->
+										<!-- 										<span class="sr-only">加载中...</span> -->
+										<!-- 									</div> -->
+										<!-- 								</div> -->
+										<div class="m-t-10 over-event-box">
+											<div id="industrialDistributiontionChart"
+												 style="width: 100%; height: 440px; margin-left: 15px;"></div>
+										</div>
+										<!-- <div class="over-more">
+                                          <a href="#">查看更多</a>
+                                      </div> -->
+									</div>
+								</div>
+							</div>
+						
+					</div>
+
+
+
+
+
+					<div class="row">
+						<!-- shi jian start -->
+
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 630px;">
+								<div class="card-body overview-content">
+									<h4 class="card-title">政策法规</h4>
+									<!-- <div class="secondtitle">方案配置上市政策法规命中数量排名</div> -->
+									<div class="table-responsive">
+										<table class="table v-middle">
+											<thead>
+											<tr>
+												<!-- <th class="border-top-0">名称</th> -->
+												<!-- <th class="text-center border-top-0">词频</th>
+                                                <th class="text-center border-top-0">占比</th> -->
+											</tr>
+											</thead>
+											<tbody id="highPolicyChinaIndexList">
+											</tbody>
+
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- shi jian end -->
+						<!-- gongsi  start -->
+						<div class="col-lg-6">
+							<div class="card" style="min-height: 630px;">
+								<div class="card-body overview-content">
+									<!--<div class="card-title">方案命中主体词</div>-->
+									<h4 class="card-title">方案命中分类统计</h4>
+									<!-- <div class="secondtitle">方案配置分类统计排名</div> -->
+									<ul class="list-style-none keywords-box" id="category_rank">
+									</ul>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+
+
+					<!-- <div class="row">
+						
+
+
+
+
+
+					</div> -->
+
+
+
+
+
+
+
+
+
+
+					<div class="page-footer">© 2014-2021 南京涌亿思信息技术有限公司
+						苏ICP备17066984号-1</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/assets/libs/echarts/dist/echarts-en.min.js}"></script>
+	<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+	<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+	<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<script th:src="@{/dist/js/app.min.js}"></script>
+	<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+	<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+	<script
+		th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+	<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+	<script th:src="@{/dist/js/waves.js}"></script>
+	<script th:src="@{dist/js/custom.min.js}"></script>
+	<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+	<script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+	<script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+	<script th:src="@{/assets/libs/chart.js/dist/Chart.min.js}"></script>
+	<script th:src="@{/assets/libs/gaugeJS/dist/gauge.min.js}"></script>
+	<script th:src="@{/assets/libs/flot/excanvas.min.js}"></script>
+	<script th:src="@{/assets/libs/flot/jquery.flot.js}"></script>
+	<script
+		th:src="@{/assets/libs/jquery.flot.tooltip/js/jquery.flot.tooltip.min.js}"></script>
+	<script
+		th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js}"></script>
+	<script
+		th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js}"></script>
+	<script th:src="@{/common/tools.js}"></script>
+	<script th:src="@{/dist/js/echarts.min.js}"></script>
+	<script th:src="@{/dist/anycharts/anychart-base.min.js}"></script>
+	<script th:src="@{/dist/anycharts/anychart-exports.min.js}"></script>
+	<script th:src="@{/dist/anycharts/anychart-tag-cloud.min.js}"></script>
+	<script th:src="@{/dist/anycharts/anychart-ui.min.js}"></script>
+	<script th:src="@{/dist/anycharts/data.js}"></script>
+	<script th:src="@{/dist/analysis.js?unixtemp=0817}"></script>
+	<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+
+	<script th:inline="javascript" type="text/javascript">
+		$(function() {
+			setId(analysis_groupid, analysis_projectid);
+			projectname(analysis_projectid, analysis_groupid);
+			getlatestnews(analysis_projectid, anal_groupId);
+			getAnalysisMonitorProjectid();
+
+			$('.navLi').click(
+					function() {
+						jumpNavLocation($(this).data('type'), anal_groupId,
+								anal_projectId);
+					})
+		})
+	</script>
+</body>
+
+</html>

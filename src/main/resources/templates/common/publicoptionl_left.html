@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<aside class="left-sidebar"th:fragment="publicoptionl_left">
+			<!-- Sidebar scroll-->
+			<div class="scroll-sidebar allleft-menu">
+				<!-- Sidebar navigation-->
+				<nav class="sidebar-nav">
+					<div class="newaddProjiect">
+						<button
+							class="btn btn-block create-btn text-white no-block d-flex align-items-center"
+							type="button" id="createEvent">
+							<i class="fa fa-plus-square"></i> 创建事件分析
+						</button>
+					</div>
+					<ul id="sidebarnav">
+						<!-- User Profile-->
+						<!-- User Profile-->
+						<li class="sidebar-item"><a th:classappend="${publicoptionleft_menu == 'public_optionlist' ? 'active' : ''}"
+							class="sidebar-link waves-effect waves-dark"
+							th:href="@{/publicoption}" aria-expanded="false"> <i
+								class="mdi mdi-adjust"></i> <span class="hide-menu">任务列表</span>
+						</a></li>
+						<!-- <li class="sidebar-item">
+							<a th:classappend="${publicoptionleft_menu == 'reportlist' ? 'active' : ''}"
+								class="sidebar-link waves-effect waves-dark"
+								href="javascript:void(0);" aria-expanded="false" >
+									<i class="mdi mdi-adjust"></i> <span class="hide-menu" onclick="window.location.href='/publicoption/reportlist'">任务报告</span>
+							</a>
+						</li> -->
+					</ul>
+				</nav>
+				<!-- End Sidebar navigation -->
+			</div>
+		</aside>
+<script>
+// function taskReport(){
+// 	window.location.href="/publicoption/reportlist"
+// }
+</script>
+</body>
+</html>

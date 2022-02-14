@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.UserDao">
+
+    <select id="selectUserByTelephone" resultType="com.stonedt.intelligence.entity.User">
+	SELECT * FROM user
+
+	WHERE telephone = #{telephone}
+	</select>
+	
+	<update id="updateUserLoginCountByPhone" parameterType="map">
+		UPDATE user SET is_online = 1,login_count = #{map.login_count},end_login_time = #{map.end_login_time}
+
+		WHERE telephone = #{map.telephone}
+	</update>
+	
+	<select id="getUserById" resultType="map">
+		SELECT
+			u.* ,org.organization_name,org.system_title
+		FROM
+			`user` AS u
+		LEFT JOIN organization AS org ON u.organization_id = org.organization_id
+		WHERE u.user_id = #{user_id}
+	</select>
+	
+	<update id="updateUserPwdById">
+		UPDATE user SET password = #{password}
+		WHERE user_id = #{user_id}
+	</update>
+	<update id="updateUseropenidById">
+	UPDATE user SET openid = #{openid},wechatflag = 1
+		WHERE user_id = #{user_id}
+	</update>
+	<update id="updateUseropenidstatusById">
+	update user set wechatflag = 0 where openid = #{openid}
+	
+	</update>
+	
+	
+<!-- 	<update id="updateUserPwdById">
+		UPDATE user SET password = #{password}
+		WHERE user_id = #{user_id}
+	</update> -->
+	
+	
+	<insert id="saveUser">
+		insert into
+			user(
+				create_time, user_id, telephone, password, email, end_login_time, status, username, wechat_number, openid,
+				login_count, identity, organization_id
+			)
+			values(
+				#{create_time}, #{user_id}, #{telephone}, #{password}, #{email}, #{end_login_time}, #{status}, #{username}, 
+				#{wechat_number}, #{openid}, #{login_count}, #{identity}, #{organization_id}
+			)
+	</insert>
+	
+	<select id="getUserByWechatUser" resultType="com.stonedt.intelligence.entity.User">
+	select * from user where wechatflag = 1
+	</select>
+	
+	<select id="getAllUser"  resultType="com.stonedt.intelligence.entity.User">
+	select * from user
+	</select>
+	
+	<insert id="addticket" useGeneratedKeys="true" >
+	insert into wechatqrcode (telephone,ticket,updatetime)values(#{telephone},#{ticket},NOW())
+	
+				      ON DUPLICATE KEY UPDATE ticket = #{ticket},
+							updatetime = NOW();
+	
+	</insert>
+	<select id="getqrcode" resultType="map">
+	
+	select * from wechatqrcode where telephone = #{telephone}
+	
+	</select>
+	
+	<select id="selectUserByopenid" resultType="com.stonedt.intelligence.entity.User">
+	
+	    select * from user where openid = #{openid} and wechatflag=1
+	</select>
+	
+	<insert id="addapply">
+	insert into user_apply (openid,name,telephone,industry,company,applytime)values(#{openid},#{name},#{telephone},#{industry},#{company},NOW())
+				      ON DUPLICATE KEY UPDATE name = #{name},telephone = #{telephone},industry = #{industry},company = #{company},
+							applytime = NOW();
+	
+	</insert>
+	
+	<select id="selectUserApplyByopenid" resultType="map">
+	
+	select * from user_apply where openid = #{openid} limit 1
+	
+	</select>
+	
+	<select id="getAllUserNotDelete" resultType="com.stonedt.intelligence.entity.User">
+		select * from user
+	</select>
+
+	<select id="onlinestatistical" resultType="map">
+	select end_login_time,login_count, onlinetotal.val from user u ,(select count(1) val from user where is_online = 1 ) as onlinetotal where u.user_id =#{user_id}
+</select>
+
+	<update id="updateEndLoginTime" parameterType="java.lang.Long">
+	update user set end_login_time=now() where user_id=#{userId}
+</update>
+
+	<select id="getUserByorganizationid" resultType="map">
+
+		select user_id id,username from user where status = 1 and organization_id
+		=#{id}
+
+	</select>
+	<select id="getUserInfoById" resultType="map">
+		SELECT
+		u.*
+		<!-- 			,org.organization_name,org.system_title -->
+		FROM
+		`user` AS u
+		<!-- 		LEFT JOIN organization AS org ON u.organization_id = org.organization_id -->
+		WHERE u.user_id = #{user_id}
+	</select>
+	<update id="updateOnline" parameterType="com.stonedt.intelligence.entity.User">
+		UPDATE user SET
+		is_online = #{is_online}
+		<if test="null != online_time_total">
+			,online_time_total = #{online_time_total}
+		</if>
+		WHERE user_id = #{user_id}
+
+	</update>
+
+	<update id="setAlloffline">
+		update user set is_online = 2
+	</update>
+	<select id="getAllcommentator" resultType="map">
+
+select user_id,username from user where user_type = 2 and user_id not in (${user_id})
+
+</select>
+	<update id="updateLoginFailCountAndTime" parameterType="java.util.Map">
+		update user set login_fail_count=#{loginFailCount}
+		<if test="loginFailTime != null">
+			,end_login_fail_time=now()
+		</if>
+		where id=#{userId}
+	</update>
+	<update id="editIs_change_pas" parameterType="java.lang.Long">
+	update user set is_change_pas=1 where user_id=#{userId}
+</update>
+
+</mapper>

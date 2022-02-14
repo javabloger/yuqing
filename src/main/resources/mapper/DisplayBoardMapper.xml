@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.intelligence.dao.DisplayBoardDao">
+
+	<select id="searchDisplayBiardByUser" resultType="map">
+		SELECT report_day,hot_wechat,report_week,hot_weibo,hot_all,hot_search_terms,hot_douyin,hot_bilibili,hot_tecentvedio,hot_36kr,hot_finaceData,hot_policydata FROM `synthesize` limit 1
+	</select>
+	
+	
+	   
+</mapper>

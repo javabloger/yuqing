@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.intelligence.dao.AnalysisDao">
+
+
+	<select id="getAanlysisByProjectidAndTimeperiod" resultType="com.stonedt.intelligence.entity.Analysis">
+		select 
+   			id, create_time, analysis_id, project_id, time_period, data_overview, emotional_proportion,
+   			plan_word_hit, keyword_emotion_trend, hot_event_ranking, highword_cloud, keyword_index, media_activity_analysis,
+   			hot_spot_ranking, data_source_distribution, data_source_analysis, keyword_exposure_rank, selfmedia_volume_rank,ner,category_rank,
+   			industrial_distribution,event_statistics
+   		from 
+   			monitor_analysis 
+   		where 
+   			project_id= #{projectId}
+   		and
+   			time_period = #{timePeriod}
+	</select>
+
+
+
+
+<!-- 历史代码 -->
+	<resultMap id="BaseResultMap" type="com.stonedt.intelligence.entity.Analysis">
+		<id column="id" property="Id" jdbcType="INTEGER" />
+		<result column="create_time" property="CreateTime" jdbcType="TIMESTAMP" />
+		<result column="analysis_id" property="AnalysisId" jdbcType="BIGINT" />
+		<result column="project_id" property="ProjectId" jdbcType="BIGINT" />
+		<result column="time_period" property="TimePeriod" jdbcType="INTEGER" />
+		<result column="relative_news" property="RelativeNews" jdbcType="VARCHAR" />
+		<result column="keyword_index" property="KeywordIndex" jdbcType="VARCHAR" />
+		<result column="emotional_proportion" property="EmotionalProportion" jdbcType="VARCHAR" />
+		<result column="plan_word_hit" property="PlanWordHit" jdbcType="VARCHAR" />
+		<result column="popular_information" property="PopularInformation" jdbcType="VARCHAR" />
+		<result column="popular_event" property="PopularEvent" jdbcType="VARCHAR" />
+		<result column="hot_company" property="HotCompany" jdbcType="VARCHAR" />
+		<result column="hot_people" property="HotPeople" jdbcType="VARCHAR" />
+		<result column="hot_spot" property="HotSpot" jdbcType="VARCHAR" />
+		<result column="keyword_emotion_trend" property="keyword_emotion_trend" jdbcType="VARCHAR" />
+		<result column="keyword_emotion_statistical" property="keyword_emotion_statistical" jdbcType="VARCHAR" />
+		<result column="hot_event_ranking" property="hot_event_ranking" jdbcType="VARCHAR" />
+		<result column="highword_cloud" property="highword_cloud" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.stonedt.intelligence.entity.Analysis">
+		replace into 
+			monitor_analysis (
+				create_time, relative_news, keyword_index, emotional_proportion, plan_word_hit, popular_information, 
+				analysis_id, project_id, hot_company, hot_people, hot_spot, time_period
+			)
+			values (
+				NOW(), #{RelativeNews}, #{KeywordIndex}, #{EmotionalProportion}, #{PlanWordHit}, #{PopularInformation},
+				#{AnalysisId}, #{ProjectId}, #{HotCompany}, #{HotPeople}, #{HotSpot}, #{TimePeriod}
+			)
+	</insert>
+   
+   	<select id="getInfoByProjectid" resultMap="BaseResultMap">
+   		select 
+   			create_time, relative_news, keyword_index, emotional_proportion, plan_word_hit, popular_information, hot_company,keyword_emotion_trend,keyword_emotion_statistical,
+   			hot_people, hot_spot,hot_event_ranking,highword_cloud
+   		from 
+   			monitor_analysis 
+   		where 
+   			project_id= #{projectid}
+   		and
+   			time_period = #{timePeriod}
+   	</select>
+   	
+ 	<select id="getAnalysisMonitorProjectid" resultMap="BaseResultMap">
+   		select 
+   			id, create_time, analysis_id, project_id, time_period, relative_news, keyword_index, emotional_proportion, 
+   			plan_word_hit, popular_information, hot_company, hot_people, hot_spot 
+   		from 
+   			monitor_analysis 
+   		where 
+   			project_id= #{projectId}
+   		and
+   			time_period = #{timePeriod}
+   	</select>
+    
+</mapper>

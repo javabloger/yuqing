@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="referrer" content="no-referrer"/>
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>文章详情·网络情报分析系统</title>
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <link th:href="@{/assets/extra-libs/c3/c3.min.css}" rel="stylesheet">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .detail-content div {
+            visibility: unset !important;
+        }
+
+        .page-up-next {
+
+            justify-content: space-between;
+            padding-top: 40px;
+            border-top: 1px dashed rgba(0, 0, 0, .1);
+            align-items: center;
+        }
+
+        .page-up-next > a {
+            width: calc(50% - 10px);
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            color: #2962FF !important;
+        }
+
+        .page-up-next > a:first-child {
+            text-align: left;
+        }
+
+        .page-up-next > a:last-child {
+            text-align: right;
+        }
+
+        .page-up-next > a > span {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb" id="breadCrumbs">
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+<!--                     <div class="col-lg-7 align-self-center "> -->
+<!--                         <div class="d-flex no-block justify-content-end align-items-center data-number-min"> -->
+<!--                             <button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goback"> -->
+<!--                                 <i class="mdi mdi-redo-variant"></i> 返回 -->
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <!-- basic table -->
+                <div class="row m-b-20">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title" id="title"></h4>
+                                <div class="detail-tips">
+                                    <span id="source"></span>
+                                    <span id="author"></span>
+                                    <span id="publish_time"></span>
+                                    <span id="yuanwen"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card m-b-0" style="min-height: 100vh;">
+                            <div class="card-body">
+                                <div class="detail-content" id="content">
+                                	<div id="jianjie">
+                                    </div>
+                                    <br>
+                                    <div class="feed-activity-list">
+                                    	<table class="table table-bordered">
+                                    		<thead>
+	                                    		<tr>
+	                                    			<th>图标</th>
+	                                    			<th>受资方</th>
+	                                    			<th>时间</th>
+	                                    			<th>轮次</th>
+	                                    			<th>金额</th>
+	                                    			<th>投资方</th>
+	                                    			<th>采集时间</th>
+											  	</tr>
+                                    		</thead>
+                                    		<tbody id="list">
+                                    			
+                                    		</tbody>
+										</table>
+                                    </div>
+                                    <br>
+                                    <div class="feed-activity-list">
+                                    	<h3>融资历史</h3>
+                                    	<table class="table table-bordered">
+                                    		<thead>
+	                                    		<tr>
+	                                    			<th>序号</th>
+	                                    			<th>轮次</th>
+	                                    			<th>投资方</th>
+	                                    			<th>时间</th>
+	                                    			<th>金额</th>
+											  	</tr>
+                                    		</thead>
+                                    		<tbody id="list2">
+                                    			
+                                    		</tbody>
+										</table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+<script th:src="@{/common/tools.js}"></script>
+<script th:src="@{/dist/search_detail.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    var articleId = [[${articleid}]];
+    var menu = [[${menu}]];
+    var type = [[${type}]];
+    var investment = [[${investment}]];
+    
+
+    $(function () {
+        breadCrumbs();
+        articleDetail();
+    });
+
+    // 文章详情
+    function articleDetail() {
+    	let res = investment
+    	console.log(res)
+    	$('#title').html(res.title)
+       $("#jianjie").html('<p>简介 ： '+res.infoIntro+'</p><p>行业 ： ' + res.industry + '</p>');
+        			
+        			var investorArray = JSON.parse(res.investorArray)
+    				var investors = []
+    				for (var j = 0; j < investorArray.length; j++) {
+    					var investor = investorArray[j];
+    					investors.push(investor.investorName)
+					}
+        			var push_time=res.push_time;
+        			push_time=/\d{4}-\d{1,2}-\d{1,2}/g.exec(push_time);
+					var html = '<tr>'
+		            				+'<td><img style="width: 100px;" src="'+res.companyLogo+'"></td>'
+		            				+'<td><a target="_blank" href="'+res.deatilUrl+'">'+res.companyName+'</a></td>'
+		            				+'<td>'+push_time+'</td>'
+		            				+'<td>'+res.rounds+'</td>'
+		            				+'<td>'+res.money+'</td>'
+		            				+'<td>'+investors.join('<br>')+'</td>'
+									+'<td>'+res.spider_time+'</td>'
+						 		+'</tr>'
+				     $('#list').html(html)
+				     
+				     var historyArray = JSON.parse(res.historyArray)
+				     
+				     for (var i = 0; i < historyArray.length; i++) {
+				    	 var obj = historyArray[i]
+				    	 var history_time=obj.history_time;
+							history_time=/\d{4}-\d{1,2}-\d{1,2}/g.exec(push_time);
+						var html = '<tr>'
+									+'<td>'+(i+1)+'</td>'
+		            				+'<td>'+obj.history_rounds+'</td>'
+		            				+'<td>'+obj.history_investors+'</td>'
+		            				+'<td>'+history_time+'</td>'
+									+'<td>'+obj.history_money+'</td>'
+						 		+'</tr>'
+						$('#list2').append(html)
+					}
+			 		if (historyArray.length == 0) {
+        				$('#list2').html('<tr><td colspan=5>暂无数据！</td></tr>')
+					}
+    }
+
+    $('.navLi').click(function () {
+        jumpNavLocation($(this).data('type'), groupId, projectId);
+    })
+
+
+    $("#goback1").click(function (param) {
+//        window.location.href = ctxPath + "monitor?projectId="+projectId+"&groupid="+groupId+"&page=6";
+    });
+
+</script>
+</body>
+
+</html>

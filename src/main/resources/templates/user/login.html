@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>登录·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!---->
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!--     <div class="preloader"> -->
+    <!--         <div class="lds-ripple"> -->
+    <!--             <div class="lds-pos"></div> -->
+    <!--             <div class="lds-pos"></div> -->
+    <!--         </div> -->
+    <!--     </div> -->
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <div class="auth-wrapper auth-wrapper-bg d-flex">
+        <div class="login-header">
+            <img th:src="@{/assets/images/favicon.png}" alt="">
+            <span>思通数据</span>
+        </div>
+        <div class="auth-box-left slogan-wrapper">
+            <div class="slogan">
+                <img th:src="@{/assets/images/login-left.png}" alt="">
+            </div>
+        </div>
+        <div class="auth-login p-r">
+            <div class="loginform" id="loginform">
+                <!-- Form -->
+                <div class="row">
+                    <div class="col-12" style="height: 100%;">
+                        <div class="logo">
+                            <p class="login-title">登录</p>
+                        </div>
+                        <!--<form class="form-horizontal m-t-20" id="loginform" action="/login" method="post">-->
+                        <form class="form-horizontal m-t-20" id="loginform" method="post">
+                            <div class="input-group mb-4">
+                                <input required="required" type="text" class="form-control form-control-lg"
+                                       name="telephone" placeholder-class="login-place" placeholder="用户名"
+                                       aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group mb-4">
+                                <input required="required" type="password" class="form-control form-control-lg"
+                                       name="password" placeholder="密码" aria-label="Password"
+                                       aria-describedby="basic-addon1">
+                            </div>
+                            <div class="form-group text-center">
+                                <div class="col-xs-12 p-b-20"
+                                     style="display: flex; justify-content: space-between;align-items: center;">
+                                    <a th:href="@{/forgotpwd}" style="color: #7290e0;">忘记密码？</a>
+                                    <button class="btn btn-block btn-lg btn-info bt-login" type="button"
+                                            onclick="login()">登录
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="cus-footer" style="color: #5a5a5a;"> © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- All Required js -->
+<!-- ============================================================== -->
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+
+<!-- ============================================================== -->
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<script type="application/javascript">
+    $('[data-toggle="tooltip"]').tooltip();
+    $(".preloader").fadeOut();
+    // ============================================================== 
+    // Login and Recover Password 
+    // ==============================================================
+
+    function login() {
+        var telephone = $("input[name='telephone']").val();
+        var password = $("input[name='password']").val();
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            dataType: 'json',
+            data: {
+                telephone: telephone,
+                password: password
+            },
+            success: function (res) {
+                let code = res.code;
+                let msg = res.msg;
+                if (code == 1) {
+                    /*window.location.href = "/displayboard";*/
+                    //2021.7.26，跳转修改为数据监测页面
+                    window.location.href = "/monitor"
+                } else if (code == 4) {
+                    showtips(msg);
+                } else {
+                    showtips(msg);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href=" ../assets/images/favicon.png">
+    <title>监测管理·网络情报分析系统</title>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+</head>
+<body>
+<!-- <div class="preloader"> -->
+<!--     <div class="lds-ripple"> -->
+<!--         <div class="lds-pos"></div> -->
+<!--         <div class="lds-pos"></div> -->
+<!--     </div> -->
+<!-- </div> -->
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/project_left::project_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb" id="breadCrumbs">
+
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center">
+                        <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                            <!-- <button type="button" class="growl btn-sm btn btn-outline-secondary m-r-10">
+                            <!--    新增    -->
+                            <!--</button> -->
+                            <button class="growl btn btn-outline-secondary btn-sm bnone font-14" type="button"
+                                    id="goedit" onclick="addProject()">
+                                <i class="mdi mdi-plus-circle"></i> 新增
+                            </button>
+                            <button id="deleteBtn" type="button" class="btn btn-outline-secondary font-14 btn-sm bnone">
+                                <i class="mdi mdi-delete"></i> 删除
+                            </button>
+                            <!-- <button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goback">返回</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <!--                         <div class="text-center over-load t2" id="loading1"> -->
+                        <!--                             <div class="spinner-border spinner-border text-info" role="status"> -->
+                        <!--                                 <span class="sr-only">加载中...</span> -->
+                        <!--                             </div> -->
+                        <!--                         </div> -->
+                        <!-- content start -->
+                        <div class="p-15 b-b">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="project-group">
+                                    <div class="custom-control custom-checkbox pro-selectall"
+                                         style="display: inline-block;">
+                                        <input type="checkbox" class="custom-control-input sl-all" id="cstall">
+                                        <label class="custom-control-label" for="cstall"></label>
+                                    </div>
+                                    <!--                                     <input type="checkbox" class="custom-control-input sl-all" id="cstall"> -->
+                                    <strong id="groupName"></strong>&nbsp;&nbsp;<span class="label label-info"
+                                                                                      id="totalProject">0</span><span>个监测方案</span>
+                                </div>
+                                <div class="input-group w-25">
+                                    <input type="text" class="form-control" placeholder="输入方案名称..." aria-label=""
+                                           aria-describedby="basic-addon1" id="currentName">
+                                    <div class="input-group-append">
+                                        <button type="button"
+                                                class="btn waves-effect waves-light btn-secondary  d-inline-block"
+                                                onclick="searchProject()">
+                                            <!-- <i class="fas fa-search"></i> --> 搜索
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mail list-->
+                        <div class="table-responsive" id="projectlist" style="min-height: 150px;position: relative;">
+                            <!-- line start -->
+                            <div class="table-hover d-flex project-list-box">
+                                <div class="project-chb">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="cst0">
+                                        <label class="custom-control-label" for="cst0"></label>
+                                    </div>
+                                </div>
+                                <div class="project-name">
+                                    方案名称
+                                </div>
+                                <div class="project-keywords text-over">
+                                    方案关键词
+                                </div>
+                                <div class="project-times">
+                                    创建时间
+                                </div>
+                                <div class="project-handle">
+                                    <a href="#">数据监测</a>
+                                    <a href="#">声量监测</a>
+                                </div>
+                                <div class="project-edit-delete">
+                                    <i class="mdi mdi-table-edit"></i>
+                                    <i class="mdi mdi-filter-outline"></i>
+                                    <i class="mdi mdi-delete"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="all-pagebox m-r-20 m-b-20 m-t-20">
+                            <ul class="pagination float-right" id="page">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/dist/js/projectlist.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+
+<script th:inline="javascript">
+
+    let currentPage1 = '[[${currentPage}]]';
+    let projectsearch1 = [[${projectsearch}]];
+    if (!projectsearch1) projectsearch1 = '';
+    
+//     var groupIdList = [[${groupid}]]
+
+    $("#currentName").val(projectsearch1);
+    $(document).ready(function () {
+        getCurrentPage(currentPage1);  // 获取当前页的信息
+        getProjectsearch(projectsearch1);  // 获取搜索关键词
+    });
+
+    // loading
+    setTimeout(() => {
+        $("#loading1").hide()
+    }, 1000);
+
+    // 偏好设置
+    $('body').on('click', '.phsz', function () {
+        var projectId = $(this).data('id');
+        window.location.href = ctxPath + 'system/preference?groupid=' + groupid + '&projectid=' + projectId;
+    });
+
+    // 删除按钮
+    $('#deleteBtn').click(function () {
+        var projectIds = [];
+        $('.projectCheck').each(function () {
+            if ($(this).is(":checked")) {
+                projectIds.push($(this).data('projectid'));
+            }
+        });
+        if (projectIds.length == 0) {
+            showtips("未选择删除的方案！");
+        } else {
+//            if (confirm('确认删除选中方案吗？')) {
+            var confirmhtml =
+                '<div class="shadebox" id="confirmsure">' +
+                '    <div class="modal-dialog" role="document"> ' +
+                '        <div class="modal-content">' +
+                '            <div class="modal-header align-flexend no-border"> ' +
+                '                <h5 class="modal-title">提示</h5>' +
+                '                <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>' +
+                '            </div>' +
+                '            <div class="modal-body" style="padding:0 1rem;">' +
+                '                <div class="input-group alcenter"><i class="fa fa-exclamation-circle m-r-10 font-20"></i> 此操作将删除该方案, 是否继续?' +
+                '                </div>' +
+                '            </div>' +
+                '            <div class="modal-footer no-border">' +
+                '                <button type="button" class="btn btn-info" id="confirm"> 确定</button> ' +
+                '                <button type="button" class="btn btn-secondary" id="cancel">取消</button>' +
+                '            </div>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>'
+            $("body").append(confirmhtml)
+            $("#closethis").click(function (param) {
+                $("#confirmsure").remove()
+
+            })
+            $("#cancel").click(function (param) {
+                $("#confirmsure").remove()
+            })
+            $("#confirm").click(function (param) {
+                $.ajax({
+                    url: ctxPath + 'project/batchUpdateProject',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        projectIds: JSON.stringify(projectIds)
+                    },
+                    success: function (res) {
+                        if (res.state) {
+                            showtips("方案删除成功！");
+                            sendProjectList(groupid, $('#currentName').val().trim(), 1);
+                        } else {
+                            showtips("方案删除失败！");
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        if (xhr.status == 403) {
+                            window.location.href = ctxPath + "login";
+                        } else {
+                            $("#popularinformation").css({"position": "relative", "min-height": "300px"})
+                            dataerror("#popularinformation")
+                        }
+                    }
+                });
+                $("#confirmsure").remove()
+            })
+//            }
+        }
+    });
+
+
+    // 复选框点击
+    $('body').on('click', '.projectCheck', function () {
+        $('.projectCheck').each(function () {
+            if (!$(this).is(":checked")) {
+                $('#cstall').prop('checked', false);
+                return;
+            }
+        });
+    });
+
+    // 	// 顶部面包屑导航
+    //    function breadCrumbs(groupId){
+    // 		if(groupId){
+    // 			$.ajax({
+    //	    		url: ctxPath + 'project/names',
+    //	    		type: 'post',
+    //	    		dataType: 'json',
+    //	    		data: {
+    //	    			projectId: null,
+    //	    			groupId: groupId
+    //	    		},
+    //	    		success: function(res){
+    //	    			var html = '<li class="breadcrumb-item">监测管理</li>'+
+    //	    						'<li class="breadcrumb-item">'+res.groupName+'</li>'+
+    //	                        	'<li class="breadcrumb-item">方案列表</li>';
+    //	    			$('#breadCrumbs').html(html);
+    //	    			$('#groupName').html(res.groupName);
+    //	    		},
+    //	    		error: function(res){
+    //	    			console.log(res);
+    //                    var html = '<li class="breadcrumb-item">监测管理</li>'+
+    //                        '<li class="breadcrumb-item">暂无方案组</li>'+
+    //                        '<li class="breadcrumb-item">方案列表</li>';
+    //                    $('#breadCrumbs').html(html);
+    //                    $("#cstall").attr("disabled","disabled");
+    //                    $("#cst0").attr("disabled","disabled");
+    //	    		}
+    //	    	});
+    // 		}else{
+    // 			var html = '<li class="breadcrumb-item">监测管理</li>'+
+    //			             '<li class="breadcrumb-item">方案列表</li>';
+    // 			$('#breadCrumbs').html(html);
+    // 		}
+    // 	}
+    
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), groupid, null);
+    })
+
+</script>
+</body>
+
+</html>

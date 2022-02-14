@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>全文搜索·网络情报分析系统</title>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <link th:href="@{/dist/css/xqcss/xq.css}" rel="stylesheet">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="row">
+		<div id="content" class="col" style="padding-top: 70px;padding-left:210px;">
+			<div class="content-item">
+			<div class="content-item1">
+				<div class="content-item1-top">
+					<dl class="content-item1-dl1">
+						<dt>
+							<img id="img" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2146034403,1504718527&fm=26&gp=0.jpg" onerror=src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2146034403,1504718527&fm=26&gp=0.jpg">
+						</dt>
+					</dl>
+
+					<dl class="content-item1-dl2">
+						<dt>
+							<b style="width: 680px;height: 40px;display: block;">
+								<span id="name" style="float: left;color: #333;font-size: 20px;line-height: 40px;"></span>
+							</b>
+							<p
+								style="width: 680px;height: 25px;display: block;overflow: hidden;color: #2196f3;line-height: 25px;font-size: 14px;">
+								<a id="hospital" href="" target="_blank" style="color: #2196f3;"></a>
+							</p>
+							<p
+								style="width: 1080px;height: 40px;display: block;overflow: hidden;color: #576474;font-size: 14px;line-height: 40px;">
+								<span id="department"
+									style="color: #999;font-size: 14px;line-height: 40px;"></span>
+							</p>
+							<p
+								style="width: 680px;height: 40px;display: block;overflow: hidden;color: #576474;font-size: 14px;line-height: 40px;">
+								<span
+									style="color: #999;font-size: 14px;line-height: 40px;">电话：</span><span class="phone_number"></span>
+							</p>
+						</dt>
+						<dd style="width: 680px;height: auto;margin-top: 10px;">
+							<p
+								style="width: 680px;height: 40px;display: block;overflow: hidden;color: #576474;font-size: 14px;line-height: 40px;">
+								<span
+									style="color: #999;font-size: 14px;line-height: 40px;">擅长：</span><span id="adept"></span>
+							</p>
+							<p
+								style="width: 680px;height: 50px;display: block;overflow: hidden;color: #576474;font-size: 14px;line-height: 25px;">
+								<span
+									style="color: #999;font-size: 14px;line-height: 25px;">简介：</span><span class="content"></span>
+							</p>
+						</dd>
+					</dl>
+				</div>
+			</div>
+
+			<div class="col-lg-6" style="margin-left: 70px;width: 100%;float: none;">
+				<div class="tabs-container">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#tab-1">详细介绍</a></li>
+						<li style="display:none"><a data-toggle="tab" href="#tab-2">医生回答</a></li>
+					</ul>
+					<div class="tab-content">
+						<div id="tab-1" class="tab-pane active">
+							<div class="panel-body">
+							   <div style="width: 820px;
+							   height: auto;
+							   overflow: hidden;
+							   margin: 20px 0 0 29px;">
+								<table class="table">
+									<tbody>
+									<tr>
+										<td>行政职务：</td>
+										<td><a id="administrative_function" style="cursor:text;">不详</a></td>
+										<td>居住地：</td>
+										<td class="address">不详</td>
+									</tr>
+									<tr>
+										<td>学位：</td>
+										<td id="degree">不详</td>
+										<td>工作地址：</td>
+										<td id="location">不详</td>
+									</tr>
+									</tbody>
+								</table>
+							</div> 
+
+								<div style="display:none;width: 818px;height: auto;margin: 20px 0 0 30px;overflow: hidden;padding-bottom: 15px;">
+									<b style="width: 818px;height: 40px;display: block;font-size: 20px;line-height: 40px;">
+										<i style="width: 12px;height: 12px;background: #76d4da;float: left;border-radius: 50%;margin: 15px 10px 0 0;"></i>出诊时间
+									</b>
+									<div style="width: 818px;height: 40px;margin-bottom: 5px;">
+										<span class="span1"><i style="width: 12px;height: 12px;background: red;display: inline-block;border-radius: 50%;margin: 15px 10px 0 0;"></i>特需门诊</span>
+										<span class="span1"><i style="width: 12px;height: 12px;background: yellow;display: inline-block;border-radius: 50%;margin: 15px 10px 0 0;"></i>专科门诊</span>
+										<span class="span1"><i style="width: 12px;height: 12px;background: green;display: inline-block;border-radius: 50%;margin: 15px 10px 0 0;"></i>专家门诊</span>
+										<span class="span1"><i style="width: 12px;height: 12px;background: blue;display: inline-block;border-radius: 50%;margin: 15px 10px 0 0;"></i>普通门诊</span>
+									</div>
+									<div style="width: 816px;height: auto;overflow: hidden;">
+										<table class="table table-bordered">
+											<thead>
+											<tr>
+												<th>时段</th>
+												<th>周一</th>
+												<th>周二</th>
+												<th>周三</th>
+												<th>周四</th>
+												<th>周五</th>
+												<th>周六</th>
+												<th>周日</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td>上午</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>下午</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>晚上</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div
+									style="width: 820px;height: auto;border-bottom: 1px #e7e7e7 dashed;padding-bottom: 15px;overflow: hidden;margin: 20px 0 0 29px;">
+									<b
+										style="width: 820px;height: 40px;display: block;color: #333;font-size: 18px;line-height: 40px;margin-bottom: 10px;">
+										<i
+											style="width: 10px;height: 10px;border-radius: 50%;background: #76d4da;float: left;margin: 15px 10px 0 0;display: inline-block;"></i>医生简介
+									</b>
+									<p
+										style="width: 820px;height: auto;color: #576474;font-size: 14px;line-height: 28px;display: block;">
+										<span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="content"></span>
+									</p>
+								</div>
+								<div
+									style="width: 820px;height: auto;border-bottom: 1px #e7e7e7 dashed;padding-bottom: 15px;overflow: hidden;margin: 20px 0 0 29px;">
+									<b
+										style="width: 820px;height: 40px;display: block;color: #333;font-size: 18px;line-height: 40px;margin-bottom: 10px;">
+										<i
+											style="width: 10px;height: 10px;border-radius: 50%;background: #76d4da;float: left;margin: 15px 10px 0 0;display: inline-block;"></i>所获荣誉
+									</b>
+									<p
+										style="width: 820px;height: auto;color: #576474;font-size: 14px;line-height: 28px;display: block;">
+										<span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="honor"></span>
+									</p>
+								</div>
+								<div
+									style="width: 820px;height: auto;border-bottom: 1px #e7e7e7 dashed;padding-bottom: 15px;overflow: hidden;margin: 20px 0 0 29px;">
+									<b
+										style="width: 820px;height: 40px;display: block;color: #333;font-size: 18px;line-height: 40px;margin-bottom: 10px;">
+										<i
+											style="width: 10px;height: 10px;border-radius: 50%;background: #76d4da;float: left;margin: 15px 10px 0 0;display: inline-block;"></i>论文发表
+									</b>
+									<p id="paper"
+										style="width: 820px;height: auto;color: #576474;font-size: 14px;line-height: 28px;display: block;">
+									</p>
+								</div>
+								<div
+									style="border-bottom: none;width: 818px;height: auto;margin: 20px 0 0 30px;overflow: hidden;padding-bottom: 5px;">
+									<b
+										style="width: 818px;height: 40px;;display: block;;font-size: 20px;;line-height: 40px;">
+										<i
+											style="width: 12px;height: 12px;background: #76d4da;float: left;border-radius: 50%;margin: 15px 10px 0 0;"></i>联系方式
+									</b>
+									<ul class="ul1"
+										style="width: 818px;height: auto;margin-top: 15px;overflow: hidden;">
+										<li>
+											<span style="background-position: 0 -392px;letter-spacing: 7px;">网&nbsp;
+												址：</span>
+											<a id="detailUrl" href="#" target="_blank" style="color: #2196f3;"></a>
+										</li>
+										<li>
+											<span style="background-position: 0 -535px;letter-spacing: 7px;">电&nbsp;
+												话：</span>
+											<em class="phone_number"></em>
+										</li>
+										<li>
+											<span style="    background-position: 0 -584px;">电子邮件：</span>
+											<em id="email"></em>
+										</li>
+										<li>
+											<span style="background-position: 0 -488px;letter-spacing: 7px;">邮&nbsp;
+												编：</span>
+											<em id="postcode"></em>
+										</li>
+										<li>
+											<span style="background-position: 0 -631px;letter-spacing: 7px;">地&nbsp;
+												址：</span>
+											<em class="address"></em>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="page-footer">
+        © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src=" @{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src=" @{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src=" @{/dist/js/app.min.js}"></script>
+<script th:src=" @{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src=" @{/dist/js/app-style-switcher.js}"></script>
+<script th:src=" @{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src=" @{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src=" @{/dist/js/waves.js}"></script>
+<script th:src=" @{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jutils-src"></script>
+<script th:inline="javascript" type="text/javascript">
+	var articleId = [[${articleid}]];
+	var menu = [[${menu}]];
+	$('.navLi').click(function () {
+	        jumpNavLocation($(this).data('type'), null, null);
+	    })
+	$(function(){
+		detail()
+	})
+	
+/**
+ * 左侧菜单 点击
+ * @param e
+ * @returns
+ */
+$('body').on('click', '#sidebarnav li',function (e) {
+    if (!$(this).hasClass("comactive")) {
+    	$(this).siblings().removeClass("comactive")
+    	$(this).addClass("comactive")
+		if(menuStyle == 0 ){
+			let arry = $(this).attr("data-id").split(',');
+			//full_type = arry[0]
+			idList = $(this).attr("data-id")
+			full_poly = $(this).attr("data-poly")
+			var params = '?searchword='+searchWord +'&fulltype=' + full_type + '&menuStyle=0&full_poly='+full_poly+'&pageSize=25&page=1';
+			window.location.href = ctx + 'fullsearch/result' + params;
+		}else{
+			full_type = $(this).attr("data-id")
+			var params = '?searchword='+searchWord +'&fulltype=' + full_type + '&menuStyle=1&page=1';
+			window.location.href = ctx + 'fullsearch/result' + params;
+		}
+    }
+})
+ 
+	
+	function setImg(sex){
+			// sex='女'
+			let imgEl=document.getElementById("img")
+			if(sex==='男'){
+				imgEl.src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597135070832&di=8b414d4f29c3a7d622f8f2929b81d90b&imgtype=0&src=http%3A%2F%2Fhbimg.huabanimg.com%2F0830450561b24f4573bed70d7f74bd43f39302e11bee-s2tj6i_fw658"
+			}else if(sex==='女'){
+				imgEl.src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1698517736,1398535187&fm=26&gp=0.jpg"
+			}else{
+				imgEl.src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597135070832&di=8b414d4f29c3a7d622f8f2929b81d90b&imgtype=0&src=http%3A%2F%2Fhbimg.huabanimg.com%2F0830450561b24f4573bed70d7f74bd43f39302e11bee-s2tj6i_fw658"
+			}
+		}
+        
+		function detail(){
+			var curWwwPath=window.document.location.href;
+
+			  //获取主机地址之后的目录，如： myproj/view/my.jsp
+
+			  var pathName=window.document.location.pathname;
+
+			  var pos=curWwwPath.indexOf(pathName);
+
+			  //获取主机地址，如： http://localhost:8083
+
+			  var localhostPaht=curWwwPath.substring(0,pos);
+        	$.ajax({
+        		url : localhostPaht+"/fullsearch/doctorDetailData",
+        		type : "post",
+        		data:{
+        			article_public_id: articleId
+        		},
+        		success : function(res1) {
+        			console.log(res1)
+        			let res=res1.list[0]
+        			document.getElementById("name").innerHTML=res.name
+        			document.getElementById("department").innerHTML=res.department
+    				let contentEls=document.getElementsByClassName("content")
+					for (const contentEl of contentEls) {
+						contentEl.innerHTML=res.content.trim()
+					}
+        			document.getElementById("img").src=res.profile
+					document.getElementById("hospital").href=res.hospital_url
+					document.getElementById("hospital").innerHTML=res.hospital
+					let phoneEls=document.getElementsByClassName("phone_number")
+					for (const phoneEl of phoneEls) {
+						phoneEl.innerHTML=res.phone_number
+					}
+					document.getElementById("adept").innerHTML=res.adept
+					let addressEls=document.getElementsByClassName("address")
+					for (const addressEl of addressEls) {
+						addressEl.innerHTML=res.province+"  "+res.city+"  "+res.area
+					}
+					document.getElementById("degree").innerHTML=res.degree
+					document.getElementById("location").innerHTML=res.location
+					document.getElementById("honor").innerHTML=res.honor
+					document.getElementById("paper").innerHTML=res.paper
+					document.getElementById("detailUrl").href=res.detailUrl
+					document.getElementById("detailUrl").innerHTML=res.detailUrl
+					document.getElementById("email").innerHTML=res.email
+					document.getElementById("postcode").innerHTML=res.postcode
+					document.getElementById("administrative_function").innerHTML=res.administrative_function
+        		},
+        		error: function(err) {
+        			console.log(err)
+        		}
+        	});
+		}
+</script>
+</body>
+</html>

@@ -1,0 +1,567 @@
+.lobilists .lobilist-wrapper,
+.lobilists .lobilist-placeholder {
+    display: inline-block;
+    float: left;
+    border: 1px solid transparent;
+    margin-bottom: 16px;
+    width: 360px;
+    margin-right: 16px;
+}
+
+.lobilists .lobilist {
+    max-height: 100%;
+    overflow: auto;
+    background-color: #FFF;
+    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.lobilists .lobilist:last-child {
+    margin-right: 0;
+}
+
+.lobilists .lobilist.ui-sortable-helper {
+    -webkit-transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+    -o-transform: rotate(2deg);
+    transform: rotate(2deg);
+}
+
+.lobilists .lobilist:hover .lobilist-actions {
+    opacity: 1;
+}
+
+.lobilists .lobilist.lobilist-default {
+    border: 1px solid #dddddd;
+}
+
+.lobilists .lobilist.lobilist-default .lobilist-header {
+    border-bottom: 1px solid #dddddd;
+    background-color: #eeeeee;
+}
+
+.lobilists .lobilist.lobilist-default .lobilist-header input {
+    background-color: transparent;
+    border-color: #555555;
+    color: #555555;
+}
+
+.lobilists .lobilist.lobilist-default .lobilist-title {
+    color: #555555;
+}
+
+.lobilists .lobilist.lobilist-default .lobilist-actions .btn {
+    color: #555555;
+}
+
+.lobilists .lobilist.lobilist-default .btn-show-form {
+    color: #555555;
+}
+
+.lobilists .lobilist.lobilist-default .lobilist-form-footer {
+    border-top: 1px solid #dddddd;
+    background-color: #eeeeee;
+}
+
+.lobilists .lobilist.lobilist-default .lobilist-footer {
+    border-top: 1px solid #dddddd;
+    background-color: #eeeeee;
+}
+
+.lobilists .lobilist.lobilist-danger {
+    border: 1px solid #dc5f5c;
+}
+
+.lobilists .lobilist.lobilist-danger .lobilist-header {
+    border-bottom: 1px solid #dc5f5c;
+    background-color: #e27c79;
+}
+
+.lobilists .lobilist.lobilist-danger .lobilist-header input {
+    background-color: transparent;
+    border-color: #FFF;
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-danger .lobilist-title {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-danger .lobilist-actions .btn {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-danger .btn-show-form {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-danger .lobilist-form-footer {
+    border-top: 1px solid #dc5f5c;
+    background-color: #e27c79;
+}
+
+.lobilists .lobilist.lobilist-danger .lobilist-footer {
+    border-top: 1px solid #dc5f5c;
+    background-color: #e27c79;
+}
+
+.lobilists .lobilist.lobilist-success {
+    border: 1px solid #49a749;
+}
+
+.lobilists .lobilist.lobilist-success .lobilist-header {
+    border-bottom: 1px solid #49a749;
+    background-color: #5cb85c;
+}
+
+.lobilists .lobilist.lobilist-success .lobilist-header input {
+    background-color: transparent;
+    border-color: #FFF;
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-success .lobilist-title {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-success .lobilist-actions .btn {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-success .btn-show-form {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-success .lobilist-form-footer {
+    border-top: 1px solid #49a749;
+    background-color: #5cb85c;
+}
+
+.lobilists .lobilist.lobilist-success .lobilist-footer {
+    border-top: 1px solid #49a749;
+    background-color: #5cb85c;
+}
+
+.lobilists .lobilist.lobilist-warning {
+    border: 1px solid #ed9e2d;
+}
+
+.lobilists .lobilist.lobilist-warning .lobilist-header {
+    border-bottom: 1px solid #ed9e2d;
+    background-color: #f0ad4e;
+}
+
+.lobilists .lobilist.lobilist-warning .lobilist-header input {
+    background-color: transparent;
+    border-color: #FFF;
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-warning .lobilist-title {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-warning .lobilist-actions .btn {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-warning .btn-show-form {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-warning .lobilist-form-footer {
+    border-top: 1px solid #ed9e2d;
+    background-color: #f0ad4e;
+}
+
+.lobilists .lobilist.lobilist-warning .lobilist-footer {
+    border-top: 1px solid #ed9e2d;
+    background-color: #f0ad4e;
+}
+
+.lobilists .lobilist.lobilist-info {
+    border: 1px solid #3db5d8;
+}
+
+.lobilists .lobilist.lobilist-info .lobilist-header {
+    border-bottom: 1px solid #3db5d8;
+    background-color: #5bc0de;
+}
+
+.lobilists .lobilist.lobilist-info .lobilist-header input {
+    background-color: transparent;
+    border-color: #FFF;
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-info .lobilist-title {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-info .lobilist-actions .btn {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-info .btn-show-form {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-info .lobilist-form-footer {
+    border-top: 1px solid #3db5d8;
+    background-color: #5bc0de;
+}
+
+.lobilists .lobilist.lobilist-info .lobilist-footer {
+    border-top: 1px solid #3db5d8;
+    background-color: #5bc0de;
+}
+
+.lobilists .lobilist.lobilist-primary {
+    border: 1px solid #2c689c;
+}
+
+.lobilists .lobilist.lobilist-primary .lobilist-header {
+    border-bottom: 1px solid #2c689c;
+    background-color: #337ab7;
+}
+
+.lobilists .lobilist.lobilist-primary .lobilist-header input {
+    background-color: transparent;
+    border-color: #FFF;
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-primary .lobilist-title {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-primary .lobilist-actions .btn {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-primary .btn-show-form {
+    color: #FFF;
+}
+
+.lobilists .lobilist.lobilist-primary .lobilist-form-footer {
+    border-top: 1px solid #2c689c;
+    background-color: #337ab7;
+}
+
+.lobilists .lobilist.lobilist-primary .lobilist-footer {
+    border-top: 1px solid #2c689c;
+    background-color: #337ab7;
+}
+
+.lobilists .btn-finish-title-editing,
+.lobilists .btn-cancel-title-editing {
+    display: none;
+}
+
+.lobilists .lobilist-header {
+    position: relative;
+    min-height: 38px;
+    padding: 6px 8px;
+}
+
+.lobilists .lobilist-header input {
+    background-color: transparent;
+    height: 30px;
+}
+
+.lobilists .lobilist-header.title-editing .lobilist-actions {
+    opacity: 1;
+}
+
+.lobilists .lobilist-header.title-editing .lobilist-actions .btn {
+    display: none;
+}
+
+.lobilists .lobilist-header.title-editing .lobilist-actions .btn-finish-title-editing,
+.lobilists .lobilist-header.title-editing .lobilist-actions .btn-cancel-title-editing {
+    display: inline-block;
+    font-size: 18px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+}
+
+.lobilists .lobilist-header:before,
+.lobilists .lobilist-header:after {
+    content: " ";
+    display: table;
+}
+
+.lobilists .lobilist-header:after {
+    clear: both;
+}
+
+.lobilists .lobilist-actions {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    opacity: 0;
+}
+
+.lobilists .lobilist-actions>.dropdown {
+    display: inline-block;
+}
+
+.lobilists .lobilist-actions .dropdown-menu {
+    height: 70px;
+    width: 100px;
+    box-sizing: content-box;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-default,
+.lobilists .lobilist-actions .dropdown-menu .lobilist-danger,
+.lobilists .lobilist-actions .dropdown-menu .lobilist-success,
+.lobilists .lobilist-actions .dropdown-menu .lobilist-warning,
+.lobilists .lobilist-actions .dropdown-menu .lobilist-info,
+.lobilists .lobilist-actions .dropdown-menu .lobilist-primary {
+    display: inline-block;
+    cursor: pointer;
+    margin: 4px;
+    width: 25px;
+    height: 25px;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-default {
+    background-color: #eeeeee;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-default:hover {
+    background-color: #e2e2e2;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-danger {
+    background-color: #e27c79;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-danger:hover {
+    background-color: #de6764;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-success {
+    background-color: #5cb85c;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-success:hover {
+    background-color: #4cae4c;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-warning {
+    background-color: #f0ad4e;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-warning:hover {
+    background-color: #eea236;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-info {
+    background-color: #5bc0de;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-info:hover {
+    background-color: #46b8da;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-primary {
+    background-color: #337ab7;
+}
+
+.lobilists .lobilist-actions .dropdown-menu .lobilist-primary:hover {
+    background-color: #2e6da4;
+}
+
+.lobilists .lobilist-actions .btn {
+    background-color: transparent;
+    border-color: transparent;
+    width: 40px;
+    height: 40px;
+}
+
+.lobilists .lobilist-actions .btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.lobilists .lobilist-title {
+    padding-left: 15px;
+    font-size: 18px;
+}
+
+.lobilists .lobilist-items {
+    list-style: none;
+    margin-bottom: 0;
+    padding: 10px;
+}
+
+.lobilists .lobilist-item,
+.lobilists .lobilist-item-placeholder {
+    border: 1px solid transparent;
+    margin-bottom: 5px;
+    padding-top: 16px;
+    padding-bottom: 4px;
+    padding-left: 35px;
+    border-bottom: 1px solid #eeeeee;
+    -webkit-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+    transition: background-color 0.2s;
+}
+
+.lobilists .lobilist-item .drag-handler {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    border-left: 2px dotted #dddddd;
+    border-right: 2px dotted #dddddd;
+}
+
+.lobilists .lobilist-item .drag-handler:hover {
+    cursor: move;
+}
+
+.lobilists .lobilist-item .todo-actions {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 10px;
+    color: #9d9d9d;
+    line-height: 16px;
+}
+
+.lobilists .lobilist-item .todo-action {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.lobilists .lobilist-item .todo-action:hover {
+    cursor: pointer;
+    color: #5e5e5e;
+}
+
+.lobilists .lobilist-item:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.lobilists .lobilist-item-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.lobilists .lobilist-item-description {
+    font-style: italic;
+}
+
+.lobilists .lobilist-item-duedate {
+    position: absolute;
+    top: 2px;
+    left: 12px;
+    font-style: italic;
+    color: #777777;
+    font-size: 85%;
+}
+
+.lobilists .lobilist-check {
+    position: absolute;
+    left: 12px;
+    top: 16px;
+}
+
+.lobilists .lobilist-check.lobicheck {
+    margin-top: 3px;
+}
+
+.lobilists .lobilist-item,
+.lobilists .lobilist-item-placeholder {
+    position: relative;
+}
+
+.lobilists .lobilist-item.item-done {
+    text-decoration: line-through;
+}
+
+.lobilists .btn-show-form {
+    outline: 0;
+}
+
+.lobilists .lobilist-footer,
+.lobilists .lobilist-form-footer {
+    padding: 6px 8px;
+}
+
+.lobilists .lobilist-form-footer {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: -10px;
+}
+
+.lobilists .lobilist-add-todo-form {
+    padding: 10px;
+}
+
+.lobilists .lobilist-add-todo-form .form-group {
+    margin-bottom: 5px;
+}
+
+.lobilists .lobilist-add-todo-form .btn-add-todo {
+    margin-right: 5px;
+}
+
+.lobilists .lobilist-add-todo-form .btn-add-todo,
+.lobilists .lobilist-add-todo-form .btn-discard-todo {
+    height: 30px;
+}
+
+.lobilists .lobilist-placeholder {
+    background-color: #f9f5d1;
+    border: 1px dashed #777777;
+}
+
+.lobilists .lobilist-item-placeholder {
+    background-color: rgba(0, 0, 0, 0.03);
+    border: 1px dashed #dddddd;
+}
+
+@media (max-width: 480px) {
+    .lobilists .lobilist {
+        width: 100%;
+    }
+}
+
+.lobilists.single-line {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 400px;
+}
+
+.lobilists.single-line .lobilist-wrapper,
+.lobilists.single-line .lobilist-placeholder {
+    float: none;
+    white-space: normal;
+    vertical-align: top;
+    height: 100%;
+}
+
+.lobilists.no-sortable .lobilist-item .drag-handler {
+    display: none;
+}
+
+.lobilists:before,
+.lobilists:after {
+    content: " ";
+    display: table;
+}
+
+.lobilists:after {
+    clear: both;
+}

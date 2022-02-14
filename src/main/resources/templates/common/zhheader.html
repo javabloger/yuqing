@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>公共部分-头部</title>
+</head>
+<body>
+<header class="topbar" th:fragment="header">
+    <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <div class="navbar-collapse collapse" id="navbarSupportedContent" style="margin-left: 0;">
+            <ul class="navbar-nav float-left mr-auto" id="thirdMenu">
+                <li class="nav-item d-none d-md-block">
+                    <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
+                       data-sidebartype="mini-sidebar">
+                        <i class="mdi mdi-menu font-24"></i>
+                    </a>
+                </li>
+                <li data-type="displayboard" th:classappend="${menu=='displayboard'?'nav-active3':''}"
+                    class="nav-item dropdown hover-none navLi">
+                    <a class="nav-link dropdown-toggle waves-effect  waves-dark">
+                        <span class="d-none d-md-block"> <i class="fa fa-list-alt"></i> 今日热点</span>
+                        <span class="d-block d-md-none">今日热点 </span>
+                    </a>
+                </li>
+                <li data-type="analysis" th:classappend="${menu=='analysis'?'nav-active3':''}"
+                    class="nav-item dropdown hover-none navLi">
+                    <a class="nav-link dropdown-toggle waves-effect  waves-dark">
+                        <span class="d-none d-md-block"> <i class="fa fa-chart-bar"></i> 监测分析</span>
+                        <span class="d-block d-md-none">监测分析 </span>
+                    </a>
+                </li>
+                <li data-type="monitor" th:classappend="${menu=='monitor'?'nav-active3':''}"
+                    class="nav-item dropdown hover-none navLi">
+                    <a class="nav-link dropdown-toggle waves-effect  waves-dark">
+                        <span class="d-none d-md-block"> <i class="fa fa-crosshairs"></i> 数据监测</span>
+                        <span class="d-block d-md-none">数据监测 </span>
+                    </a>
+                </li>
+                
+                
+                <li data-type="report" th:classappend="${menu=='report'?'nav-active3':''}"
+                    class="nav-item dropdown hover-none navLi">
+                    <a class="nav-link dropdown-toggle waves-effect  waves-dark">
+                        <!-- <i class="fa fa-chart-pie"></i>  -->
+                        <span class="d-none d-md-block"> <i class="fa fa-tasks"></i> 分析报告</span>
+                        <span class="d-block d-md-none">分析报告</span>
+                    </a>
+                </li>
+
+                <li data-type="project" th:classappend="${menu=='project'?'nav-active3':''}"
+                    class="nav-item dropdown hover-none navLi">
+                    <a class="nav-link dropdown-toggle waves-effect  waves-dark">
+                        <span class="d-none d-md-block"> <i class="fa fa-list"></i> 监测管理</span>
+                        <span class="d-block d-md-none">监测管理</span>
+                    </a>
+                </li>
+                 <li data-type="full_search" th:classappend="${menu=='full_search'?'nav-active3':''}"
+                    class="nav-item dropdown hover-none navLi">
+<!--                     <a style="display: block; position: absolute; font-size: 12px; color: #fff; margin-left: 76px; margin-top: 6px; background-color: #fe475d; width: 25px; height: 17px; border-radius: 45%; padding-left: 7px;transform: scale(0.9);">新</a>
+ -->                    <a class="nav-link dropdown-toggle waves-effect  waves-dark">
+                        <span class="d-none d-md-block"> <i class="fa fa-search"></i> 综合搜索</span>
+                        <span class="d-block d-md-none">综合搜索</span>
+                    </a>
+                </li> 
+                <li data-type="public_option" th:classappend="${menu=='public_option'?'nav-active3':''}"
+                    class="nav-item dropdown hover-none navLi">
+                    <a class="nav-link dropdown-toggle waves-effect  waves-dark">
+                        <span class="d-none d-md-block"> <i class="fa fa-list"></i> 事件分析</span>
+                        <span class="d-block d-md-none">事件分析</span>
+                    </a>
+                </li> 
+                <!-- 				<li th:classappend="${menu=='account'?'nav-active3':''}" class="nav-item dropdown hover-transparent"> -->
+                <!-- 	                <a class="nav-link dropdown-toggle waves-effect hover-transparent waves-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+                <!-- 	                 <span class="d-none d-md-block">账号监测 <i class="fa fa-angle-down"></i></span> -->
+                <!-- 	                 <span class="d-block d-md-none">账号监测</span>    -->
+                <!-- 	                </a> -->
+                <!-- 	                <div class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
+                <!-- 	                    <a class="dropdown-item" href="#">账号管理</a> -->
+                <!-- 	                    <a class="dropdown-item" href="#">监测数据</a> -->
+                <!-- 	                </div> -->
+                <!-- 				</li> -->
+            </ul>
+            <ul class="navbar-nav float-right">
+                <!-- <li class="nav-item">
+                    <a id="showsearch" class="nav-link dropdown-toggle waves-effect waves-dark"
+                       th:href="@{/fullsearch}">
+                        <svg class="icon font-18">
+                            <use xlink:href="#icon-search"></use>
+                        </svg>
+                    </a>
+                </li> -->
+                <li class="nav-item dropdown">
+                    <!-- onclick=(countDown()) -->
+                    <a class="nav-link dropdown-toggle waves-effect  waves-dark" href="javascript:void(0)"
+                       data-toggle="dropdown">
+                        <!-- <i class="far fa-bell font-24"></i> -->
+                        <!-- <i class="mdi mdi-bell font-24"></i> -->
+                        <svg class="icon font-18">
+                            <use xlink:href="#icon-message"></use>
+                        </svg>
+                        <i id="hasNewMessage" class=""></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right  animated bounceInDown message-data-list-box">
+                        <span class="with-arrow"><span class="bg-primary"></span></span>
+                        <div class="message-data-list">
+                            <div class="drop-title bg-primary text-white">
+                                <h4 class="m-b-0" id="warning-list-size">0 条预警消息</h4>
+                            </div>
+                            <div class="message-center-box" id="warning-list">
+                                <!-- Message -->
+                                <!--                                         <a href="javascript:void(0)" class="message-item"> -->
+                                <!--                                             <span class="btn btn-danger btn-circle"><i class="fa fa-link"></i></span> -->
+                                <!--                                             <div class="mail-contnet" style=" width: calc(100% - 50px);"> -->
+                                <!--                                                 <h5 class="message-title">预计秋季小范围使用！Moderna新冠疫苗要来了</h5>  -->
+                                <!--                                                 <span class="desc">腾讯网</span>  -->
+                                <!--                                                 <span class="time">9:40 AM</span> </div> -->
+                                <!--                                         </a> -->
+                                <!--                                         Message -->
+                                <!--                                         <a href="javascript:void(0)" class="message-item"> -->
+                                <!--                                             <span class="btn btn-success btn-circle"><i class="ti-calendar"></i></span> -->
+                                <!--                                             <div class="mail-contnet" style=" width: calc(100% - 50px);"> -->
+                                <!--                                                 <h5 class="message-title"> 广州各医院陆续恢复日常医疗服务 有医院“隔床”收治患者</h5>  -->
+                                <!--                                                 <span class="desc">广州各医院陆续恢复日常医疗服务 有医院“隔床”收治患者虽然新冠肺炎疫情得到有效控制，但是目前广州各大医院陆续恢复日常医疗服务的同时，依旧对门诊、住院、手术病人进行了极其严格的筛查和防</span>  -->
+                                <!--                                                 <span class="time">9:10 AM</span> </div> -->
+                                <!--                                         </a> -->
+                                <!--                                         Message -->
+                                <!--                                         <a href="javascript:void(0)" class="message-item"> -->
+                                <!--                                             <span class="btn btn-info btn-circle"><i class="ti-settings"></i></span> -->
+                                <!--                                             <div class="mail-contnet" style=" width: calc(100% - 50px);"> -->
+                                <!--                                                 <h5 class="message-title">欧美期指大跌：斯托克50指数期货跌超8% 道指、标普期货均跌逾4%</h5> -->
+                                <!--                                                 <span class="desc">美股10天第四次熔断。道指24天跌去10000点北京时间19日凌晨，美股又熔断了。北京时间19日0时56分，标普500指数大跌7%触发熔断机制，暂停</span>  -->
+                                <!--                                                 <span class="time">2020-03-19 13:01:05</span>  -->
+                                <!--                                             </div> -->
+                                <!--                                         </a> -->
+                                <!--                                         Message -->
+                                <!--                                         <a href="javascript:void(0)" class="message-item"> -->
+                                <!--                                             <span class="btn btn-primary btn-circle"><i class="ti-user"></i></span> -->
+                                <!--                                             <div class="mail-contnet" style=" width: calc(100% - 50px);"> -->
+                                <!--                                                 <h5 class="message-title">工信部加快提升IPv6端到端贯通能力 4股有望受益</h5>  -->
+                                <!--                                                 <span class="desc">特别提出要优化提升IPv6网络接入能力，全面扩大数据中心IPv6覆盖范围，到2020年底IPv6活跃连接数达到11.5亿。工信部提出，将通过优化提升IPv6网络接入能力、加快提升内容分发网络IPv6应用加速能力、大幅提升云服务平台IPv6业务承载能力、全面扩大数据</span>  -->
+                                <!--                                                 <span class="time">08:15 AM</span>  -->
+                                <!--                                             </div> -->
+                                <!--                                         </a> -->
+                            </div>
+                            <!-- foot -->
+                            <div class="message-foot"><a th:href="@{/system/warningmsg}"> <strong>查看更多</strong> <i
+                                    class="fa fa-angle-right"></i> </a></div>
+                        </div>
+                    </div>
+                </li>
+                <!-- <li class="nav-item "> -->
+                <!-- <a class="nav-link waves-effect  waves-dark" href="#" id="2" data-toggle="" aria-haspopup="true" aria-expanded="false"> -->
+                <!-- <i class="font-24 far fa-sun "></i> -->
+                <!-- <i class="font-24 mdi mdi-comment-processing"></i> -->
+                <!-- <svg class="icon font-18" aria-hidden="true"> -->
+                <!-- <use xlink:href="#icon-setting"></use> -->
+                <!-- </svg> -->
+                <!-- <i class="font-24 mdi mdi-comment-processing"></i> -->
+                <!-- </a> -->
+                <!-- </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic"
+                       th:href="@{/system/warning}">
+                        <!-- <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31"> -->
+                        <svg class="icon font-18">
+                            <use xlink:href="#icon-setting"></use>
+                        </svg>
+                    </a>
+                    <!-- <i class="font-24 fas fa-user-circle"></i>
+                    <div class="dropdown-menu dropdown-menu-right user-dd animated bounceInDown">
+                        <span class="with-arrow"><span class="bg-primary"></span></span>
+                        <div class="d-flex no-block align-items-center p-15 bg-primary text-white m-b-10">
+                            <div class=""><img src=" assets/images/users/1.jpg" alt="user" class="img-circle m-r-10" width="60"></div>
+                            <div class=" ">
+                                <h4 class="m-b-0">AdminUser</h4>
+                                <p class=" m-b-0">admin@stonedt.com</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-radio-tower m-r-5 m-l-5"></i> 预警设置</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-filter-outline m-r-5 m-l-5"></i> 偏好设置</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> 个人中心</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-message-text-outline m-r-5 m-l-5"></i> 用户建议</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="mdi mdi-lock-outline m-r-5 m-l-5"></i> 修改密码</a>
+                    </div> -->
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link waves-effect  waves-dark" th:href="@{/logout}" id="2" data-toggle=""
+                       aria-haspopup="true" aria-expanded="false">
+                        <!-- <i class="font-24 far fa-sun "></i> -->
+                        <!-- <i class="font-24 mdi mdi-comment-processing"></i> -->
+                        <svg class="icon font-18" aria-hidden="true">
+                            <use xlink:href="#icon-exit"></use>
+                        </svg>
+                        <!-- <i class="font-24 mdi mdi-comment-processing"></i> -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--     drop-search  -->
+    <div class="animated bounceInDown shadebox" style="display: none;" id="search">
+        <div class="drop-search-box">
+            <div class="search-title">
+                <span>系统搜索</span>
+                <svg class="icon" id="close-search">
+                    <use xlink:href="#icon-close"></use>
+                </svg>
+            </div>
+            <div class="search-content">
+                <button class="btn btn-info">
+                    <i class="fa fa-bars"></i>
+                    搜索
+                </button>
+                <div class="search-input">
+                    <input id="searchText" type="text" class="form-control" placeholder="请输入搜索内容">
+                    <span id="searchI">
+                   		<i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </div>
+            <!-- 24h start-->
+            <!--               <div class="card"> -->
+            <!--                   <div class="card-body"> -->
+            <!--                       <div class="hot-con-box m-b-20"> -->
+            <!--                           <div class="hot-content"> -->
+            <!--                               <span><i class="fa fas fa-fire"></i> 12小时热点内容</span> -->
+            <!--                           </div> -->
+            <!--                       </div> -->
+            <!--                       content start -->
+            <!--                       <ul class="timeline timeline-left hot-content-list" id="articleList"> -->
+            <!--                       </ul> -->
+            <!--                       content end -->
+            <!--                   </div> -->
+            <!--               </div> -->
+            <!-- 24h end -->
+        </div>
+    </div>
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/common/iconfont.js}"></script>
+    <script th:src="@{/common/tools.js}"></script>
+    <script th:src="@{/dist/js/sidebarmenu.js}"></script>
+    <script th:src="@{/common/header.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        var ctxPath = /*[[@{/}]]*/'';
+        countDown();
+
+        function countDown() {
+            loading("#warning-list")
+            $.ajax({
+                url: ctxPath + 'system/getWarningArticle',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    openFlag: 1
+                },
+                success: function (res) {
+                    var list = res.data.warningArticle
+                    if (list.length > 0) {
+                        var pageinfo = res.data.pageInfo
+                        $('#warning-list-size').html('' + pageinfo.total + '  条预警消息');
+                        if (!$('#hasNewMessage').hasClass('hasNewMessage')) {
+                            $('#hasNewMessage').addClass('hasNewMessage')
+                        }
+                        $('#warning-list').html('');
+                        for (var i = 0; i < list.length; i++) {
+                            var html =
+                                '<a href="/monitor/detail/' + list[i].article_id + '?groupid=' + list[i].group_id + '&projectid=' + list[i].project_id + '" target="_blank" class="message-item">' +
+                                '	<span class="btn btn-danger btn-circle"><i class="fa fa-link"></i></span>' +
+                                '	<div class="mail-contnet" style=" width: calc(100% - 50px);">' +
+                                '    <h5 class="message-title">' + list[i].article_title + '</h5>' +
+                                '    <span class="desc">' + list[i].popup_content + '</span>' +
+                                '    <span class="time">' + timeParse(getMyDate(list[i].popup_time)) + '</span>' +
+                                '	</div>' +
+                                '</a>'
+                            $('#warning-list').append(html);
+                        }
+                    } else {
+                        $('#hasNewMessage').removeClass('hasNewMessage')
+                        nodata("#warning-list", '暂无预警消息')
+                    }
+                },
+                error: function (res) {
+                    dataerror("#warning-list")
+                }
+            });
+        }
+
+        window.setInterval(countDown, 20000);
+
+        function getMyDate(str) {
+            var oDate = new Date(str),
+                oYear = oDate.getFullYear(),
+                oMonth = oDate.getMonth() + 1,
+                oDay = oDate.getDate(),
+                oHour = oDate.getHours(),
+                oMin = oDate.getMinutes(),
+                oSen = oDate.getSeconds(),
+                oTime = oYear + '-' + getzf(oMonth) + '-' + getzf(oDay) + ' ' + getzf(oHour) + ':' +
+                    getzf(oMin) + ':' + getzf(oSen);//最后拼接时间
+            return oTime;
+        };
+
+        //补0操作
+        function getzf(num) {
+            if (parseInt(num) < 10) {
+                num = '0' + num;
+            }
+            return num;
+        }
+
+        //	    twelveHotArticle()
+        // 12小时热点内容
+        //	 	function twelveHotArticle(){
+        //	 		$.ajax({
+        //	 			url: ctxPath + 'search/twelveHotArticle',
+        //	 			type: 'post',
+        //	 			dataType: 'json',
+        //	 			data: {},
+        //	 			beforeSend: function(){
+        //	 				loading('#articleList');
+        //	 			},
+        //	 			success: function(res){
+        //	 				var list = res;
+        //	 				$('#articleList').html('');
+        //	 				var html =''
+        //	 				for(var i=0; i<list.length; i++){
+        //	 					 html += '<li class="timeline-inverted timeline-item">'+
+        //				                        '<div class="hot-time">'+list[i].publish_time.substring(11, 16)+'</div>'+
+        //				                        '<div class="timeline-panel">'+
+        //				                            '<div class="timeline-heading">'+
+        //				                                '<h4 class="timeline-title font-14"> <a href="'+ctxPath+'monitor/detail/'+list[i].article_public_id+'?menu=search">'+list[i].title+'</a>'+
+        //				                                '</h4>'+
+        //// 				                                '<p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago via Twitter</small> </p>'+
+        //				                            '</div>'+
+        //				                            '<div class="timeline-body">'+
+        //				                                '<p class="text-over-2">'+list[i].content+'</p>'+
+        //				                            '</div>'+
+        //				                        '</div>'+
+        //				                    '</li>';
+        //	 				}
+        //			        $('#articleList').html(html);
+        //	 				if(list.length == 0){
+        //	 					nodata('#articleList');
+        //	 				}
+        //	 			},
+        //	 			error: function(){
+        //	 				dataerror('#articleList');
+        //	 			}
+        //	 		});
+        //	 	}
+        //close-search 搜索
+
+        //         $("#showsearch").click(function () {
+        //             $("#search").show()
+        //             $('#searchText').keydown(function (e) {
+        //                 if (e.keyCode == 13) {
+        //                     let searchText = $("#searchText").val();
+        //                     window.location.href = ctxPath + "monitor?searchword=" + searchText + "&searchflag=true";
+        //                 }
+        //             });
+        //         });
+
+        //         $("#close-search").click(function () {
+        //             $("#search").hide()
+        //         });
+        function jumpNavLocation(menu, groupId, projectId) {
+        	debugger;
+            let projectFlag = [[${projectFlag}]];
+            console.log(projectFlag)
+            if (projectFlag && menu != 'project' && menu != 'monitor' && menu != 'full_search') {
+                showInfo("请先创建方案！");
+                return;
+            }
+
+            var param = '';
+            if (groupId && projectId) {
+                param = '?groupid=' + groupId + '&projectid=' + projectId;
+            }
+            if (groupId && !projectId) {
+                param = '?groupid=' + groupId;
+            }
+            if (!groupId && projectId) {
+                param = '?projectid=' + projectId;
+            }
+            if(menu=='displayboard'){
+            	window.location.href = ctxPath + 'displayboard' + param;
+            }
+            else if (menu == 'analysis') {
+                window.location.href = ctxPath + 'analysis' + param;
+            } else if (menu == 'monitor') {
+                window.location.href = ctxPath + 'monitor' + param;
+            } else if (menu == 'project') {
+                if (groupId) {
+                    if (projectId) {
+                        window.location.href = ctxPath + 'project/detail?groupid=' + groupId + '&projectid=' + projectId;
+                    } else {
+                        window.location.href = ctxPath + 'project?groupid=' + groupId;
+                    }
+                } else {
+                    window.location.href = ctxPath + 'project';
+                }
+            } else if (menu == 'report') {
+                window.location.href = ctxPath + 'report' + param;
+            }else if(menu =='upload'){
+            	window.location.href = ctxPath + 'upload' + param;
+            }
+            else if (menu == 'volume') {
+                window.location.href = ctxPath + 'volume' + param;
+            }
+            else if (menu == 'full_search') {
+                window.location.href = ctxPath + 'fullsearch';
+            }else if (menu == 'public_option') {
+                window.location.href = ctxPath + 'publicoption';
+            }
+        }
+
+    </script>
+</header>
+</body>
+</html>

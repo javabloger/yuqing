@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<aside class="left-sidebar"  th:fragment="setting_left">
+    <!-- Sidebar scroll-->
+    <div class="allleft-menu">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="sidebar-item ">
+                    <a  class="sidebar-link  has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                        <i class="mdi mdi-bell-ring-outline"></i>
+                        <span class="hide-menu">预警设置</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse  first-level in">
+                        <li class="sidebar-item">
+                            <a th:classappend="${settingLeft == 'warning' ? 'active' : ''}" th:href="@{/system/warning}" class="sidebar-link"> <span class="hide-menu"> 配置列表 </span> </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a th:classappend="${settingLeft == 'warningmsg' ? 'active' : ''}" th:href="@{/system/warningmsg}" class="sidebar-link"> <span class="hide-menu"> 消息列表 </span> </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a th:classappend="${settingLeft == 'preference' ? 'active' : ''}" class="sidebar-link waves-effect waves-dark" th:href="@{/system/preference}" aria-expanded="false">
+                        <i class="mdi mdi-filter-outline"></i>
+                        <span class="hide-menu">偏好设置</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a th:classappend="${settingLeft == 'user' ? 'active' : ''}" class="sidebar-link  waves-effect waves-dark" th:href="@{/user/{userid}(userid=${session.User.user_id})}" aria-expanded="false">
+                        <i class="mdi mdi-account-convert"></i>
+                        <span class="hide-menu">账号管理</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a th:classappend="${settingLeft == 'feedback' ? 'active' : ''}" class="sidebar-link waves-effect waves-dark" th:href="@{/system/feedback}" aria-expanded="false">
+                        <i class="mdi mdi-message-text-outline"></i>
+                        <span class="hide-menu">反馈建议</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="left-foot-wechact">
+	         	<div class="wechat-logo-box-card">
+	         		<div class="manual-logo-box" title="产品手册在线查看">
+	         			<a target="_blank" th:href="@{/system/productmanual/online}">
+			         		<svg class="icon" aria-hidden="true">
+						    <use xlink:href="#icon-manual3"></use>
+							</svg>
+						</a>
+	         		</div>
+	         		<!-- <div class="wechat-logo-box">
+		         		<svg class="icon" aria-hidden="true">
+					    <use xlink:href="#icon-wechat-logo"></use>
+						</svg>
+	         		</div> -->
+	         		<div class="home-footer__bottom-content__share__qrcode"  id ="home-footer__bottom-content__share__qrcode">
+			          	<!-- <img th:src="@{/assets/images/QRcode.jpg}" alt="wechat" style="width:120px;height:120px;border-radius:4px;"> -->
+			        </div>
+	         		<div class="download-logo-box" title="反馈建议">
+	         			<!-- <a th:href="@{/system/feedback}"> -->
+	         			<a href="#">
+			         		<svg class="icon" aria-hidden="true">
+						    <use xlink:href="#icon-serve"></use>
+							</svg>
+						</a>
+	         		</div>
+	         	</div>
+         	</div>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/dist/project.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+    var ctxPath = /*[[@{/}]]*/'';
+        	/* $(document).ready(function () {
+                getwechatqrcode();
+            }); */
+        
+    </script>
+</aside>
+
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+     <link rel="icon" type="image/png" sizes="16x16" href=" assets/images/favicon.png">
+    <title>任务报告·网络情报分析系统</title>
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+<!--     <script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script> -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        
+         <div th:replace="common/header::header"></div>
+         <div th:replace="common/publicoptionl_left::publicoptionl_left"></div>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+
+            <div class="right-part right-content">
+                <!-- nav start-->
+                <div class="page-breadcrumb">
+                    <div class="row">
+                        <div class="col-lg-5 align-self-center">
+                            <div class="d-flex align-items-center">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">舆情研判报告</li>
+                                        <li class="breadcrumb-item">报告列表</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 align-self-center">
+                            <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                                <!-- <button type="button" class="btn btn-outline-secondary btn-sm bnone" id="goexportlist">
+                                    <i class="ti ti-cloud-down"></i>
+                                    批量下载
+                                </button> -->
+                                <button type="button" class="btn btn-outline-secondary btn-sm bnone" id="deleteexportlist">
+                                    <i class="fas fa-trash-alt"></i>
+                                    批量删除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- nav end-->
+                <div class="p-20">
+                    <!--  start-->
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="p-15 b-b">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="project-group">
+                                        <strong>共有</strong>
+                                        <span class="label label-info" id="totalnum">5</span>
+                                        <span>个分析任务</span>
+                                    </div>
+                                    <div class="input-group " style="width: 500px;">
+                                        <input type="text" class="form-control" placeholder="输入方案名称..." aria-label="" aria-describedby="basic-addon1">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn waves-effect waves-light btn-secondary  d-inline-block" onclick="search()">
+                                                <!-- <i class="fas fa-search"></i> -->
+                                                搜索
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="table-responsive" id="eventAnalysislist">
+                        <!-- line title start -->
+                        <div class="report-analysisList-title  publicoption-list-box">
+                            <div class="publicoption-cnb">
+                               <div class="custom-control custom-checkbox pro-selectall"
+											style="display: inline-block;">
+											<input type="checkbox" class="custom-control-input sl-all"
+												id="cstall"> <label class="custom-control-label"
+												for="cstall"></label>
+										</div>
+                            </div>
+                            <div>报告名称</div>
+                            <div>生成时间</div>
+                            <div>操作</div>
+                        </div>
+                        <!-- line title end -->
+                        <!-- line start -->
+                        <!-- <div class="table-hover report-analysisList-content project-list-box">
+                            <div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="cst0">
+                                    <label class="custom-control-label" for="cst0"></label>
+                                </div>
+                            </div>
+                            <div class="text-over" title="舆情研判分析报告">舆情研判分析报告</div>
+                            <div class="text-over">2020-04-23 15:00</div>
+                            <div>
+                                <i class="mdi mdi-eye-outline" title="查看" onclick="getexportdetail()" id="exportthis"></i>
+                                <i class="fas fa-trash-alt" title="删除" onclick="deleteexport()" id="deletethis"></i>
+                                <i class="ti ti-cloud-down" title="下载" onclick="downloadexport()" id="exportthis"></i>
+                            </div>
+                        </div>
+                        line end
+                        line start
+                        <div class="table-hover report-analysisList-content project-list-box">
+                            <div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="cst0">
+                                    <label class="custom-control-label" for="cst0"></label>
+                                </div>
+                            </div>
+                            <div class="text-over" title="舆情研判分析报告">舆情研判分析报告</div>
+                            <div class="text-over">2020-04-23 15:00</div>
+                            <div>
+                                <i class="mdi mdi-eye-outline" title="查看" onclick="getexportdetail()" id="exportthis"></i>
+                                <i class="fas fa-trash-alt" title="删除" onclick="deleteexport()" id="deletethis"></i>
+                                <i class="ti ti-cloud-down" title="下载" onclick="downloadexport()" id="exportthis"></i>
+                            </div>
+                        </div>
+                        line end
+                        line start
+                        <div class="table-hover report-analysisList-content project-list-box">
+                            <div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="cst0">
+                                    <label class="custom-control-label" for="cst0"></label>
+                                </div>
+                            </div>
+                            <div class="text-over" title="舆情研判分析报告">舆情研判分析报告</div>
+                            <div class="text-over">2020-04-23 15:00</div>
+                            <div>
+                                <i class="mdi mdi-eye-outline" title="查看" onclick="getexportdetail()" id="exportthis"></i>
+                                <i class="fas fa-trash-alt" title="删除" onclick="deleteexport()" id="deletethis"></i>
+                                <i class="ti ti-cloud-down" title="下载" onclick="downloadexport()" id="exportthis"></i>
+                            </div>
+                        </div>
+                        line end
+                        line start
+                        <div class="table-hover report-analysisList-content project-list-box">
+                            <div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="cst0">
+                                    <label class="custom-control-label" for="cst0"></label>
+                                </div>
+                            </div>
+                            <div class="text-over" title="舆情研判分析报告">舆情研判分析报告</div>
+                            <div class="text-over">2020-04-23 15:00</div>
+                            <div>
+                                <i class="mdi mdi-eye-outline" title="查看" onclick="getexportdetail()" id="exportthis"></i>
+                                <i class="fas fa-trash-alt" title="删除" onclick="deleteexport()" id="deletethis"></i>
+                                <i class="ti ti-cloud-down" title="下载" onclick="downloadexport()" id="exportthis"></i>
+                            </div>
+                        </div>
+                        line end
+                        line start
+                        <div class="table-hover report-analysisList-content project-list-box">
+                            <div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="cst0">
+                                    <label class="custom-control-label" for="cst0"></label>
+                                </div>
+                            </div>
+                            <div class="text-over" title="舆情研判分析报告">舆情研判分析报告</div>
+                            <div class="text-over">2020-04-23 15:00</div>
+                            <div>
+                                <i class="mdi mdi-eye-outline" title="查看" onclick="getexportdetail()" id="exportthis"></i>
+                                <i class="fas fa-trash-alt" title="删除" onclick="deleteexport()" id="deletethis"></i>
+                                <i class="ti ti-cloud-down" title="下载" onclick="downloadexport()" id="exportthis"></i>
+                            </div>
+                        </div>
+                        line end
+                        line start
+                        <div class="table-hover report-analysisList-content project-list-box">
+                            <div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="cst3">
+                                    <label class="custom-control-label" for="cst3"></label>
+                                </div>
+                            </div>
+                            <div class="text-over" title="中国驻美大使馆官方账号">中国驻美大使馆官方账号</div>
+                            <div class="text-over">2020-04-23 15:00</div>
+                            <div>
+                                <i class="mdi mdi-eye-outline" title="查看" id="exportthis"></i>
+                                <i class="fas fa-trash-alt" title="删除" id="deletethis"></i>
+                                <i class="ti ti-cloud-down" title="下载" id="exportthis"></i>
+                            </div>
+                        </div>
+                        line end
+                        line start
+                        <div class="table-hover report-analysisList-content project-list-box">
+                            <div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="cst4">
+                                    <label class="custom-control-label" for="cst4"></label>
+                                </div>
+                            </div>
+                            <div class="text-over" title="中国驻美大使馆官方账号">中国驻美大使馆官方账号</div>
+                            <div class="text-over">2020-04-23 15:00</div>
+                            <div>
+                                <i class="mdi mdi-eye-outline" title="查看" id="exportthis"></i>
+                                <i class="fas fa-trash-alt" title="删除" id="deletethis"></i>
+                                <i class="ti ti-cloud-down" title="下载" id="exportthis"></i>
+                            </div>
+                        </div> -->
+                        <!-- line end -->
+                        
+                    </div>
+                    <!-- pages start -->
+                    <div class="all-pagebox m-r-20 m-b-20 m-t-20">
+                        <ul class="pagination float-right" id="page">
+                            <!-- <li class="page-item disabled">
+                                <a class="page-link" href="javascript:void(0)" tabindex="-1">上一页</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="avascript:void(0)">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="avascript:void(0)">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="avascript:void(0)">下一页</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <!-- pages end -->
+                            
+                        </div>
+                    </div>
+                    <!-- 24h end -->
+                </div>
+                <!-- ============================================================== -->
+                <!-- footer start  -->
+                <!-- ============================================================== -->
+                <div class="page-footer">
+                    © 2014-2021 南京涌亿思信息技术有限公司  苏ICP备17066984号-1
+                </div>
+                <!-- ============================================================== -->
+                <!-- footer end  -->
+                <!-- ============================================================== -->
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- <div class="shadebox" id="confirmsure">
+        <div class="showCreateEvent"> 
+            <div class="event-box">
+                <div class="event-box-header"> 
+                    <h5 class="modal-title">创建分析任务</h5>
+                    <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>
+                </div>
+                <div class="event-box-body">
+                    <div class="event-line">
+                        <div><span>*</span>事件分析任务名称</div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="projectName" placeholder="请设置导出任务名称" maxlength="15"/>
+                        </div>
+                    </div>
+                    <div class="event-line">
+                        <div><span>*</span>任务时间段</div>
+                        <div class="input-group event-time-box">
+                            <input type="date" class="form-control">
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="event-line">
+                        <div><span>*</span>事件涉及词</div>
+                        <div class="input-group">
+                            <textarea class="form-control" name="keywords" id="" cols="" rows="4" placeholder="关键词之间请用以下“+”、“|”、“（”、“）"隔开"></textarea>
+                        </div>
+                    </div>
+                    <div class="event-line">
+                        <div>事件屏蔽词</div>
+                        <div class="input-group">
+                            <textarea class="form-control" name="keywords" id="" cols="" rows="4" placeholder="屏蔽词之间请用以下“+”、“|”、“（”、“）"隔开"></textarea>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer no-border">
+                    <button type="button" class="btn btn-info" id="confirm"> 确定</button> 
+                    <button type="button" class="btn btn-secondary" id="cancel">取消</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- apps -->
+    <script th:src="@{/dist/js/app.min.js}"></script>
+    <script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+    <script th:src="@{/dist/js/app-style-switcher.js}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+    <!--Wave Effects -->
+    <script th:src="@{/dist/js/waves.js}"></script>
+    <!--Menu sidebar -->
+    <script th:src="@{/dist/js/sidebarmenu.js}"></script>
+    <!--Custom JavaScript -->
+    <script th:src="@{/dist/js/custom.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+    <script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/dist/js/pages.js}"></script>
+    <script th:src="@{/dist/js/publicoption.js}"></script>
+    <script th:src="@{/dist/eventAnalysisReport.js}"></script>
+    <script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+    <script>
+   	var dataList=[]
+    
+ 	publicoptionreportlist(1);
+	function search(){
+		publicoptionreportlist(1);
+	}
+    
+    function publicoptionreportlist(pagenum){
+    	let searchkeyword  = $("#namesearch").val();
+    	$.ajax({
+			url : ctxPath + 'publicoption/publicoptionreportlist',
+			type : 'post',
+			dataType : 'json',
+			data : {pagenum:pagenum,searchkeyword:searchkeyword},
+			success : function(res) {
+				let totalnum = res.dataCount;
+				$("#totalnum").text(totalnum);
+				console.info(res);
+				let list = res.list;
+				dataList=list
+				let publicoptionreportliststr = '';
+				$(".publicoption-list-box:nth-of-type(n+2)").remove();
+				for(let i=0;i<list.length;i++){
+					publicoptionreportliststr += 
+						'<div class="table-hover report-analysisList-content publicoption-list-box">'+
+                            '<div  class="publicoption-chb">'+
+                                '<div class="custom-control custom-checkbox">'+
+                                    '<input type="checkbox" value="'+list[i].id+'" class="custom-control-input" id="cst'+(i+1)+'">'+
+                                    '<label class="custom-control-label" for="cst'+(i+1)+'"></label>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="text-over" title="'+list[i].eventname+'">'+list[i].eventname+'</div>'+
+                            '<div class="text-over">'+list[i].createtime.substring(0,16)+'</div>'+
+                            '<div>'+
+                                '<i class="mdi mdi-eye-outline" title="查看" onclick="getexportdetail('+list[i].id+')" id="exportthis"></i>'+
+                                '<i class="fas fa-trash-alt" title="删除" onclick="deletedata('+list[i].id+')" id="deletethis"></i>'+
+                            /*     '<i class="ti ti-cloud-down" title="下载" onclick="deletedata('+list[i].id+')" id="exportthis"></i>'+ */
+                            '</div>'+
+                        '</div>';
+				}
+				$("#eventAnalysislist").append(publicoptionreportliststr);
+				page(pagenum, res.pageCount);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log(xhr);
+				if (xhr.status == 403) {
+					window.location.href = ctxPath + "login";
+				}
+			}
+    });}
+    
+ 
+    // createEvent
+    $("#createEvent").click(function (param) { 
+        createEvent()
+     })
+     
+         
+     
+     
+     /* 查看报告详情 */
+     function getexportdetail(id){
+    	window.location.href = ctxPath + 'publicoption/reportdetail/'+id;
+    	
+    }
+    
+    function page(currentPage, totalPages){
+    	if(totalPages < 1) totalPages = 1;
+        $("#page").bootstrapPaginator({
+            bootstrapMajorVersion: 3, //版本
+            currentPage: currentPage, //当前页数
+            numberOfPages: 20, //每次显示页数
+            totalPages: totalPages, //总页数
+            shouldShowPage: true, //是否显示该按钮
+            useBootstrapTooltip: false,
+            onPageClicked: function (event, originalEvent, type, page) {
+            	pageNum = page;
+            	publicoptionreportlist(pageNum);
+            }
+        });
+    }
+    
+    
+    
+     
+    
+     
+     
+    /* 下载报告 */
+    function downloadexport(){
+    	$.blockUI({
+            message: "下载成功",
+            fadeIn: 700,
+            fadeOut: 700,
+            timeout: 3000,
+            showOverlay: false,
+            centerY: false,
+            css: {
+                width: '250px',
+                top: '20px',
+                left: '',
+                right: '20px',
+                border: 'none',
+                padding: '15px 5px',
+                backgroundColor: '#000',
+                '-webkit-border-radius': '10px',
+                '-moz-border-radius': '10px',
+                opacity: 0.9,
+                color: '#fff'
+            }
+        });
+   	
+   }
+     
+     
+     
+     
+    /*  
+     $("#exportthis").click(function (param) {
+    	 
+    	 
+    	 window.location.href = ctxPath + 'publicoption/reportdetail';
+    	 
+    	 
+      }) */
+    //执行删除操作
+      function deletedata(Ids){
+      	if (Ids.length == 0) {
+              showtips("未选择删除事件分析报告！");
+          } else {
+              var confirmhtml =
+                  '<div class="shadebox" id="confirmsure">' +
+                  '    <div class="modal-dialog" role="document"> ' +
+                  '        <div class="modal-content">' +
+                  '            <div class="modal-header align-flexend no-border"> ' +
+                  '                <h5 class="modal-title">提示</h5>' +
+                  '                <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>' +
+                  '            </div>' +
+                  '            <div class="modal-body" style="padding:0 1rem;">' +
+                  '                <div class="input-group alcenter"><i class="fa fa-exclamation-circle m-r-10 font-20"></i> 此操作将删除该事件分析报告, 是否继续?' +
+                  '                </div>' +
+                  '            </div>' +
+                  '            <div class="modal-footer no-border">' +
+                  '                <button type="button" class="btn btn-info" id="confirm"> 确定</button> ' +
+                  '                <button type="button" class="btn btn-secondary" id="cancel">取消</button>' +
+                  '            </div>' +
+                  '        </div>' +
+                  '    </div>' +
+                  '</div>'
+              $("body").append(confirmhtml)
+              $("#closethis").click(function (param) {
+                  $("#confirmsure").remove()
+
+              })
+              $("#cancel").click(function (param) {
+                  $("#confirmsure").remove()
+              })
+              $("#confirm").click(function (param) {
+                  $.ajax({
+                      url: ctxPath + 'publicoption/deletepublicoptioninfo',
+                      type: 'post',
+                      dataType: 'json',
+                      data: {
+                      	Ids: JSON.stringify(Ids)
+                      },
+                      success: function (res) {
+                      	console.info(typeof(res));
+                          if (res.status=200) {
+                              showtips("事件分析报告删除成功！");
+                              setTimeout(() => {
+                              	window.location.href = ctxPath + 'publicoption/reportlist';
+                              }, 1000);
+                              //sendProjectList(groupid, $('#currentName').val().trim(), 1);
+                              
+                          } else {
+                              showtips("事件分析报告删除失败！");
+                          }
+                      },
+                      error: function (xhr, ajaxOptions, thrownError) {
+                          if (xhr.status == 403) {
+                              window.location.href = ctxPath + "login";
+                          } else {
+                              $("#popularinformation").css({"position": "relative", "min-height": "300px"})
+                              dataerror("#popularinformation")
+                          }
+                      }
+                  });
+                  $("#confirmsure").remove()
+              })
+//              }
+          }
+      }
+     
+     
+   //批量删除按钮
+     $("#deleteexportlist").click(function(){
+     	  var Ids = [];
+           let i = 0;
+   	$("input[class='custom-control-input']:checked").each(function(i){
+   		Ids.push($(this).val());
+   	})
+   	deletedata(Ids);
+     });
+     
+     
+
+    //  checkbox
+    $(".custom-control.custom-checkbox .custom-control-input").click(function (e) { 
+        if(e.currentTarget.checked == true){
+            console.log("true")
+            $(this).parent().parent().parent().addClass("selected")
+        }else{
+            $(this).parent().parent().parent().removeClass("selected")
+        }
+     })
+    </script>
+    <script th:inline="javascript" type="text/javascript">
+    let projectid = '';
+    let groupId = '';
+	
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), groupId, projectid);
+    })
+</script>
+</body>
+
+</html>

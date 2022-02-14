@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <link th:href="@{/assets/extra-libs/c3/c3.min.css}" rel="stylesheet">
+    <title>申请试用</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <style>
+        body {
+            margin: 0
+        }
+
+        .form-group {
+            font-size: 30px
+        }
+
+
+    </style>
+</head>
+<body>
+<fieldset class="form-horizontal">
+    <div class="form-group"><label class="col-sm-2 control-label">姓名:</label>
+        <div class="col-sm-10"><input type="text" class="form-control" id="name" style="width: 88%;height:30px"
+                                      placeholder="请输入姓名"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">号码:</label>
+        <div class="col-sm-10"><input type="text" class="form-control" id="telephone" style="width: 88%;height:30px"
+                                      placeholder="请输入网站电话号码"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">所属公司:</label>
+        <div class="col-sm-10"><input type="text" class="form-control" id="company" style="width: 88%;height:30px"
+                                      placeholder="所属公司"></div>
+    </div>
+    <div class="form-group"><label class="col-sm-2 control-label">所属行业:</label>
+        <div class="col-sm-10"><input type="text" class="form-control" id="industry" style="width: 88%;height:30px"
+                                      placeholder="所属行业"></div>
+    </div>
+    <button id="submit">提交申请</button>
+</fieldset>
+<!-- 	 <div id="findmore">查看更多</div>   -->
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+<script th:src="@{/common/tools.js}"></script>
+
+<script th:inline="javascript" type="text/javascript">
+    var ctxPath = /*[[@{/}]]*/'';
+    let openid = '[[${openid}]]';
+    console.info(openid);
+
+    $("#submit").click(function () {
+        let name = $('#name').val();
+        let telephone = $('#telephone').val();
+        let company = $('#company').val();
+        let industry = $('#industry').val();
+
+        submitinfo(openid, name, telephone, company, industry);
+    });
+
+
+    function submitinfo(openid, name, telephone, company, industry) {
+        $.ajax({
+            url: ctxPath + 'dist/applydatainfo',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                openid: openid, name: name, telephone: telephone, company: company, industry: industry
+            },
+            success: function (res) {
+                if (res.code == 200) {
+                    alert("申请成功，等待审核通过")
+                }
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+
+    /*   $('#findmore').click(function(){
+         hotlist(nextpagepage);
+
+    });   */
+
+
+</script>
+</body>
+
+
+</html>

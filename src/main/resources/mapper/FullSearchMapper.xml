@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.intelligence.dao.IFullSearchDao">
+<!-- 全文搜索	-->
+	
+	<select id="getBreadCrumbsByFullType" resultType= "string">
+		SELECT name FROM full_menu WHERE id = #{fulltype} AND type=1 AND is_default = 0
+	</select>
+	
+	<select id="getBreadCrumbsByPolyId" resultType= "string">
+		SELECT name FROM full_polymerization WHERE id = #{polyid}
+	</select>
+	
+	<select id="getBreadCrumbsByOnlyId" resultType= "string">
+		SELECT name
+		FROM
+			full_menu 
+		WHERE
+			only_id = #{onlyid}
+	</select>
+	
+<!-- 获取全文搜索聚合分类列表 -->
+	<select id="listFullPolymerization" resultType="com.stonedt.intelligence.entity.FullPolymerization">
+		select
+			id, create_time, type, name, value, icon
+		from
+			full_polymerization
+		where is_show = 0
+		order by 
+			create_time asc
+	</select>
+
+<!-- 获取全文搜索一级分类列表 通过id list -->
+	<select id="listFullTypeOneByIdList" resultType="com.stonedt.intelligence.entity.FullType">
+		select
+			only_id, id, create_time, type, name, value, type_one_id, icon
+		from
+			full_menu
+		where only_id IN
+		<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+		  #{id}
+		</foreach>
+	</select>
+
+<!-- 获取全文搜索一级分类列表 -->
+	<select id="listFullTypeOne" resultType="com.stonedt.intelligence.entity.FullType">
+		select
+			only_id, id, create_time, type, name, value, type_one_id, icon
+		from
+			full_menu
+		where type = 1 and is_show = 0 and is_default = 0
+		order by 
+			create_time asc
+	</select>
+
+	<!-- 获取全文搜索二级分类列表 -->
+	<select id="listFullTypeBysecond" resultType="com.stonedt.intelligence.entity.FullType">
+		select
+			only_id, id, create_time, type, name, value, type_one_id
+		from
+			full_menu
+		where
+			type = 2 and type_one_id = #{type_one_id}
+		order by 
+			create_time asc
+	</select>
+	
+	<!-- 获取全文搜索三级分类列表 -->
+	<select id="listFullTypeBythird" resultType="com.stonedt.intelligence.entity.FullType">
+		select
+			only_id, id, create_time, type, name, value, type_one_id, icon
+		from
+			full_menu
+		where
+			type = 3 and type_two_id = #{type_two_id} and is_show=0
+		order by 
+			create_time asc
+	</select>
+	
+	<select id="listFullTypeThree" resultType="com.stonedt.intelligence.entity.FullType">
+		select
+			a.name,b.value
+		from
+			full_menu AS a
+			INNER JOIN full_menu AS b ON a.type_two_id = b.id
+		where
+			a.type = 3
+		order by 
+			a.create_time asc
+	</select>
+
+<!-- 获取用户搜索词的数量	-->
+	<select id="getUserWordCount" resultType="Integer" parameterType="Long">
+		select
+			count(0)
+		from
+			full_word
+		where
+			user_id = #{userId}
+	</select>
+
+<!-- 保存用户搜索词记录	-->
+	<insert id="saveFullWord" parameterType="com.stonedt.intelligence.entity.FullWord">
+		insert into
+			full_word(
+				create_time, user_id, search_word
+			)
+			values(
+				#{create_time}, #{user_id}, #{search_word}
+			)
+	</insert>
+
+	<!--检索用户最近搜索的词-->
+	<select id="getSearchWordById" resultType="map">
+		SELECT search_word,user_id,count(search_word),create_time AS wordCount FROM full_word
+
+		WHERE user_id = #{map.user_id}
+
+		GROUP BY user_id,search_word
+
+		ORDER BY create_time DESC
+
+		LIMIT 6
+	</select>
+	   
+</mapper>

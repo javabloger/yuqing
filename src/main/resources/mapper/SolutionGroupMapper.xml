@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.intelligence.dao.SolutionGroupDao">
+    <insert id="addSolutionGroup" parameterType="com.stonedt.intelligence.entity.SolutionGroup">
+		insert into solution_group (create_time,group_id,group_name,user_id)
+		values (now(),#{groupId},#{groupName},#{userId})
+	</insert>
+
+    <select id="getGroupName" resultType="String">
+		select
+			group_name
+		from
+			solution_group
+		where
+			group_id = #{groupId}
+	</select>
+
+
+	<select id="getGroupCount" resultType="integer">
+		SELECT
+		count(group_id)
+		FROM
+		solution_group
+		WHERE
+		group_name = #{sg.groupName}
+
+		AND user_id = #{sg.userId}
+
+		AND del_status = 0
+	</select>
+
+
+    <update id="editSolutionGroup" parameterType="com.stonedt.intelligence.entity.SolutionGroup">
+		UPDATE solution_group SET group_name = #{sg.groupName}
+
+		WHERE group_id = #{sg.groupId}
+
+		AND user_id = #{sg.userId}
+
+		AND del_status = 0
+    </update>
+    
+    <select id="listSolutionGroupByUserId" resultType="com.stonedt.intelligence.entity.SolutionGroup">
+    	select
+    		id, create_time as createTime, group_id as groupId, group_name as groupName
+    	from
+    		solution_group
+    	where
+    		del_status = 0
+    	<if test="userId != null">
+    		and
+    			user_id = #{userId}
+    	</if>
+    	order by create_time desc
+    </select>
+
+	<update id="updateSolutionGroupStatus">
+		update
+			solution_group
+		set
+			del_status = 1
+		where
+			group_id = #{groupId}
+	</update>
+	
+	<select id="getGroupNameByprojectId" parameterType="String" resultType="map">
+	
+	SELECT
+		group_name
+	FROM
+		project
+	JOIN solution_group ON project.group_id = solution_group.group_id and project.project_id = #{projectid}
+	
+	
+	
+	
+	</select>
+	
+	
+	
+</mapper>

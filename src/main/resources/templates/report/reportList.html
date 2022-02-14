@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>分析报告列表·网络情报分析系统</title>
+
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/extra-libs/c3/c3.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/extra-libs/css-chart/css-chart.css}" rel="stylesheet">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+</head>
+<body>
+    <div id="main-wrapper">
+        <div th:replace="common/header::header"></div>
+        <div th:replace="common/monitor_left::monitor_left"></div>
+        <div class="page-wrapper">
+            <div class="right-part right-content">
+                <!-- nav start-->
+                <div class="page-breadcrumb">
+                    <div class="row">
+                        <div class="col-lg-5 align-self-center">
+                            <div class="d-flex align-items-center">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb" id="breadCrumbs">
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 align-self-center ">
+                            <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                                <button id="deleteBtn" type="button" class="btn btn-outline-secondary  btn-sm bnone">
+                                    <i class="mdi mdi-delete"></i> 删除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- nav end-->
+                <div class="p-20">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body p-l-0 p-r-0">
+                                    <div class="reportlist-select m-b-20">
+                                        <select id="type" class="custom-select form-control input-sm mb-2">
+                                            <option value=1>日报</option>
+                                            <option value=2>周报</option>
+                                            <option value=3>月报</option>
+                                        </select>
+                                        <div class="input-group">
+                                            <input  id="search" class="form-control" type="text" placeholder="输入报告名称">
+                                            <button class="btn btn-secondary" id="search-btn">搜索</button>
+                                        </div>
+                                    </div>
+                                    <div class="reportlist-content" >
+                                        <div class="report-list-title">
+                                            <div>
+                                                <div class="custom-control custom-checkbox pro-selectall" style="display: inline-block;">
+                                                    <input type="checkbox" class="custom-control-input sl-all" id="cstall">
+                                                    <label class="custom-control-label" for="cstall"></label>
+                                                </div>
+                                            </div>
+                                            <div>报告名称</div>
+                                            <div>报告周期</div>
+                                            <div>编制时间</div>
+                                            <div>状态</div>
+                                            <div>操作</div>
+                                        </div>
+                                        <div id="reportlist" style="position:relative;">
+<!-- 	                                        <div class="report-list-box"> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <div class="custom-control custom-checkbox"> -->
+<!-- 	                                                    <input type="checkbox" class="custom-control-input" id="cst0"> -->
+<!-- 	                                                    <label class="custom-control-label" for="cst0"></label> -->
+<!-- 	                                                </div> -->
+<!-- 	                                            </div> -->
+<!-- 	                                            <div><a th:href="@{/report/detail}">2020年04月02日舆情日报-[疫情]</a></div> -->
+<!-- 	                                            <div>2020-04-02~2020-04-02</div> -->
+<!-- 	                                            <div>2020-04-03</div> -->
+<!-- 	                                            <div><i class="mdi mdi-check-circle-outline fm"></i> 编制成功</div> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <span id="see"><i title="查看报告" class="mdi mdi-eye-outline"></i></span> -->
+<!-- 	                                            </div> -->
+<!-- 	                                        </div> -->
+<!-- 	                                        <div class="report-list-box"> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <div class="custom-control custom-checkbox"> -->
+<!-- 	                                                    <input type="checkbox" class="custom-control-input" id="cst1"> -->
+<!-- 	                                                    <label class="custom-control-label" for="cst1"></label> -->
+<!-- 	                                                </div> -->
+<!-- 	                                            </div> -->
+<!-- 	                                            <div><a href="#">2020年04月02日舆情日报-[疫情]</a></div> -->
+<!-- 	                                            <div>2020-04-02~2020-04-02</div> -->
+<!-- 	                                            <div>2020-04-03</div> -->
+<!-- 	                                            <div><i class="mdi mdi-checkbox-blank-circle-outline zx"></i> 正在编制</div> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <span id="see"><i  disabled="true" title="查看报告" class="mdi mdi-eye-outline"></i></span> -->
+<!-- 	                                            </div> -->
+<!-- 	                                        </div> -->
+<!-- 	                                        <div class="report-list-box"> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <div class="custom-control custom-checkbox"> -->
+<!-- 	                                                    <input type="checkbox" class="custom-control-input" id="cst2"> -->
+<!-- 	                                                    <label class="custom-control-label" for="cst2"></label> -->
+<!-- 	                                                </div> -->
+<!-- 	                                            </div> -->
+<!-- 	                                            <div><a disabled="true" href="#">2020年04月02日舆情日报-[疫情]</a></div> -->
+<!-- 	                                            <div>2020-04-02~2020-04-02</div> -->
+<!-- 	                                            <div>2020-04-03</div> -->
+<!-- 	                                            <div><i class="mdi mdi-close-circle zm"></i> 编制失败</div> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <span id="see"><i  disabled="true" title="查看报告" class="mdi mdi-eye-outline"></i></span> -->
+<!-- 	                                            </div> -->
+<!-- 	                                        </div> -->
+<!-- 	                                        <div class="report-list-box"> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <div class="custom-control custom-checkbox"> -->
+<!-- 	                                                    <input type="checkbox" class="custom-control-input" id="cst3"> -->
+<!-- 	                                                    <label class="custom-control-label" for="cst3"></label> -->
+<!-- 	                                                </div> -->
+<!-- 	                                            </div> -->
+<!-- 	                                            <div><a href="report.html">2020年04月02日舆情日报-[疫情]</a></div> -->
+<!-- 	                                            <div>2020-04-02~2020-04-02</div> -->
+<!-- 	                                            <div>2020-04-03</div> -->
+<!-- 	                                            <div><i class="mdi mdi-check-circle-outline fm"></i> 编制成功</div> -->
+<!-- 	                                            <div> -->
+<!-- 	                                                <span id="see"><i title="查看报告" class="mdi mdi-eye-outline"></i></span> -->
+<!-- 	                                            </div> -->
+<!-- 	                                        </div> -->
+	                                    </div>
+                                    </div>
+                                     <!-- pages start -->
+			                            <div class="all-pagebox m-r-20 m-b-20 m-t-20">
+			                                <ul class="pagination float-right" id="page">
+			                                </ul>
+			                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-footer">
+                    © 2014-2021 南京涌亿思信息技术有限公司  苏ICP备17066984号-1
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/dist/js/app.min.js}"></script>
+    <script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+    <script th:src="@{/dist/js/app-style-switcher.js}"></script>
+    <script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+    <script th:src="@{/dist/js/waves.js}"></script>
+    <script th:src="@{/dist/js/sidebarmenu.js}"></script>
+    <script th:src="@{/dist/js/custom.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+    <script th:src="@{/assets/libs/chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/assets/libs/gaugeJS/dist/gauge.min.js}"></script>
+    <script th:src="@{/assets/libs/flot/excanvas.min.js}"></script>
+    <script th:src="@{/assets/libs/flot/jquery.flot.js}"></script>
+    <script th:src="@{/assets/libs/jquery.flot.tooltip/js/jquery.flot.tooltip.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js}"></script>
+    <script th:src="@{/dist/js/pages.js}"></script>
+    <script th:src="@{/dist/report.js}"></script>
+    <script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+    
+    <script type="text/javascript" th:inline="javascript">
+    
+	    var groupId = analysis_groupid;
+	    var projectId = analysis_projectid;
+	    if(!groupId) groupId = '';
+	    if(!projectId) projectId = '';
+	    
+	    var nameSearch = [[${search}]];
+	    if(!nameSearch) nameSearch = '';
+	    $("#search").val(nameSearch);
+	    
+ 	    var reportType = [[${type}]];
+ 	    if(!reportType) reportType = 1;
+ 	    $('#type').val(reportType);
+ 	    
+ 	    var pageNum = [[${page}]];
+ 	    if(!pageNum) pageNum = 1;
+ 	    
+ 	    breadCrumbs();
+ 	    setBrowserUrl();
+	    listReportCustom(pageNum);
+	    
+	 	// 顶部面包屑导航
+	    function breadCrumbs(){
+	 		if(groupId && projectId){
+	 			$.ajax({
+		    		url: ctxPath + 'project/names',
+		    		type: 'post',
+		    		dataType: 'json',
+		    		data: {
+		    			projectId: projectId,
+		    			groupId: groupId
+		    		},
+		    		success: function(res){
+		    			var html = '<li class="breadcrumb-item">分析报告</li>'+
+		 							'<li class="breadcrumb-item">报告列表</li>'+
+		    						'<li class="breadcrumb-item">'+res.groupName+'</li>'+
+		                        	'<li class="breadcrumb-item">'+res.projectName+'</li>';
+		    			$('#breadCrumbs').html(html);
+		    		},
+		    		error: function(res){
+		    			console.log(res);
+		    		}
+		    	});
+	 		}else{
+	 			var html = '<li class="breadcrumb-item">分析报告</li>'+
+	 				'<li class="breadcrumb-item">报告列表</li>';
+	 			$('#breadCrumbs').html(html);
+	 		}
+	 	}
+	    
+ 	    // 左侧方案切换
+	    function switchProject(event) {
+	        let $event = $(event);
+	        groupId = $event.attr("data-groupid");
+	        projectId = $event.attr("data-index");
+	        breadCrumbs();
+	        reportType = 1;
+	        nameSearch = '';
+	        $('#type').val(reportType);
+	        $('#search').val(nameSearch);
+	        listReportCustom(1);
+	        setBrowserUrl();
+	    }
+	    
+ 	    // 设置浏览器地址变换
+	    function setBrowserUrl(){
+	    	var url = location.pathname + '?groupid='+groupId+'&projectid='+projectId
+	    			+'&search='+nameSearch+'&type='+reportType+'&page='+pageNum;
+	    	setUrl(url);
+	    }
+    	
+	 	// 回车搜索
+	    $(document).keydown(function (event) {
+	        if (event.keyCode == 13) {
+	            nameSearch = $("#search").val().trim();
+	            listReportCustom(1);
+	            setBrowserUrl();
+	        }
+	    });
+	 	
+	 	// 搜索按钮
+	 	$('#search-btn').click(function(){
+	 		nameSearch = $("#search").val().trim();
+	 		listReportCustom(1);
+	 		setBrowserUrl();
+	 	});
+	 	
+	 	// 报告类型切换
+	 	$('#type').change(function(){
+	 		reportType = $(this).val();
+	 		listReportCustom(1);
+	 		setBrowserUrl();
+	 	});
+
+	 	// 获取报告列表
+	    function listReportCustom(pageNum){
+	    	$.ajax({
+	    		url: ctxPath + 'report/listReportCustom',
+	    		type: 'post',
+	    		dataType: 'json',
+	    		data: {
+	    			pageNum: pageNum,
+	    			reportType: reportType,
+	    			nameSearch: nameSearch,
+	    			projectId: projectId
+	    		},
+	    		beforeSend: function(){
+	    			var html = '<div class="text-center over-load t2" id="loading1">'+
+					                '<div class="spinner-border spinner-border text-info" role="status">'+
+					                    '<span class="sr-only">加载中...</span>'+
+					                '</div>'+
+					            '</div>';
+					$('#reportlist').css("min-height", "150px");          
+	    			$('#reportlist').html(html);
+	    		},
+	    		success: function(res){
+	    			var list = res.list;
+	    			$('#reportlist').css("min-height", "none"); 
+	    			$('#reportlist').html('');
+	    			for(var i=0; i<list.length; i++){
+	    				var reportStatus = list[i].report_status;
+	    				var reportStatusHtml = '';
+	    				//if(reportStatus == 1) reportStatusHtml = '<i class="mdi mdi-checkbox-blank-circle-outline zx"></i> 正在编制';
+	    				if(reportStatus == 0) reportStatusHtml = '<i class="mdi mdi-checkbox-blank-circle-outline zm"></i> 待生成报告';
+	    				if(reportStatus == 1) reportStatusHtml = '<i class="mdi mdi-checkbox-blank-circle-outline zm"></i> 正在生成';
+	    				if(reportStatus == 2) reportStatusHtml = '<i class="mdi mdi-check-circle-outline zx"></i> 已生成报告';
+	    				if(reportStatus == 3) reportStatusHtml = '<i class="mdi mdi-close-circle fm"></i> 生成失败';
+	    				var html = '<div class="report-list-box">'+
+				                           '<div>'+
+				                        '<div class="custom-control custom-checkbox">'+
+				                            '<input data-id='+list[i].report_id+' type="checkbox" class="custom-control-input cst" id="cst'+i+'">'+
+				                            '<label class="custom-control-label" for="cst'+i+'"></label>'+
+				                        '</div>'+
+				                    '</div>'+
+				                    '<div><a style="cursor:pointer;" class="detail" data-id='+list[i].report_id+' data-status='+list[i].report_status+'>'+list[i].report_name+'</a></div>'+
+				                    '<div>'+list[i].report_starttime.substring(0, 10)+' ~ '+list[i].report_endtime.substring(0, 10)+'</div>'+
+				                   ' <div>'+list[i].report_time.substring(0, 10)+'</div>'+
+				                    '<div>'+reportStatusHtml+'</div>'+
+				                    '<div>'+
+				                        '<span class="detail" data-id='+list[i].report_id+' data-status='+list[i].report_status+'><i title="查看报告" class="mdi mdi-eye-outline"></i></span>'+
+				                    '</div>'+
+				                '</div>';
+	    				$('#reportlist').append(html);
+	    			}
+	    			if(list.length == 0){
+	    				nodata('#reportlist');
+	    			}
+	    			page(pageNum, res.pageCount);
+	    		},
+	    		error: function(res){
+	    			console.log(res);
+	    		}
+	    	});
+	    }
+	
+	    // 分页条初始化
+	    function page(currentPage, totalPages){
+	    	if(totalPages < 1) totalPages = 1;
+	        $("#page").bootstrapPaginator({
+	            bootstrapMajorVersion: 3, //版本
+	            currentPage: currentPage, //当前页数
+	            numberOfPages: 20, //每次显示页数
+	            totalPages: totalPages, //总页数
+	            shouldShowPage: true, //是否显示该按钮
+	            useBootstrapTooltip: false,
+	            onPageClicked: function (event, originalEvent, type, page) {
+	            	pageNum = page;
+	            	listReportCustom(pageNum);
+	            	setBrowserUrl();
+	            }
+	        });
+	    }
+	
+	    // 查看详情按钮
+	    $('body').on('click', '.detail', function(){
+	    	var status = $(this).data('status');
+	    	var reportid = $(this).data('id');
+	    	if(status == 0) {
+	    		var confirmhtml =
+	                '<div class="shadebox" id="confirmsure">' +
+	                '    <div class="modal-dialog" role="document"> ' +
+	                '        <div class="modal-content">' +
+	                '            <div class="modal-header align-flexend no-border"> ' +
+	                '                <h5 class="modal-title">提示</h5>' +
+	                '                <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>' +
+	                '            </div>' +
+	                '            <div class="modal-body" style="padding:0 1rem;">' +
+	                '                <div class="input-group alcenter"><i class="fa fa-exclamation-circle m-r-10 font-20"></i> 此操作将编制该报告, 是否继续?' +
+	                '                </div>' +
+	                '            </div>' +
+	                '            <div class="modal-footer no-border">' +
+	                '                <button type="button" class="btn btn-info" id="confirm"> 确定</button> ' +
+	                '                <button type="button" class="btn btn-secondary" id="cancel">取消</button>' +
+	                '            </div>' +
+	                '        </div>' +
+	                '    </div>' +
+	                '</div>'
+	            $("body").append(confirmhtml)
+	            $("#closethis").click(function (param) {
+	                $("#confirmsure").remove()
+	            })
+	            $("#cancel").click(function (param) {
+	                $("#confirmsure").remove()
+	            })
+	            $("#confirm").click(function (param) {
+	            	console.info(reportid);
+	                 $.ajax({
+	                    url: ctxPath + 'report/batchUpdateReportCustomStatus',
+	                    type: 'post',
+	                    dataType: 'json',
+	                    data: {
+	                    	reportIds: reportid
+	                    },
+	                    success: function (res) {
+	                        if (res.state) {
+	                            showtips("报告编制中，请稍后！");
+	                            listReportCustom(1);
+	                        } else {
+	                            showtips("报告编制失败！");
+	                        }
+	                    },
+	                    error: function (xhr, ajaxOptions, thrownError) {
+	                        if (xhr.status == 403) {
+	                            window.location.href = ctxPath + "login";
+	                        }
+	                    }
+	                });
+	                $("#confirmsure").remove();
+	            })
+	    	}
+	    	if(status == 1) {
+	    		showtips("报告正在编制中！");
+	    	}
+	    	else if(status == 2) {
+	    		window.location.href= ctxPath+'report/'+$(this).data('id')+'?groupid='+groupId+'&projectid='+projectId;
+	    	}else if(status == 3){
+	    		showtips("报告编制失败！");
+	    	}
+	    });
+	    
+	    $('#cstall').click(function(){
+	    	if($(this).is(":checked")){
+	    		$('.cst').prop('checked', true);
+	    	}else{
+	    		$('.cst').prop('checked', false);
+	    	}
+	    })
+	    
+	    $('body').on('click', '.cst', function(){
+	    	var checkedFlag = true;
+	    	$('.cst').each(function(){
+	    		if(!$(this).is(":checked")){
+	    			checkedFlag = false;
+	    		}
+	    	})
+	    	if(checkedFlag){
+	    		$('#cstall').prop('checked', true);
+	    	}else{
+	    		$('#cstall').prop('checked', false);
+	    	}
+	    })
+	    
+        // 删除按钮
+	    $('#deleteBtn').click(function () {
+	        var reportIds = [];
+	        $('.cst').each(function () {
+	            if ($(this).is(":checked")) {
+	            	reportIds.push($(this).data('id'));
+	            }
+	        });
+	        if (reportIds.length == 0) {
+	            showtips("未选择删除的报告！");
+	        } else {
+	            var confirmhtml =
+	                '<div class="shadebox" id="confirmsure">' +
+	                '    <div class="modal-dialog" role="document"> ' +
+	                '        <div class="modal-content">' +
+	                '            <div class="modal-header align-flexend no-border"> ' +
+	                '                <h5 class="modal-title">提示</h5>' +
+	                '                <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>' +
+	                '            </div>' +
+	                '            <div class="modal-body" style="padding:0 1rem;">' +
+	                '                <div class="input-group alcenter"><i class="fa fa-exclamation-circle m-r-10 font-20"></i> 此操作将删除该报告, 是否继续?' +
+	                '                </div>' +
+	                '            </div>' +
+	                '            <div class="modal-footer no-border">' +
+	                '                <button type="button" class="btn btn-info" id="confirm"> 确定</button> ' +
+	                '                <button type="button" class="btn btn-secondary" id="cancel">取消</button>' +
+	                '            </div>' +
+	                '        </div>' +
+	                '    </div>' +
+	                '</div>'
+	            $("body").append(confirmhtml)
+	            $("#closethis").click(function (param) {
+	                $("#confirmsure").remove()
+	            })
+	            $("#cancel").click(function (param) {
+	                $("#confirmsure").remove()
+	            })
+	            $("#confirm").click(function (param) {
+	                $.ajax({
+	                    url: ctxPath + 'report/batchUpdateReportCustom',
+	                    type: 'post',
+	                    dataType: 'json',
+	                    data: {
+	                    	reportIds: JSON.stringify(reportIds)
+	                    },
+	                    success: function (res) {
+	                        if (res.state) {
+	                            showtips("报告删除成功！");
+	                            listReportCustom(1);
+	                        } else {
+	                            showtips("报告删除失败！");
+	                        }
+	                    },
+	                    error: function (xhr, ajaxOptions, thrownError) {
+	                        if (xhr.status == 403) {
+	                            window.location.href = ctxPath + "login";
+	                        }
+	                    }
+	                });
+	                $("#confirmsure").remove();
+	            })
+	        }
+	    });
+	    
+	    $('.navLi').click(function(){
+	    	jumpNavLocation($(this).data('type'), groupId, projectId);
+	    })
+    
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.VolumeMonitorDao">
+
+	<select id="getproject" resultType="com.stonedt.intelligence.entity.VolumeMonitor">
+		select * from volume_monitor where project_id=#{project_id} and time_period=#{time_period}
+	</select>
+	
+	<select id="getprojectName" resultType="map">
+		SELECT
+			project.project_name,
+			solution_group.group_name 
+		FROM
+			project,
+			solution_group 
+		WHERE
+			project.group_id = solution_group.group_id 
+			AND project_id = #{project_id} 
+			AND project.group_id = #{group_id}
+	</select>
+	
+</mapper>

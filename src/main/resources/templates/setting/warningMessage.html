@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href=" ../assets/images/favicon.png">
+    <title>消息列表·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- Custom CSS -->
+    <link href=" ../dist/css/style.min.css" rel="stylesheet">
+    <link href=" ../dist/css/custom.css" rel="stylesheet">
+    <link href="../assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="../assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="../assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet"
+          type="text/css">
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <style>
+    	.sourceName{
+    		width: 250px;
+    	}
+    	.groupName{
+    		width: 150px;
+    	}
+    	.projectName{
+    		width: 150px;
+    	}
+    </style>
+</head>
+
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/setting_left::setting_left"></div>
+    <div class="page-wrapper">
+
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">系统设置</li>
+                                    <li class="breadcrumb-item">预警设置</li>
+                                    <li class="breadcrumb-item">消息列表</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center ">
+
+                    </div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <!-- <div class="text-center over-load t2" id="loading1">
+                            <div class="spinner-border spinner-border text-info" role="status">
+                                <span class="sr-only">加载中...</span>
+                            </div>
+                        </div> -->
+                        <div class="d-flex no-block justify-content-start align-items-center"
+                             style="padding: 20px;padding-bottom: 0;">
+                            <select name="" id="groupSelect" class="form-control custom-select" style="width: 120px;">
+                            </select>
+                            <select name="" id="projectSelect" class="form-control custom-select m-l-10"
+                                    style="width: 120px;">
+                            </select>
+                        </div>
+                        <!-- content start -->
+                        <div class="table-responsive">
+                            <!-- line start -->
+                            <div class="project-warning-message-title project-warning-message-list">
+                                <div>预警内容</div>
+                                <div class="sourceName">来源网站</div>
+                                <div class="groupName">方案组</div>
+                                <div class="projectName">方案名称</div>
+                                <div>时间</div>
+                            </div>
+                            <div class="prolist-warning-box" id="prolist-warning-box"
+                                 style="min-height: 200px;position: relative;">
+                                <!-- line start -->
+                                <!-- <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">又是RCS！概念股连续三天涨停潮 券商：有望成为5G首个杀手级应用！</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                line end
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">百亿中鸿新晶第三代半导体产业集群项目落地济南，二期将并购瑞典艾斯科强！</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">慕田峪、雁栖湖等怀柔5家4A及以上景区明起恢复开放！</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">中潜股份(300526.SZ)连续三日一字跌停！收监管函 董秘引咎辞职</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">【摄氏零度】商用显示能成为电视企业第二跑道？（“彩电行业当打之年”系列报</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">CB竞争进入白热化 广东骏亚上市以来盈利首现下滑</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">华为发布会放大招！消费电子产业链新动向（附VR开箱视频）</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">万马科技被监管质疑是否操纵:一个月股价增72% 市盈率达1115倍！</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div>
+                                <div class="project-warning-message-list">
+                                    <div class="text-over"><a href="#">宜安科技：参股公司宁德三祥拟向公司采购3080万元设备 对公司经营成果将产生</a> </div>
+                                    <div>2020-04-09 13:36</div>
+                                </div> -->
+                            </div>
+
+                        </div>
+                        <!-- maill list end -->
+                        <!-- content end -->
+                        <!-- pages start -->
+                        <div class="all-pagebox m-r-20 m-b-20 m-t-20">
+                            <ul class="pagination float-right" id="page">
+                                <!--<li class="page-item disabled">
+                                        <a class="page-link" href="javascript:void(0)" tabindex="-1">上一页</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="avascript:void(0)">2 <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="avascript:void(0)">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="avascript:void(0)">下一页</a>
+                                    </li> -->
+                            </ul>
+                        </div>
+                        <!-- pages end -->
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer start  -->
+            <!-- ============================================================== -->
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer end  -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src=" ../assets/libs/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script src=" ../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src=" ../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- apps -->
+<script src=" ../dist/js/app.min.js"></script>
+<script src=" ../dist/js/app.init.light-sidebar.js"></script>
+<script src=" ../dist/js/app-style-switcher.js"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script src=" ../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src=" ../assets/extra-libs/sparkline/sparkline.js"></script>
+<!--Wave Effects -->
+<script src=" ../dist/js/waves.js"></script>
+<!--Menu sidebar -->
+<script src=" ../dist/js/sidebarmenu.js"></script>
+<!--Custom JavaScript -->
+<script src=" ../dist/js/custom.min.js"></script>
+<!-- this pages -->
+<script src="../dist/js/projectlist.js"></script>
+<script src="../dist/js/pages.js"></script>
+<!-- 右上角提示 -->
+<script src="../assets/libs/block-ui/jquery.blockUI.js"></script>
+<script src="../assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+<script th:src="@{/common/common.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
+    var radioswitch = function () {
+        var bt = function () {
+            $(".radio-switch").on("switch-change", function () {
+                $(".radio-switch").bootstrapSwitch("toggleRadioState")
+            }), $(".radio-switch").on("switch-change", function () {
+                $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+            }), $(".radio-switch").on("switch-change", function () {
+                $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
+            })
+        };
+        return {
+            init: function () {
+                bt()
+            }
+        }
+    }();
+
+    var groupId = [[${groupid}]];
+    var projectId = [[${projectid}]];
+    var pageNum = [[${pageNum}]];
+    if (!pageNum) pageNum = 1;
+
+
+    $(document).ready(function () {
+        radioswitch.init()
+        listSolutionGroupByUserId()
+        listProjectByGroupId()
+        getWarningArticle(1)
+    });
+
+    // 方案组列表
+    function listSolutionGroupByUserId() {
+        $.ajax({
+            url: ctxPath + 'system/listSolutionGroupByUserId',
+            type: 'post',
+            dataType: 'json',
+            data: {},
+            async: false,
+            success: function (res) {
+                var list = res;
+                $('#groupSelect').html('<option value="">全部方案组</option>');
+                for (var i = 0; i < list.length; i++) {
+                    var html = '';
+//                     if (list[i].groupId == groupId) {
+                        html = '<option value="' + list[i].groupId + '">' + list[i].groupName + '</option>';
+//                     } else {
+//                         html = '<option value="' + list[i].groupId + '">' + list[i].groupName + '</option>';
+//                     }
+                    $('#groupSelect').append(html);
+                }
+                $('#groupSelect').val(groupId);
+                if (list.length == 0) {
+                    var html = '<option value="">暂无方案组！</option>';
+                    $('#groupSelect').html(html);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+
+    // 方案列表
+    function listProjectByGroupId() {
+        var groupId = $('#groupSelect').val();
+        if(groupId){
+        	$('#projectSelect').show();
+            $.ajax({
+                url: ctxPath + 'system/listProjectByGroupId',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    groupId: groupId
+                },
+                async: false,
+                success: function (res) {
+                    var list = res;
+                    $('#projectSelect').html('');
+                    for (var i = 0; i < list.length; i++) {
+                        var html = '';
+                        if (list[i].projectId == projectId) {
+                            html = '<option value="' + list[i].projectId + '" selected>' + list[i].projectName + '</option>';
+                        } else {
+                            html = '<option value="' + list[i].projectId + '">' + list[i].projectName + '</option>';
+                        }
+                        $('#projectSelect').append(html);
+                    }
+                    if (list.length == 0) {
+                        var html = '<option value="">暂无方案！</option>';
+                        $('#projectSelect').html(html);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 403) {
+                        window.location.href = ctxPath + "login";
+                    }
+                }
+            });
+        }else{
+        	$('#projectSelect').hide();
+        }
+    }
+
+    $('#groupSelect').change(function () {
+        listProjectByGroupId();
+        getWarningArticle(1)
+        setBrowserUrl()
+    });
+
+    $('#projectSelect').change(function () {
+        getWarningArticle(1)
+        setBrowserUrl()
+    });
+
+    function getWarningArticle(pageNum) {
+    	var groupId = $('#groupSelect').val();
+    	var projectId = $('#projectSelect').val();
+    	if(groupId){
+    		if(!projectId){
+    			nodata("#prolist-warning-box");
+    			$("#page").hide();
+    			return
+    		}
+    	}
+    	if(!groupId){
+    		projectId = "";
+    	}
+        $.ajax({
+            url: ctxPath + 'system/getWarningArticle',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                project_id: projectId,
+                pageNum: pageNum,
+                openFlag: 0
+            },
+            beforeSend: function () {
+                loading("#prolist-warning-box")
+            },
+            success: function (res) {
+                var list = res.data.warningArticle;
+                $('#prolist-warning-box').html('')
+                if (list.length > 0) {
+                    for (var i = 0; i < list.length; i++) {
+                    	var articleDetail = list[i].article_detail;
+                    	var sourceName = '-';
+                    	if(articleDetail){
+                    		articleDetail = JSON.parse(articleDetail);
+                    		sourceName = articleDetail.sourcewebsitename;
+                    	}
+                        var html = '<div class="project-warning-message-list"> ' +
+		                            '     <div class="text-over"><a href="/monitor/detail/' + list[i].article_id + '?groupid='+list[i].group_id+'&projectid='+list[i].project_id+'" target="_blank">' + list[i].article_title + '</a> </div>' +
+		                            '     <div class="sourceName">' + sourceName + '</div>' +
+		                            '     <div class="groupName">' + list[i].groupName + '</div>' +
+		                            '     <div class="projectName">' + list[i].project_name + '</div>' +
+		                            '     <div>' + timeParse(getMyDate(list[i].article_time)) + '</div>' +
+		                            '</div>';
+                        $('#prolist-warning-box').append(html);
+                    }
+                    $("#page").show();
+                } else {
+                    nodata("#prolist-warning-box");
+                    $("#page").hide();
+                }
+                page(pageNum, res.data.pageInfo.pages);
+                setBrowserUrl();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                } else {
+                    dataerror("#prolist-warning-box")
+                }
+            }
+        });
+    }
+    
+    // 分页条初始化
+    function page(currentPage, totalPages){
+    	if(totalPages < 1) totalPages = 1;
+        $("#page").bootstrapPaginator({
+            bootstrapMajorVersion: 3, //版本
+            currentPage: currentPage, //当前页数
+            numberOfPages: 20, //每次显示页数
+            totalPages: totalPages, //总页数
+            shouldShowPage: true, //是否显示该按钮
+            useBootstrapTooltip: false,
+            onPageClicked: function (event, originalEvent, type, page) {
+            	getWarningArticle(page);
+            	setBrowserUrl();
+            }
+        });
+    }
+
+    function getMyDate(str) {
+        var oDate = new Date(str),
+            oYear = oDate.getFullYear(),
+            oMonth = oDate.getMonth() + 1,
+            oDay = oDate.getDate(),
+            oHour = oDate.getHours(),
+            oMin = oDate.getMinutes(),
+            oSen = oDate.getSeconds(),
+            oTime = oYear + '-' + getzf(oMonth) + '-' + getzf(oDay) + ' ' + getzf(oHour) + ':' +
+                getzf(oMin) + ':' + getzf(oSen);//最后拼接时间
+        return oTime;
+    };
+
+    //补0操作
+    function getzf(num) {
+        if (parseInt(num) < 10) {
+            num = '0' + num;
+        }
+        return num;
+    }
+
+    // 设置浏览器地址变换
+    function setBrowserUrl() {
+        groupId = $('#groupSelect').val();
+        projectId = $('#projectSelect').val();
+        var page = $('#page .active').text().trim();
+        if(!projectId) projectId = '';
+        var url = location.pathname + '?groupid=' + groupId + '&projectid=' + projectId+'&page='+page;
+        setUrl(url);
+    }
+    
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), null, null);
+    })
+</script>
+</body>
+
+</html>

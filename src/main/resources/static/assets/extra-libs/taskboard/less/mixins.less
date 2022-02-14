@@ -1,0 +1,32 @@
+.lobilist-variant(@header-bg, @color){
+    border: 1px solid darken(@header-bg, 7%);
+    .lobilist-header{
+        border-bottom: 1px solid darken(@header-bg, 7%);
+        background-color: @header-bg;
+        input{
+            background-color: transparent;
+            border-color: @color;
+            color: @color;
+        }
+    }
+    .lobilist-title{
+        color: @color;
+    }
+    .lobilist-actions{
+        .btn{
+            color: @color;
+        }
+    }
+    .btn-show-form{
+        color: @color;
+    }
+    .lobilist-form-footer{
+        border-top: 1px solid darken(@header-bg, 7%);
+        background-color: @header-bg;
+    }
+    .lobilist-footer{
+        border-top: 1px solid darken(@header-bg, 7%);
+        background-color: @header-bg;
+    }
+
+}

@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="referrer" content="no-referrer"/>
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>文章详情·网络情报分析系统</title>
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <link th:href="@{/assets/extra-libs/c3/c3.min.css}" rel="stylesheet">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .detail-content div {
+            visibility: unset !important;
+        }
+
+        .page-up-next {
+
+            justify-content: space-between;
+            padding-top: 40px;
+            border-top: 1px dashed rgba(0, 0, 0, .1);
+            align-items: center;
+        }
+
+        .page-up-next > a {
+            width: calc(50% - 10px);
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            color: #2962FF !important;
+        }
+
+        .page-up-next > a:first-child {
+            text-align: left;
+        }
+
+        .page-up-next > a:last-child {
+            text-align: right;
+        }
+
+        .page-up-next > a > span {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb" id="breadCrumbs">
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+<!--                     <div class="col-lg-7 align-self-center "> -->
+<!--                         <div class="d-flex no-block justify-content-end align-items-center data-number-min"> -->
+<!--                             <button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goback"> -->
+<!--                                 <i class="mdi mdi-redo-variant"></i> 返回 -->
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <!-- basic table -->
+                <div class="row m-b-20">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title" id="title"></h4>
+                                <div class="detail-tips">
+                                    <span id="source"></span>
+                                    <span id="author"></span>
+                                    <span id="publish_time"></span>
+                                    <span id="category"></span>
+                                    <span id="industrylable"></span>
+                                    <span id="eventlable"></span>
+                                    
+                                    
+                                    <span id="yuanwen"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card m-b-0" style="min-height: 100vh;">
+                            <div class="card-body">
+                                <div class="detail-content" id="content">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="detail-card-title m-b-0">
+                                    情感分析
+                                    <span class="btn waves-effect waves-light btn-rounded btn-sm btn-success"
+                                          id="emotionText"></span>
+                                </div>
+                                <div class="mood-content">
+                                    <div id="mood"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及关键词</div>
+                                <div class="detail-tags" id="referredList">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="detail-card-title">文章标签</div>
+                                <div class="detail-tags" id="keywordList">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" id="orgCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及企业</div>
+                                <div class="detail-tags" id="org"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="ntoCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及政府机构</div>
+                                <div class="detail-tags" id="nto"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="bankCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及银行</div>
+                                <div class="detail-tags" id="bank"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="hospitalCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及医院</div>
+                                <div class="detail-tags" id="hospital"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="schoolCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及高校院所</div>
+                                <div class="detail-tags" id="school"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="card" id="ipoCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及主板上市</div>
+                                <div class="detail-tags" id="ipo"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="xsbCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及新三板上市</div>
+                                <div class="detail-tags" id="xsb"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="hkCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及海外/港股</div>
+                                <div class="detail-tags" id="hk"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="w500">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及世界五百强</div>
+                                <div class="detail-tags" id="wt"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="c500">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及中国五百强</div>
+                                <div class="detail-tags" id="ct"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="td">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及高科技企业</div>
+                                <div class="detail-tags" id="th"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="vcCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及投资机构</div>
+                                <div class="detail-tags" id="vc"></div>
+                            </div>
+                        </div>
+
+                        <!--                        <div class="card" id="perCard">-->
+                        <!--                            <div class="card-body">-->
+                        <!--                                <div class="detail-card-title">文章涉及人物</div>-->
+                        <!--                                <div class="detail-tags"  id="per"></div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+
+                        <div class="card" id="locCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及地点</div>
+                                <div class="detail-tags" id="loc"></div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="card" id="policyCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">涉及政策条例</div>
+                                <div class="detail-tags" id="policy"></div>
+                            </div>
+                        </div>
+                        <div class="card" id="industrylableCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">行业标签</div>
+                                <div class="detail-tags" id="industrylable"></div>
+                            </div>
+                        </div>
+                        <div class="card" id="eventlableCard">
+                            <div class="card-body">
+                                <div class="detail-card-title">事件标签</div>
+                                <div class="detail-tags" id="eventlable"></div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+
+                        <div class="card m-b-0">
+                            <div class="card-body">
+                                <div class="detail-card-title">相关文章</div>
+                                <div class="article-content" style="max-height:400px;" id="relatedArticlesList">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+<script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+<script th:src="@{/common/tools.js}"></script>
+<script th:src="@{/dist/search_detail.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    var groupId = [[${groupid}]];
+    var projectId = [[${projectid}]];
+    var articleId = [[${articleid}]];
+    var relatedword = [[${relatedword}]];
+    var publish_time = [[${publish_time}]];
+    var menu = [[${menu}]];
+    
+    //    let currentPageByDetail = [[${currentPageByDetail}]];
+
+    $(function () {
+        breadCrumbs();
+        articleDetail();
+    });
+    
+    // 文章详情
+    function articleDetail() {
+        $.ajax({
+                url: ctxPath + 'monitor/articleDetail',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    articleId: articleId,
+                    projectId: projectId,relatedword:relatedword,publish_time: publish_time
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.emotionText) {
+                        $('#emotionText').html(res.emotionText);
+                    }
+                    if (res.detail) {
+//                    let articleIdArray = articleIds.split(",");
+//                        let currentBeforeId = '';
+//                        let currentBefore = '';
+//                        let currentAfterId = '';
+//                        let currentAfter = '';
+//                        let pageStrAll = '';
+
+//                        let pageStrStart = '<div id="pageArticle" class="page-up-next" style=" display: flex !important;padding-top: 20px !important;">';
+//                        let pageStrEnd = '</div>';
+//                        for (let i = 0; i < articleIdArray.length; i++) {
+//                            let articleIdJson = articleIdArray[i];
+//                            let currentArticleId = articleIdJson.id;
+////                                    let currentTitle = articleIdJson.title;
+//                            if (currentArticleId == articleId) {
+//                                if (i != 0) {
+//                                    let articleIdJsonBefore = articleIdArray[i - 1];
+//                                    currentBeforeId = articleIdJsonBefore.id;
+//                                    let currentBeforeTitle = articleIdJsonBefore.title;
+//                                    currentBefore = '<a  style="cursor:pointer;" onclick="toDetail(&apos;' + currentBeforeId + '&apos;,&apos;' + groupId + '&apos;,&apos;' + projectId + '&apos;)"><span data-id="' + currentBeforeId + '">上一篇</span>' + currentBeforeTitle + '</a>';
+//                                } else {
+//                                    currentBefore = '<a  style="cursor:pointer;" href="javascript:volid(0);"><span>上一篇</span>暂无上一篇</a>';
+//                                }
+//
+//                                if (i != (articleIdArray.length - 1)) {
+//                                    let articleIdJsonAfter = articleIdArray[i + 1];
+//                                    currentAfterId = articleIdJsonAfter.id;
+//                                    let currentAfterTitle = articleIdJsonAfter.title;
+//                                    currentAfter = '<a style="cursor:pointer;" onclick="toDetail(&apos;' + currentAfterId + '&apos;,&apos;' + groupId + '&apos;,&apos;' + projectId + '&apos;)"><span data-id="' + currentAfterId + '">下一篇</span>' + currentAfterTitle + '</a>';
+//                                } else {
+//                                    currentAfter = '<a style="cursor:pointer;" href="javascript:volid(0);"><span>下一篇</span>暂无下一篇</a>';
+//                                }
+//                            }
+//                        }
+//
+//                        pageStrAll = pageStrStart + currentBefore + currentAfter + pageStrEnd;
+
+                        var detail = res.detail;
+                        let imgListAll = '';
+                        let imgListStr1 = '<div>';
+                        let imgListStr2 = '';
+                        let imgListStr3 = '</div>';
+                        var imggroup = '';
+                        if (detail.sourcewebsitename == "微博") {
+                            let extend_string_one = detail.extend_string_one;
+                            if (extend_string_one != "") {
+                                let extend_string_oneJson = JSON.parse(extend_string_one);
+                                debugger;
+                                let imglist = extend_string_oneJson.imglist;
+                                for (let i = 0; i < imglist.length; i++) {
+                                    let imgurl = imglist[i].imgurl;
+                                    // console.info("img:" + imgurl);
+                                    let imgurlstr = ' <div class="img-box" style="  background: url(' + imgurl + ') no-repeat; background-size: cover;display: inline-block !important;width: 160px;background-position: center;"></div>'
+                                    imgListStr2 += imgurlstr;
+                                }
+                                let veviostr = '';
+                                if(extend_string_oneJson.hasOwnProperty('videoorientationurl')){
+                                	veviostr+='<video src="'+extend_string_oneJson.videoorientationurl+'" controls="controls"></video>';
+                                }
+                                
+                                
+                                imggroup = '<div class="img-group">' + imgListStr2 + '</div>'
+                                imggroup = imggroup+veviostr;
+                                
+                            }
+                         }else{
+                        	 debugger;
+                        	 let veviostr = '';
+                        	 let extend_string_one = detail.extend_string_one;
+                             if (extend_string_one != "") {
+                                 let extend_string_oneJson = JSON.parse(extend_string_one);
+                                 if(extend_string_oneJson.hasOwnProperty('videoorientationurl')){
+                                	 if(extend_string_oneJson.videoorientationurl!=''){
+                                		 veviostr+='<div align="center"><video src="'+extend_string_oneJson.videoorientationurl+'" controls="controls" style="width:30%;height:40%;text-align: center"></video></div>';
+                                	 }
+                                 	
+                                 }
+                             }
+                             imggroup = imggroup+veviostr;
+                         }
+                        imgListAll = imgListStr1 + imggroup + imgListStr3;
+                        $('#title').html(res.title);
+                        $('#source').html('<i class="mdi mdi-earth"></i> 来源： ' + detail.sourcewebsitename);
+                        $('#author').html('<i class="mdi mdi-face"></i> 作者：' + isNull(detail.author));
+                        $('#publish_time').html('<i class="mdi mdi-clock"></i> ' + timeParse(detail.publish_time));
+                        $('#industrylable').html('<i class="mdi fa-industry"></i> ' + detail.industrylable)
+                        $('#eventlable').html('<i class="mdi fa-map-marker"></i> ' + detail.eventlable)
+                        
+                        $('#yuanwen').html('<a href="' + detail.source_url + '" target="_blank">查看原文</a>');
+                        if (detail.sourcewebsitename == "微博" && detail.extend_string_one != "") {
+                            $('#content').html(res.text + imgListAll);
+                        } else {
+                        	if(detail.sourcewebsitename == "微信"){
+                        		let datahtml = res.text;
+                        		//datahtml = '<img data-ratio="1" data-src="https://mmbiz.qpic.cn/mmbiz_jpg/YdtjuibsaqbsAkluHgg5lCtTSm0TRRByI8y8QNouvwWYSvN8TYVB5Rfskqn5pnsibEAI7VqXEekvjYveJHdIk4rg/640?wx_fmt=jpeg" data-type="jpeg" data-w="1" height="475" style="box-sizing:border-box;width: 299px;height: 475px;" width="299">';
+                        		datahtml = datahtml.replace(/data-src/g, "src");
+                        		$('#content').html(datahtml + imgListAll);
+                        	}else{
+                        		$('#content').html(res.text + imgListAll);
+                        	}
+                            
+                        }
+//                        $('#content').html(detail.text + pageStrAll);
+                        var classArray = ['btn-outline-primary', 'btn-outline-success', 'btn-outline-info', 'btn-outline-warning'];
+                        if (detail.hasOwnProperty('key_words') && detail.key_words) {
+                            var keywords = JSON.parse(detail.key_words);
+                            var index = 0;
+                            var keywordArrary = [];
+                            $('#keywordList').html('');
+                            for (key in keywords) {
+                                if (index < 5) {
+                                    keywordArrary.push(key);
+                                }
+                                var classIndex = Math.floor(Math.random() * (3));
+                                $('#keywordList').append('<span style="margin-right: 5px;" class="btn waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                index++;
+                            }
+                            if (keywordArrary.length > 0) {
+                                relatedArticles(keywordArrary.join(','));
+                            }
+                        }
+
+                        if (detail.hasOwnProperty('ner') && detail.ner) {
+                            let ner = JSON.parse(detail.ner);
+
+                            let org = ner.org;
+
+                            let orgmap = new Map(Object.entries(org));
+                            if (orgmap.size < 1) {
+                                $('#orgCard').hide();
+                            } else {
+                                $('#org').html('');
+                                // console.log(map)
+                                orgmap.forEach(function (value, key) {
+                                    let classIndex = Math.floor(Math.random() * (3));
+                                    $('#org').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                })
+                            }
+
+                            let bank = ner.bank;
+                            let bankmap = new Map(Object.entries(bank));
+                            if (bankmap.size < 1) {
+                                $('#bankCard').hide();
+                            } else {
+                                $('#bank').html('');
+                                // console.log(map)
+                                bankmap.forEach(function (value, key) {
+                                    let classIndex = Math.floor(Math.random() * (3));
+                                    $('#bank').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                })
+                            }
+                            let hospital = ner.hospital;
+                            let hospitalmap = new Map(Object.entries(hospital));
+                            if (hospitalmap.size < 1) {
+                                $('#hospitalCard').hide();
+                            } else {
+                                $('#hospital').html('');
+                                // console.log(map)
+                                hospitalmap.forEach(function (value, key) {
+                                    let classIndex = Math.floor(Math.random() * (3));
+                                    $('#hospital').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                })
+                            }
+
+                            let school = ner.school;
+                            let schoolmap = new Map(Object.entries(school));
+                            if (schoolmap.size < 1) {
+                                $('#schoolCard').hide();
+                            } else {
+                                $('#school').html('');
+                                // console.log(map)
+                                schoolmap.forEach(function (value, key) {
+                                    let classIndex = Math.floor(Math.random() * (3));
+                                    $('#school').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                })
+                            }
+
+                            let nto = ner.nto;
+                            let ntomap = new Map(Object.entries(nto));
+                            if (ntomap.size < 1) {
+                                $('#ntoCard').hide();
+                            } else {
+                                $('#nto').html('');
+                                // console.log(map)
+                                ntomap.forEach(function (value, key) {
+                                    let classIndex = Math.floor(Math.random() * (3));
+                                    $('#nto').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                })
+                            }
+                            // let per = ner.per;
+                            // let permap = new Map(Object.entries(per));
+                            // if (permap.size<1) {
+                            //     $('#perCard').hide();
+                            // }else{
+                            //     $('#per').html('');
+                            //     // console.log(map)
+                            //     permap.forEach(function (value, key) {
+                            //         let classIndex = Math.floor(Math.random() * (3));
+                            //         $('#per').append('<span style="margin-right: 5px;" class="btn waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                            //     })
+                            // }
+
+                            let ipo = ner.IPO;
+                            let ipomap = new Map(Object.entries(ipo));
+                            let sz = false;
+                            if (ipomap.size < 1) {
+                                $('#ipoCard').hide();
+                            } else {
+                                $('#ipo').html('');
+                                // console.log(map)
+                                ipomap.forEach(function (value, key) {
+                                    let v = new Map(Object.entries(value));
+                                    if (v.get("chara").indexOf("SZ") != -1 || v.get("chara").indexOf("SH") != -1|| v.get("chara").indexOf("KCB") != -1) {
+                                        sz = true;
+                                        let classIndex = Math.floor(Math.random() * (3));
+                                        $('#ipo').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                    }
+                                })
+                                if (!sz) {
+                                    $('#ipoCard').hide();
+                                }
+                            }
+
+                            let xsb = ner.IPO;
+                            let xsbmap = new Map(Object.entries(xsb));
+                            let ff = false;
+                            if (xsbmap.size < 1) {
+                                $('#xsbCard').hide();
+                            } else {
+                                $('#xsb').html('');
+                                // console.log(map)
+                                xsbmap.forEach(function (value, key) {
+                                    let v = new Map(Object.entries(value));
+                                    if (v.get("chara").indexOf("XSB") != -1) {
+                                        ff = true;
+                                        let classIndex = Math.floor(Math.random() * (3));
+                                        $('#xsb').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                    }
+                                })
+                                if (!ff) {
+                                    $('#xsbCard').hide();
+                                }
+                            }
+
+                            let hongkong = ner.IPO;
+                            let hkmap = new Map(Object.entries(hongkong));
+                            let hh = false;
+                            if (hkmap.size < 1) {
+                                $('#hkCard').hide();
+                            } else {
+                                $('#hk').html('');
+                                // console.log(map)
+                                hkmap.forEach(function (value, key) {
+                                    let v = new Map(Object.entries(value));
+                                    if (v.get("chara").indexOf("HK") != -1 || v.get("chara").indexOf("NYSE") != -1|| v.get("chara").indexOf("NASDAQ") != -1) {
+                                        hh = true;
+                                        let classIndex = Math.floor(Math.random() * (3));
+                                        $('#hk').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                    }
+                                })
+                                if (!hh) {
+                                    $('#hkCard').hide();
+                                }
+                            }
+
+                            let w500t = ner.IPO;
+                            let wtmap = new Map(Object.entries(w500t));
+                            let ww = false;
+                            if (wtmap.size < 1) {
+                                $('#w500').hide();
+                            } else {
+                                $('#wt').html('');
+                                // console.log(map)
+                                wtmap.forEach(function (value, key) {
+                                    let v = new Map(Object.entries(value));
+                                    if (v.get("chara").indexOf("W500T") != -1) {
+                                        ww = true;
+                                        let classIndex = Math.floor(Math.random() * (3));
+                                        $('#wt').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                    }
+                                })
+                                if (!ww) {
+                                    $('#w500').hide();
+                                }
+                            }
+
+                            let c500t = ner.IPO;
+                            let ctmap = new Map(Object.entries(c500t));
+                            let cc = false;
+                            if (ctmap.size < 1) {
+                                $('#c500').hide();
+                            } else {
+                                $('#ct').html('');
+                                // console.log(map)
+                                ctmap.forEach(function (value, key) {
+                                    let v = new Map(Object.entries(value));
+                                    if (v.get("chara").indexOf("C500T") != -1) {
+                                        cc = true;
+                                        let classIndex = Math.floor(Math.random() * (3));
+                                        $('#ct').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                    }
+                                })
+                                if (!cc) {
+                                    $('#c500').hide();
+                                }
+                            }
+
+                            let th = ner.IPO;
+                            let thmap = new Map(Object.entries(th));
+                            let tt = false;
+                            if (thmap.size < 1) {
+                                $('#td').hide();
+                            } else {
+                                $('#th').html('');
+                                // console.log(map)
+                                thmap.forEach(function (value, key) {
+                                    let v = new Map(Object.entries(value));
+                                    if (v.get("chara").indexOf("Innovative") != -1||v.get("chara").indexOf("Unicorn") != -1||v.get("chara").indexOf("TechInnovDemon") != -1||v.get("chara").indexOf("AdvTechServe") != -1||v.get("chara").indexOf("TechBusIncu") != -1||v.get("chara").indexOf("Gazelle") != -1||v.get("chara").indexOf("InvisaChampion") != -1||v.get("chara").indexOf("MakerSpace") != -1||v.get("chara").indexOf("Specialized") != -1) {
+                                        tt = true;
+                                        let classIndex = Math.floor(Math.random() * (3));
+                                        $('#th').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                    }
+                                })
+                                if (!tt) {
+                                    $('#td').hide();
+                                }
+                            }
+
+                            let vc = ner.IPO;
+                            let vcmap = new Map(Object.entries(vc));
+                            let vv = false;
+                            if (vcmap.size < 1) {
+                                $('#vcCard').hide();
+                            } else {
+                                $('#vc').html('');
+                                // console.log(map)
+                                vcmap.forEach(function (value, key) {
+                                    let v = new Map(Object.entries(value));
+                                    if (v.get("chara").indexOf("VC") != -1) {
+                                        vv = true;
+                                        let classIndex = Math.floor(Math.random() * (3));
+                                        $('#vc').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                    }
+                                })
+                                if (!vv) {
+                                    $('#vcCard').hide();
+                                }
+                            }
+
+
+
+
+
+
+                            let loc = ner.loc;
+                            let locmap = new Map(Object.entries(loc));
+                            if (locmap.size < 1) {
+                                $('#locCard').hide();
+                            } else {
+                                $('#loc').html('');
+                                // console.log(map)
+                                locmap.forEach(function (value, key) {
+                                    let classIndex = Math.floor(Math.random() * (3));
+                                    $('#loc').append('<span data-keyword="' + key + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + key + '</span>');
+                                })
+                            }
+
+                        }
+                        if (detail.hasOwnProperty('policylable') && detail.policylable) {
+                        	let policylable = JSON.parse(detail.policylable);
+                        	
+                        	
+                        	if(policylable.length>0){
+                        		for(let i=0;i<policylable.length;i++){
+                            		var classIndex = Math.floor(Math.random() * (3));
+                                    $('#policy').append('<span data-keyword="' + policylable[i].policy + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">《' + policylable[i].policy + '》</span>');
+                            	}
+                        	}else{
+                        		$("#policyCard").hide();
+                        	}
+                        	
+                        	
+                        	
+                        }else{
+                        	$("#policyCard").hide();
+                        }
+                        
+                        
+                        //行业标签
+                        /* if (detail.hasOwnProperty('industrylable') && detail.industrylable) {
+                        	let industrylable = detail.industrylable;
+                        	if(industrylable!=''){
+                            		var classIndex = Math.floor(Math.random() * (3));
+                                    $('#industrylable').append('<span data-keyword="' + industrylable + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + industrylable + '</span>');
+                        	}else{
+                        		$("#industrylableCard").hide();
+                        	}
+                        	
+                        }else{
+                        	$("#industrylableCard").hide();
+                        } */
+                        
+                      //事件标签
+                      /*   if (detail.hasOwnProperty('eventlable') && detail.eventlable) {
+                        	let eventlable = detail.eventlable;
+                        	if(eventlable!=''){
+                            		var classIndex = Math.floor(Math.random() * (3));
+                                    $('#eventlable').append('<span data-keyword="' + eventlable + '" style="margin-right: 5px;" class="btn skipkeyword waves-effect waves-light btn-rounded ' + classArray[classIndex] + ' btn-sm">' + eventlable + '</span>');
+                        	}else{
+                        		$("#eventlableCard").hide();
+                        	}
+                        }else{
+                        	$("#eventlableCard").hide();
+                        } */
+                        
+                        
+                        
+                        
+                        
+                    }
+                    if (res.emotionChart) {
+                        emotionChart(res.emotionChart);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr);
+                    if (xhr.status == 403) {
+                        window.location.href = ctxPath + "login";
+                    }
+                }
+            }
+        );
+    }
+
+    //    function toDetail(article_public_id, g_id, p_id) {
+    //        window.location.href = ctxPath + 'monitor/detail/' + article_public_id + '?groupid=' + g_id + '&projectid=' + p_id + '&articleids=' + encodeURI(articleIds);
+    //    }
+
+    // 相关文章
+    function relatedArticles(keywords) {
+        $.ajax({
+            url: ctxPath + 'monitor/relatedArticles',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                keywords: keywords
+            },
+            beforeSend: function () {
+                loading("#relatedArticlesList");
+            },
+            success: function (res) {
+                console.log(res);
+                var list = res;
+                $('#relatedArticlesList').html('');
+                for (var i = 0; i < list.length; i++) {
+                    var time = timeParse(list[i].publishTime);
+                    if (time.length > 10) {
+                        time = time.substring(0, 10);
+                    }
+                    var html = '<div class="article-content-list">' +
+                        '<a target="_blank" href="' + ctxPath + 'monitor/detail/' + list[i].article_public_id + '?menu=' + menu + '&groupid=' + groupId + '&projectid=' + projectId + '">' +
+                        '<div class="font-medium">' + list[i].title + '</div>' +
+                        '<div class="article-content-list-con text-over-2 font-13">' +
+                        list[i].content +
+                        '</div>' +
+                        '<div class="article-content-footer">' +
+                        '<span class="text-muted"><i class="mdi mdi-earth"></i> ' + list[i].sourceName + '</span>' +
+                        '<span class="text-muted"><i class="mdi mdi-clock"></i> ' + time + '</span>' +
+                        '</div>' +
+                        '</a>' +
+                        '</div>';
+                    $('#relatedArticlesList').append(html);
+                }
+                if (list.length == 0) {
+                    $('#relatedArticlesList').html('<div class="article-content-list">暂无数据！</div>');
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+
+    function isNull(arg) {
+        if (arg) {
+            return arg;
+        } else {
+            return '-';
+        }
+    }
+
+    // 左侧方案切换
+    function switchProject(event) {
+        let $event = $(event);
+        var groupId = $event.attr("data-groupid");
+        var projectId = $event.attr("data-index");
+        window.location.href = ctxPath + 'monitor?groupid=' + groupId + '&projectid=' + projectId;
+    }
+
+    // 情感分析
+    function emotionChart(data) {
+        var o = c3.generate({
+            bindto: "#mood",
+            size: {height: 200},
+            color: {pattern: ["#72d0c0", "#989898", "#ed8b80"]},
+            data: {
+//                     columns: [
+//                         ["正面", 7304],
+//                         ["中性", 1540],
+//                         ["负面", 1156],
+//                     ],
+                columns: data,
+                type: "pie",
+            },
+            legend: {
+                show: false
+            }
+        });
+    }
+
+    $('.navLi').click(function () {
+        jumpNavLocation($(this).data('type'), groupId, projectId);
+    })
+
+
+    $("#goback1").click(function (param) {
+//        window.location.href = ctxPath + "monitor?projectId="+projectId+"&groupid="+groupId+"&page=6";
+    });
+
+</script>
+</body>
+
+</html>

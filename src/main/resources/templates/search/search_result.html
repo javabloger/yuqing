@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>全文搜索·网络情报分析系统</title>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/site.min.css}" rel="stylesheet" />
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <link rel="stylesheet" href="../dist/css/main.css" />
+    <style type="text/css">
+        i {
+            font-style: normal;
+        }
+        .monitor-content-title > a {
+            cursor: pointer;
+        }
+        .ntag {
+            color: #128bed;
+            background: #e7f4ff;
+            height: 22px;
+            font-weight: normal;
+            display: inline-block;
+            line-height: 14px;
+            font-size: 12px;
+            padding: 4px 8px 4px 8px;
+            margin-right: 4px;
+            border-radius: 2px;
+        }
+
+        .govtag {
+            color: #666;
+            background: #e7f4ff;
+            height: 22px;
+            font-weight: normal;
+            display: inline-block;
+            line-height: 14px;
+            font-size: 12px;
+            padding: 4px 8px 4px 8px;
+            margin-right: 4px;
+            border-radius: 2px;
+        }
+        .ipotag {
+            color: #747f88;
+            background: #fff7f6;
+            height: 22px;
+            font-weight: normal;
+            display: inline-block;
+            line-height: 14px;
+            font-size: 12px;
+            padding: 4px 8px 4px 8px;
+            margin-right: 4px;
+            border-radius: 2px;
+        }
+        .eventlable {
+            color: #747f88;
+            background: #e7f4f6;
+            height: 22px;
+            font-weight: normal;
+            display: inline-block;
+            line-height: 14px;
+            font-size: 12px;
+            padding: 4px 8px 4px 8px;
+            margin-right: 4px;
+            border-radius: 2px;
+        }
+
+        .industrylable {
+            color: #747f88;
+            background: #fff800;
+            height: 22px;
+            font-weight: normal;
+            display: inline-block;
+            line-height: 14px;
+            font-size: 12px;
+            padding: 4px 8px 4px 8px;
+            margin-right: 4px;
+            border-radius: 2px;
+        }
+        .categorylable {
+            color: #ffffff;
+            background: #74aeea;
+            height: 22px;
+            font-weight: normal;
+            display: inline-block;
+            line-height: 14px;
+            font-size: 12px;
+            padding: 4px 8px 4px 8px;
+            margin-right: 4px;
+            border-radius: 2px;
+        }
+        #plus:hover {
+            color: #128bed;
+        }
+        .ddda {
+            line-height: 35px;
+            color: #979797;
+            font-size: 14px;
+            cursor: pointer;
+            width: 6.34%;
+            font-family: "Microsoft YaHei";
+            position: relative;
+            left: 0;
+        }
+        .numaa {
+            color: #b6b6b6;
+        }
+        .btn {
+            padding: 0px;
+        }
+
+        .industrylist {
+            /* width: 68vw; */
+            width: 100%;
+            height: 40px;
+            overflow: hidden;
+            float: left;
+            margin: 0 auto;
+        }
+        .industrylist1 {
+            /* width: 68vw; */
+            width: 100%;
+            height: auto;
+            overflow: auto;
+            float: left;
+            margin: 0 auto;
+        }
+    </style>
+    <style type="text/css">
+        .monitor-content-title > a {
+            cursor: pointer
+        }
+        .right-pic{
+			float:right;
+			min-height: 100px;
+			margin-right: 60px;
+			margin-top:15px;
+		}
+		.head-img {
+		    width: 35px;
+		    height: 35px;
+		    border-radius: 50%;
+		    overflow: hidden;
+		    margin-right: 10px;
+		}
+		.head-img>div {
+		    width: 100%;
+		    height: 100%;
+		    background-size: cover !important;
+		    background-position: center !important;
+	    }
+		.bd-answer {
+		    background: #f8f8f8;
+		    padding: 5px;
+		    border-radius: 4px;
+		}
+		.bd-tips {
+		    margin-top: 10px;
+   			margin-bottom: 10px;
+		}
+		.first-line {
+			display: flex;
+		    align-items: center;
+		    margin-bottom: 10px;
+		    position: relative;
+		}
+        #plus:hover {
+            color: #128bed;
+        }
+        .ddda {
+            line-height: 35px;
+            color: #979797;
+            font-size: 14px;
+            cursor: pointer;
+            width: 6.34%;
+            font-family: "Microsoft YaHei";
+            position: relative;
+            left: 0;
+        }
+
+        .industrylist {
+            /* width: 68vw; */
+            width: 100%;
+            height: 40px;
+            overflow: hidden;
+            float: left;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content left-filtrate">
+            <div class="custom-page-breadcrumb">
+            	<div class="custom-box-info">
+                <div class="row">
+                    <div class="col-lg-10 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <div class="search-group d-flex" style="padding-left: 0;">
+								<div style="width: 100%;">
+									<input id="searchWord" th:value="${searchWord}" type="text" class="form-control" placeholder="请输入企业名称、企业简称、产品名、行业名称、政策法规、人名等，多关键词用空格隔开">
+								</div>
+								<button id="searchBtn" style="z-index: 1; border-radius: 0 2px 2px 0 !important;width: auto;" class="btn btn-info">全文搜索</button>
+							</div>
+                        </div>
+                    </div>
+<!--                    <div class="col-lg-2 align-self-center ">-->
+<!--                        <div class="d-flex no-block justify-content-end align-items-center data-number-min">-->
+<!--                           	<span id="search-setting" onclick="searchSetting()">搜索设置</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+                <ul class="create-tab-report pro-bb" id="search-tab">
+                   
+               	</ul>
+               	<div class="col-lg-2 align-self-center " id="all-count">
+                        <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                           	总数据量 <span id="totalCount">0</span>条
+                        </div>
+                    </div>
+               	</div>
+            </div>
+
+            <div class="p-20" id="my_serach_information">
+                <div class="card">
+                    <div class="p-t-10">
+                        <!-- double line  start-->
+                        <div class="warning-edit-double">
+                            <div style="display: flex; overflow: hidden;width:90%">
+                                <div
+                                        class="preference-left"
+                                        style="padding-left: 15px; width: 100px !important"
+                                >
+                                    涉及行业
+                                </div>
+                                <div class="m-l-0 industrylist" id="industrylist">
+                                    <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div>
+                                <!-- <div
+                                  class="m-l-0"
+                                  id="industrylist1"
+                                  style="display: none; width: 85%"
+                                >
+                                  <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div> -->
+                            </div>
+                            <div id="plus" class="ddda">
+                                更多&nbsp;<i
+                                    data-v-8ad03c8e=""
+                                    class="fa fa-angle-down"
+                            ></i>
+                            </div>
+                        </div>
+                        <!-- double line  end-->
+
+                        <!-- double line  start-->
+                        <div class="warning-edit-double">
+                            <div style="display: flex; overflow: hidden;width:90%">
+                                <div
+                                        class="preference-left"
+                                        style="padding-left: 15px; width: 100px !important"
+                                >
+                                    涉及事件
+                                </div>
+                                <div class="m-l-0 industrylist" id="eventlist">
+                                    <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div>
+                                <!-- <div
+                                  class="m-l-0"
+                                  id="eventlist1 "
+                                  style="display: none; width: 85%"
+                                >
+                                  <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div> -->
+                            </div>
+                            <div id="eventplus" class="ddda">
+                                更多&nbsp;<i
+                                    data-v-8ad03c8e=""
+                                    class="fa fa-angle-down"
+                            ></i>
+                            </div>
+                        </div>
+                        <!-- double line  end-->
+
+                        <!-- double line  start-->
+                        <div class="warning-edit-double">
+                            <div style="display: flex;width:90%">
+                                <div
+                                        class="preference-left"
+                                        style="padding-left: 15px; width: 100px !important"
+                                >
+                                    涉及省份
+                                </div>
+                                <div class="m-l-0 industrylist" id="provincelist">
+                                    <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div>
+                                <!-- <div
+                                  class="m-l-0"
+                                  id="provincelist1"
+                                  style="display: none; width: 85%"
+                                >
+                                  <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div> -->
+                            </div>
+                            <div id="provplus" class="ddda">
+                                更多&nbsp;<i
+                                    data-v-8ad03c8e=""
+                                    class="fa fa-angle-down"
+                            ></i>
+                            </div>
+                        </div>
+                        <!-- double line  end-->
+
+                        <!-- double line  start-->
+                        <div class="warning-edit-double">
+                            <div style="display: flex;width:90%">
+                                <div
+                                        class="preference-left"
+                                        style="padding-left: 15px; width: 100px !important"
+                                >
+                                    涉及城市
+                                </div>
+                                <div class="m-l-0 industrylist" id="citylist">
+                                    <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div>
+                                <!-- <div
+                                  class="m-l-0"
+                                  id="citylist1"
+                                  style="display: none; width: 85%"
+                                >
+                                  <span class="badge badge-pill badge-light">全部(0)</span>
+                                </div> -->
+                            </div>
+                            <div id="cityplus" class="ddda" style="">
+                                更多&nbsp;<i
+                                    data-v-8ad03c8e=""
+                                    class="fa fa-angle-down"
+                            ></i>
+                            </div>
+                        </div>
+                        <!-- double line  end-->
+                        <div data-v-0c8af649="" class="pills">
+                            <div
+                                    data-v-0c8af649=""
+                                    class="pills-header"
+                                    style="padding-left: 15px; width: 100px !important"
+                            >
+                                更多筛选
+                            </div>
+                            <div data-v-0c8af649="" class="pills-after">
+                                <div data-v-0c8af649="" class="fitem">
+                                    <div
+                                            data-v-03cb9676=""
+                                            data-v-0c8af649=""
+                                            class="app-dselect drop-hover"
+                                    >
+                        <span
+                                data-v-03cb9676=""
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                class="toggle"
+                        ><a
+                                data-v-03cb9676=""
+                                style="font-weight: 300; font-size: 1px"
+                                class="dselect-text"
+                        >
+                            涉及机构
+                            <!---->
+                            <span data-v-03cb9676="" class="caret"></span
+                            ></a>
+                        </span>
+                                        <div
+                                                data-v-03cb9676=""
+                                                class="dropdown-menu"
+                                                id="organizationtype"
+                                        >
+                                            <ul data-v-03cb9676="" class="drop-col">
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="全部"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="0"
+                                                            checked
+                                                            name="checkbox"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">全部</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="政府"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="nto"
+                                                            name="checkbox"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">政府</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="医院"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="hospital"
+                                                            name="checkbox"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">医院</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="学校"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="school"
+                                                            name="checkbox"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">学校</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="银行"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="bank"
+                                                            name="checkbox"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">银行</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-0c8af649="" class="fitem">
+                                    <div
+                                            data-v-03cb9676=""
+                                            data-v-0c8af649=""
+                                            class="app-dselect drop-hover"
+                                    >
+                        <span
+                                data-v-03cb9676=""
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                class="toggle"
+                        ><a
+                                data-v-03cb9676=""
+                                style="font-weight: 300; font-size: 1px"
+                                class="dselect-text"
+                        >
+                            文章分类
+                            <!---->
+                            <span data-v-03cb9676="" class="caret"></span
+                            ></a>
+                        </span>
+                                        <div
+                                                data-v-03cb9676=""
+                                                class="dropdown-menu"
+                                                id="categorylabledata"
+                                        >
+                                            <ul data-v-03cb9676="" class="drop-col">
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="全部"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            checked
+                                                            value="0"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">全部</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="社会"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="社会"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">社会</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="教育"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="教育"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">教育</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="财经"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="财经"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">财经</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="娱乐"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="娱乐"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">娱乐</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="健康"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="健康"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">健康</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="时事"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="时事"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">时事</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="体育"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="体育"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">体育</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="汽车"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="汽车"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">汽车</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="游戏"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="游戏"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">游戏</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="科技"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="科技"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">科技</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="军事"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="军事"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">军事</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="音乐"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="音乐"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">音乐</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="国际"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="国际"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">国际</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="房产"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="房产"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">房产</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="综合"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="综合"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">综合</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                            </ul>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-0c8af649="" class="fitem">
+                                    <div
+                                            data-v-03cb9676=""
+                                            data-v-0c8af649=""
+                                            class="app-dselect drop-hover"
+                                    >
+                        <span
+                                data-v-03cb9676=""
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                class="toggle"
+                        ><a
+                                data-v-03cb9676=""
+                                style="font-weight: 300; font-size: 1px"
+                                class="dselect-text"
+                        >
+                            涉及企业
+                            <!---->
+                            <span data-v-03cb9676="" class="caret"></span
+                            ></a>
+                        </span>
+                                        <div
+                                                data-v-03cb9676=""
+                                                class="dropdown-menu"
+                                                id="enterprisetypelist"
+                                        >
+                                            <ul data-v-03cb9676="" class="drop-col">
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="全部"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            checked
+                                                            value="0"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">全部</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="主板上市"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="SZSH"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >主板上市</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="非上市"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="non-listedstock"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">非上市</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="科创板"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="KCB"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">科创板</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="新三板"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="XSB"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">新三板</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="纽交所"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="NYSE"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">纽交所</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="纳斯达克"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="NASDAQ"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >纳斯达克</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="香港上市"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="HK"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >香港上市</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="世界五百强"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="W500T"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >世界五百强</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="中国五百强"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="C500T"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >中国五百强</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                            </ul>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-0c8af649="" class="fitem">
+                                    <div
+                                            data-v-03cb9676=""
+                                            data-v-0c8af649=""
+                                            class="app-dselect drop-hover"
+                                    >
+                        <span
+                                data-v-03cb9676=""
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                class="toggle"
+                        ><a
+                                data-v-03cb9676=""
+                                style="font-weight: 300; font-size: 1px"
+                                class="dselect-text"
+                        >
+                            涉及高科技型企业
+                            <!---->
+                            <span data-v-03cb9676="" class="caret"></span
+                            ></a>
+                        </span>
+                                        <div
+                                                data-v-03cb9676=""
+                                                class="dropdown-menu"
+                                                id="hightechtypelist"
+                                        >
+                                            <ul data-v-03cb9676="" class="drop-col">
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="全部"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="0"
+                                                            checked
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">全部</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="独角兽企业"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="Unicorn"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >独角兽企业</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="瞪羚羊"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="Gazelle"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">瞪羚羊</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="专精特"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="Specialized"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">专精特</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="高新技术企业"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="HighTech"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >高新技术企业</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                            </ul>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-0c8af649="" class="fitem">
+                                    <div
+                                            data-v-03cb9676=""
+                                            data-v-0c8af649=""
+                                            class="app-dselect drop-hover"
+                                    >
+                        <span
+                                data-v-03cb9676=""
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                class="toggle"
+                        ><a
+                                data-v-03cb9676=""
+                                style="font-weight: 300; font-size: 1px"
+                                class="dselect-text"
+                        >
+                            涉及政策
+                            <!---->
+                            <span data-v-03cb9676="" class="caret"></span
+                            ></a>
+                        </span>
+                                        <div
+                                                data-v-03cb9676=""
+                                                class="dropdown-menu"
+                                                id="policylableflag"
+                                        >
+                                            <ul data-v-03cb9676="" class="drop-col">
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="全部"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            checked
+                                                            value="0"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676="">全部</span></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                                <li data-v-03cb9676="">
+                                                    <a data-v-03cb9676="" class="item"
+                                                    ><label
+                                                            data-v-03cb9676=""
+                                                            title="包含政策"
+                                                            class="text"
+                                                    ><input
+                                                            data-v-03cb9676=""
+                                                            autocomplete="off"
+                                                            value="1"
+                                                            type="checkbox"
+                                                    />
+                                                        <span data-v-03cb9676=""
+                                                        >包含政策</span
+                                                        ></label
+                                                    ></a
+                                                    >
+                                                </li>
+                                            </ul>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--                    分类标记(1微信，2微博，3政务，4论坛，5新闻，6报刊，7客户端，8网站，9外媒，10视频，11博客)-->
+<!--                                <div data-v-0c8af649="" class="fitem">-->
+<!--                                    <div-->
+<!--                                            data-v-03cb9676=""-->
+<!--                                            data-v-0c8af649=""-->
+<!--                                            class="app-dselect drop-hover"-->
+<!--                                    >-->
+<!--                        <span-->
+<!--                                data-v-03cb9676=""-->
+<!--                                data-toggle="dropdown"-->
+<!--                                aria-expanded="false"-->
+<!--                                class="toggle"-->
+<!--                        ><a-->
+<!--                                data-v-03cb9676=""-->
+<!--                                style="font-weight: 300; font-size: 1px"-->
+<!--                                class="dselect-text"-->
+<!--                        >-->
+<!--                            数据来源-->
+<!--                            &lt;!&ndash;&ndash;&gt;-->
+<!--                            <span data-v-03cb9676="" class="caret"></span-->
+<!--                            ></a>-->
+<!--                        </span>-->
+<!--                                        <div-->
+<!--                                                data-v-03cb9676=""-->
+<!--                                                class="dropdown-menu"-->
+<!--                                                id="classify"-->
+<!--                                        >-->
+<!--                                            <ul data-v-03cb9676="" class="drop-col">-->
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="全部"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            checked-->
+<!--                                                            value="0"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676="">全部</span></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="微信"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="1"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >微信</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="包含政策"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="2"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >微博</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="政务"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="3"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >政务</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="论坛"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="4"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >论坛</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="新闻"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="5"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >新闻</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="报刊"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="6"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >报刊</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="客户端"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="7"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >客户端</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="网站"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="8"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >网站</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="外媒"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="9"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >外媒</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="视频"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="10"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >视频</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+
+<!--                                                <li data-v-03cb9676="">-->
+<!--                                                    <a data-v-03cb9676="" class="item"-->
+<!--                                                    ><label-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            title="博客"-->
+<!--                                                            class="text"-->
+<!--                                                    ><input-->
+<!--                                                            data-v-03cb9676=""-->
+<!--                                                            autocomplete="off"-->
+<!--                                                            value="11"-->
+<!--                                                            type="checkbox"-->
+<!--                                                    />-->
+<!--                                                        <span data-v-03cb9676=""-->
+<!--                                                        >博客</span-->
+<!--                                                        ></label-->
+<!--                                                    ></a-->
+<!--                                                    >-->
+<!--                                                </li>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--                                            </ul>-->
+<!--                                            &lt;!&ndash;&ndash;&gt;-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="p-20" id="articlebody">
+<!--             <div class="p-20"> -->
+                <div class="card" id="card-body">
+                    <div class="card-body">
+                        <div class="monitor-content" id="monitor-content">
+                        </div>
+                        <div class="all-pagebox m-t-20">
+                            <ul class="pagination float-right" id="page"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+        <div class="right-filtrate bg-white">
+            <div class="scrollable position-relative ps-container ps-theme-default" style="height:100%;">
+                <div class="filter-box">
+                    <div class="card-title filter-title">
+                       	 筛选项
+                        <i class="mdi mdi-minus-circle-outline" id="classifyhide"></i>
+                        <i class="mdi mdi-plus-circle-outline" style="display: none;" id="classifyshow"></i>
+                    </div>
+                    <div class="inline-list" id="classifybox" style="display: block;">
+                        <!-- <span data-classify="3,6,7,8" class="badge badge-pill badge-info">全部</span>
+                        <span data-classify=3 class="badge badge-pill badge-light">政府</span> -->
+                    </div>
+                    <select name="group-select" id="sourceName-select" class="form-control custom-select" style="width: 175px;">
+                    
+                    </select>
+                </div>
+                <!-- 筛选 -->
+                <div class="filter-box" id="filter">
+                	<div class="card-title filter-title">筛选类型</div>
+                    <div class="inline-list" id="filterType" style="display: block;">
+                        
+                    </div>
+                </div>
+                <div class="filter-box" id="matchMethod">
+                    <div class="card-title filter-title">
+                       	 匹配方式
+                        <i class="mdi mdi-minus-circle-outline" id="pphide2"></i>
+                        <i class="mdi mdi-plus-circle-outline" style="display: none;" id="ppshow2"></i>
+                    </div>
+                    <div class="inline-list" id="ppinline2">
+                        <span data-matchs2="标题" class="badge badge-pill badge-info">标题</span>
+                        <span data-matchs2="全部匹配" class="badge badge-pill badge-light">全部匹配</span>
+                        <span data-matchs2="机构名称" class="badge badge-pill badge-light">机构名称</span>
+
+                        <span data-matchs2="股票代码" class="badge badge-pill badge-light">股票代码</span>
+                        <span data-matchs2="内容" class="badge badge-pill badge-light">内容</span>
+                    </div>
+                </div>
+                <!-- 类型 -->
+                <div class="filter-box" id="lawyer-type">
+                	<div class="card-title filter-title">筛选对象</div>
+                	<div class="inline-list" id="typeRadio" style="display: block;">
+                        
+                    </div>
+                </div>
+                <!-- 工作年限 -->
+                <div class="filter-box" id="lawyer-workTime">
+                    <div>
+                        <label for="">年限/工作年限：</label>
+                        <select name="group-select" class="form-control custom-select" style="width: 175px;" id="lawyerWorkTime" onchange="search()">
+                          <option value="不限">不限</option>
+                          <option value="一年以内">一年以内</option>
+                          <option value="一到两年">一到两年</option>
+                          <option value="两到三年">两到三年</option>
+                          <option value="三到四年">三到四年</option>
+                          <option value="四到五年">四到五年</option>
+                          <option value="五到六年">五到六年</option>
+                          <option value="六到七年">六到七年</option>
+                          <option value="七到八年">七到八年</option>
+                          <option value="八到九年">八到九年</option>
+                          <option value="九到十年">九到十年</option>
+                          <option value="十年以上">十年以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-box" id="company-status-box">
+                    <div class="card-title filter-title">企业状态</div>
+                    <div class="inline-list inlineTimebox" id="company-status">
+                    	<span data-companyStatus=0 class="badge badge-pill badge-info">全部</span>
+                        <span data-companyStatus=1 class="badge badge-pill badge-light">在业</span>
+                        <span data-companyStatus=2 class="badge badge-pill badge-light">吊销</span>
+                        <span data-companyStatus=3 class="badge badge-pill badge-light">注销</span>
+                        <span data-companyStatus=4 class="badge badge-pill badge-light">迁出</span>
+                        <span data-companyStatus=5 class="badge badge-pill badge-light">存续</span>
+                        <span data-companyStatus=6 class="badge badge-pill badge-light">暂无</span>
+                    </div>
+                </div>
+                <div class="filter-box" id="establish-date-box">
+                    <div class="card-title filter-title">成立年限</div>
+                    <div class="inline-list inlineTimebox" id="establish-date">
+                    	<span data-establish=0 class="badge badge-pill badge-info">不限</span>
+                        <span data-establish=1 class="badge badge-pill badge-light">今年</span>
+                        <span data-establish=2 class="badge badge-pill badge-light">1-3年</span>
+                        <span data-establish=3 class="badge badge-pill badge-light">3-5年</span>
+                        <span data-establish=4 class="badge badge-pill badge-light">5-10年</span>
+                        <span data-establish=5 class="badge badge-pill badge-light">10-20年</span>
+                        <span data-establish=6 class="badge badge-pill badge-light">20年以上</span>
+                    </div>
+                </div>
+                <div class="filter-box" id="publish-date-box-1" style="display: none;">
+                    <div class="card-title filter-title">发布时间</div>
+                    <div class="inline-list inlineTimebox" id="publish-date-1">
+                        <span data-publish=0 class="badge badge-pill badge-info">不限</span>
+                        <span data-publish=1 class="badge badge-pill badge-light">近3天</span>
+                        <span data-publish=2 class="badge badge-pill badge-light">近7天</span>
+                        <span data-publish=3 class="badge badge-pill badge-light">近1个月</span>
+                        <span data-publish=4 class="badge badge-pill badge-light">近3个月</span>
+                        <span data-publish=5 class="badge badge-pill badge-light">近6个月</span>
+                        <span data-publish=6 class="badge badge-pill badge-light">近1年</span>
+                    </div>
+                </div>
+                <div class="filter-box" id="publish-date-box">
+                    <div class="card-title filter-title">发布时间</div>
+                    <div class="inline-list inlineTimebox" id="publish-date">
+                        <span data-publish=0 class="badge badge-pill badge-info">不限</span>
+                        <span data-publish=2020 class="badge badge-pill badge-light">2020年</span>
+                        <span data-publish=2019 class="badge badge-pill badge-light">2019年</span>
+                        <span data-publish=2018 class="badge badge-pill badge-light">2018年</span>
+                        <span data-publish=2017 class="badge badge-pill badge-light">2017年</span>
+                        <span data-publish=2016 class="badge badge-pill badge-light">2016年</span>
+                        <span data-publish=1 class="badge badge-pill badge-light">更早</span>
+                    </div>
+                </div>
+                <div class="filter-box" id="timesbox">
+                    <div class="card-title filter-title">时间范围</div>
+                    <div class="inline-list inlineTimebox" id="inlineTime">
+                        <span data-time=6 class="badge badge-pill badge-info">15天</span>
+                        <span data-time=1 class="badge badge-pill badge-light">24小时</span>
+                        <span data-time=4 class="badge badge-pill badge-light">3天</span>
+
+                        <span data-time=0 class="badge badge-pill badge-light">更多..</span>
+
+                    </div>
+                </div>
+                <div class="filter-box" id="time-box" style="display: none;padding-top:0px">
+                    <div class="inline-list inlineTimebox" id="inlineTime">
+                        <span data-time=5 class="badge badge-pill badge-light">7天</span>
+                        <span data-time=7 class="badge badge-pill badge-light">30天</span>
+                        <span data-time=2 class="badge badge-pill badge-light">一年</span>
+                        <span data-time=8 class="badge badge-pill badge-light">自定义</span>
+                    </div>
+                    <div class="input-daterange input-group monitor-date m-t-10" style="display: none" id="date-range">
+                        <input type="text" class="form-control" name="start" placeholder="开始日期"/>
+                        <input type="text" class="form-control" name="end" placeholder="结束日期"/>
+                    </div>
+                </div>
+                <div class="filter-box" id="similarbox">
+                    <div class="card-title filter-title">
+                       	 相似文章
+                        <i class="mdi mdi-minus-circle-outline" id="xshide"></i>
+                        <i class="mdi mdi-plus-circle-outline" style="display: none;" id="xsshow"></i>
+                    </div>
+                    <div class="inline-list" id="xsinline" style="display: block;">
+                        <span data-similar=1 class="badge badge-pill badge-light">合并文章</span>
+                        <span data-similar=0 class="badge badge-pill badge-info">取消合并</span>
+                    </div>
+                </div>
+                <div class="filter-box" id="sortbox">
+                    <div class="card-title filter-title">信息排序</div>
+                    <div class="inline-list" id="inlineList">
+                        <span data-sort=1 class="badge badge-pill badge-info">时间降序</span>
+                        <span data-sort=2 class="badge badge-pill badge-light">时间升序</span>
+                        <span data-sort=3 class="badge badge-pill badge-light" id="similarNum">相似数量</span>
+                    </div>
+                </div>
+                <div class="filter-box" id="emotionbox">
+                    <div class="card-title filter-title">
+                        	情感属性
+                        <i class="mdi mdi-minus-circle-outline" style="display: none;" id="qghide"></i>
+                        <i class="mdi mdi-plus-circle-outline" id="qgshow"></i>
+                    </div>
+                    <div class="emotion-list" id="emotionList" style="display: none;">
+                        <span data-emotion=1 class="badge badge-pill badge-info">
+                        	<i class="mdi mdi-emoticon-happy"></i>正面
+                        </span>
+                        <span data-emotion=2 class="badge badge-pill badge-info">
+                        	<i class="mdi mdi-emoticon-neutral"></i>中性
+                        </span>
+                        <span data-emotion=3 class="badge badge-pill badge-info">
+                        	<i class="mdi mdi-emoticon-sad"></i>负面
+                        </span>
+                    </div>
+                </div>
+                <div class="filter-box" id="matchsbox">
+                    <div class="card-title filter-title">
+                       	 匹配方式
+                        <i class="mdi mdi-minus-circle-outline" style="display: none;" id="pphide"></i>
+                        <i class="mdi mdi-plus-circle-outline" id="ppshow"></i>
+                    </div>
+                    <div th:if="${fulltype} ne 23" class="inline-list" id="ppinline" style="display: none;">
+                        <span data-matchs=1 class="badge badge-pill badge-info">全文匹配</span>
+                        <span data-matchs=2 class="badge badge-pill badge-light">标题匹配</span>
+                        <span data-matchs=3 class="badge badge-pill badge-light">正文匹配</span>
+                    </div>
+                    <div th:if="${fulltype} eq 23" class="inline-list" id="ppinline" style="display: none;">
+                        <span data-matchs=0 class="badge badge-pill badge-info">全部</span>
+                        <span data-matchs=2 class="badge badge-pill badge-light">正文</span>
+                        <span data-matchs=1 class="badge badge-pill badge-light">问题</span>
+                    </div>
+                </div>
+<!--                 <div class="filter-box"> -->
+<!--                     <div class="card-title filter-title"> -->
+<!--                         	数据导出 -->
+<!--                         <i class="mdi mdi-minus-circle-outline" style="display: none;" id="dchide"></i> -->
+<!--                         <i class="mdi mdi-plus-circle-outline" id="dcshow"></i> -->
+<!--                     </div> -->
+<!--                     <div class="inline-list" id="dcinline" style="display: none;"> -->
+<!--                         <span class="badge badge-pill badge-light" id="allexport">全部导出</span> -->
+<!--                         <span class="badge badge-pill badge-light" id="selectexport">选择导出</span> -->
+<!--                         <span class="badge badge-pill badge-light" id="sureexport">确认导出</span> -->
+<!--                     </div> -->
+<!--                 </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+
+<script th:src="@{/common/analyze-cloud.js}"></script>
+
+<script th:src=" @{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src=" @{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src=" @{/dist/js/app.min.js}"></script>
+<script th:src=" @{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src=" @{/dist/js/app-style-switcher.js}"></script>
+<script th:src=" @{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src=" @{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src=" @{/dist/js/waves.js}"></script>
+<script th:src=" @{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+
+<!--js调用-->
+<script th:src="@{/dist/monitorsearch.js?unixtemp=888888}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jutils-src"></script>
+<script th:inline="javascript" type="text/javascript">
+	var ctx = [[@{/}]];
+	var pageNum = [[${page}]];
+	var sourcename = [[${source_name}]];
+	var website_id = [[${website_id}]];
+	var classify = [[${classify}]];
+	var menuStyle = [[${menuStyle}]];
+	var pageSize = [[${pageSize}]];
+	if(!pageSize) pageSize = 25
+	var onlyid = '';
+	
+	function setFilterType(idclass){
+		var id = "#"+idclass+""
+		var object = $(id)
+		var active = "badge-info";
+	    var normal = "badge-light";
+	    var act = object.attr("class")
+	    if (act.indexOf(active) == -1) {
+	    	object.siblings().removeClass(active);
+	    	object.siblings().addClass(normal);
+	    	object.removeClass(normal);
+	    	object.addClass(active);
+	    }
+	}
+	
+	function setTypeRadio(idclass){
+		var id = "#"+idclass+""
+		var object = $(id)
+		var active = "badge-info";
+	    var normal = "badge-light";
+	    var act = object.attr("class")
+	    if (act.indexOf(active) == -1) {
+	    	object.siblings().removeClass(active);
+	    	object.siblings().addClass(normal);
+	    	object.removeClass(normal);
+	    	object.addClass(active);
+	    	if(full_type == 100){
+	    		lawyerList(1)
+	    	}else if(full_type == 101){
+	    		executionPersonList(1)
+	    	}
+	    }
+	}
+	
+    $('.navLi').click(function () {
+        jumpNavLocation($(this).data('type'), null, null);
+    })
+    
+    function search() {
+    	console.log(full_type)
+    	if(full_type==100){
+    		lawyerList(1)
+    	}else if(full_type==101){
+    		executionPersonList(1)
+    	}
+    }
+</script>
+<script th:src="@{/dist/search_result_data.js?unixtemp=888888}"></script>
+<script th:src="@{/dist/search_result.js?unixtemp=888888}"></script>
+</body>
+</html>

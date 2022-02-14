@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.ReportDetailDao">
+	
+	<insert id="saveReportDetail" parameterType="com.stonedt.intelligence.entity.ReportDetail">
+		insert into 
+			report_detail(
+				create_time, report_id, data_overview, emotion_analysis, hot_event_ranking, media_activity_analysis,
+				self_media_ranking, high_word_index, hot_spot_ranking, netizen_word_cloud, media_cord_cloud,
+				hot_people, hot_spots, topic_clustering, social_v_ranking,highword_cloud,highword_cloud_index,ner
+			)
+			values(
+				#{create_time}, #{report_id}, #{data_overview}, #{emotion_analysis}, #{hot_event_ranking},
+				#{media_activity_analysis}, #{self_media_ranking}, #{high_word_index}, #{hot_spot_ranking}, 
+				#{netizen_word_cloud}, #{media_cord_cloud}, #{hot_people}, #{hot_spots}, #{topic_clustering},
+				#{social_v_ranking},#{highword_cloud},#{highword_cloud_index},#{ner}
+			)
+	</insert>
+	
+	<select id="getReportDetail" resultType="com.stonedt.intelligence.entity.ReportDetail">
+		select
+			rd.create_time, rd.report_id, rd.data_overview, rd.emotion_analysis, rd.hot_event_ranking, rd.media_activity_analysis,
+			rd.self_media_ranking, rd.high_word_index, rd.hot_spot_ranking, rd.netizen_word_cloud, rd.media_cord_cloud,
+			rd.hot_people, rd.hot_spots, rd.topic_clustering, rd.social_v_ranking,
+			rc.report_name, rc.report_type, rc.report_starttime, rc.report_endtime, rc.report_time,rd.highword_cloud,rd.highword_cloud_index,ner
+		from
+			report_detail AS rd, report_custom AS rc
+		where
+			rd.report_id = rc.report_id
+		and 
+			rd.report_id = #{reportId} 
+	</select>
+
+
+</mapper>

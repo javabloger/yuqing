@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>方案详情·网络情报分析系统</title>
+
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+<!--     <div th:replace="common/project_left::project_left"></div> -->
+    <div th:replace="common/monitor_left::monitor_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb" id="breadCrumbs">
+                                    <li class="breadcrumb-item">监测管理</li>
+                                    <li class="breadcrumb-item"><a title="跳转到监测管理列表" th:text="${projectDetail.group_name}" th:href="@{/project?groupid={groupid}(groupid=${groupid})}">涉及国家</a></li>
+                                    <li class="breadcrumb-item" th:text="${projectDetail.project_name}">国家高层</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center ">
+                        <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                        	<button class="growl btn btn-outline-secondary btn-sm bnone" type="button" id="goadd" onclick="addProject()">
+                                <i class="mdi mdi-plus-circle"></i> 新增方案
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm bnone" type="button" id="gobackList">
+                                <i class="mdi mdi-redo-variant"></i> 返回列表
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <!-- content start -->
+                        <div class="table-responsive project-detail-concent">
+                            <table class="table">
+                                <tbody id="projectDetail">
+	                                <tr>
+	                                    <td>方案名</td>
+	                                    <td>
+	                                    	<div style="display: flex;">
+	                                    		<span th:text="${projectDetail.project_name}"> </span>
+	                                    		<div style="margin-left: auto;">
+	                                    			<button id="deleteBtn" type="button" class="btn btn-outline-secondary btn-sm bnone">
+						                                <i class="mdi mdi-delete"></i> 删除
+						                            </button>
+						                            <button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goedit">
+						                                <i class="fas fas fa-pencil-alt"></i> 编辑
+						                            </button>
+	                                    		</div>
+	                                    	</div>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                    <td>方案类型</td>
+	                                    <td th:if="${projectDetail.project_type == 2}"> 普通方案</td>
+	                                    <td th:if="${projectDetail.project_type == 1}"> 高级方案</td>
+	                                </tr>
+	                                <tr>
+	                                    <td>主体关键词</td>
+	                                    <td th:text="${projectDetail.subject_word}"> </td>
+	                                </tr>
+	                                <th:block th:if='${projectDetail.project_type == 2}'>
+	                                    <tr>
+	                                        <td>国家/城市/地域 关键词</td>
+	                                        <td th:text="${projectDetail.regional_word}"> 江苏省、江苏、南京、南京市、中国 、大陆、中国境内</td>
+	                                    </tr>
+	                                </th:block>
+	                                <th:block th:if='${projectDetail.project_type == 2}'>
+	                                    <tr>
+	                                        <td>人物/机构/企业 关键词</td>
+	                                        <td th:text="${projectDetail.character_word}">习近平、李克强</td>
+	                                    </tr>
+	                                </th:block>
+	                                <th:block th:if='${projectDetail.project_type == 2}'>
+	                                    <tr>
+	                                        <td>事件/动词 关键词</td>
+	                                        <td th:text="${projectDetail.event_word}"> 疫情、新冠状病毒、病毒、美股、美股熔断、自然灾害、蝗虫灾害</td>
+	                                    </tr>
+	                                </th:block>
+	                                <tr>
+	                                    <td>监测屏蔽歧义词</td>
+	                                    <td th:text="${projectDetail.stop_word}">计算机病毒、杀毒软件</td>
+	                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- content end -->
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/dist/js/projectlist.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+<script th:inline="javascript" type="text/javascript">
+
+    let detail_projectid = '[[${detail_projectid}]]';
+    var groupiddetail = [[${groupid}]];
+    var projectiddetail = [[${projectid}]];
+    
+    $("body").on('click', '#goedit', function () {
+        window.location.href = ctxPath + "project/editproject?groupid="+groupiddetail+"&projectid=" + detail_projectid;
+    })
+    
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), groupiddetail, projectiddetail);
+    })
+    
+   	$('#goadd').click(function(){
+       	window.location.href = ctxPath + 'project/addproject?groupid='+groupiddetail;
+    })
+    
+    $('#gobackList').click(function(){
+    	window.location.href = ctxPath + 'project?groupid='+groupiddetail;
+    })
+    
+    // 左侧方案切换
+    function switchProject(event) {
+        let $event = $(event);
+        groupId = $event.attr("data-groupid");
+        projectId = $event.attr("data-index");
+        detail_projectid = projectId;
+        groupiddetail = groupId;
+        projectiddetail = projectId;
+        breadCrumbs();
+        setBrowserUrl();
+        detail();
+    }
+    
+    // 设置浏览器地址变换
+    function setBrowserUrl(){
+    	var url = '/project/detail?groupid='+groupiddetail+'&projectid='+projectiddetail;
+    	setUrl(url);
+    }
+    
+ 	// 顶部面包屑导航
+    function breadCrumbs(){
+		$.ajax({
+	   		url: ctxPath + 'project/names',
+	   		type: 'post',
+	   		dataType: 'json',
+	   		data: {
+	   			projectId: projectiddetail,
+	   			groupId: groupiddetail
+	   		},
+	   		success: function(res){
+	   			var html = '<li class="breadcrumb-item">监测管理</li>'+
+	   						'<li class="breadcrumb-item"><a title="跳转到监测管理列表" href="'+ctxPath+'project?groupid='+groupiddetail+'">'+res.groupName+'</a></li>'+
+	                       	'<li class="breadcrumb-item">'+res.projectName+'</li>';
+	   			$('#breadCrumbs').html(html);
+	   		},
+	   		error: function(res){
+	   			console.log(res);
+	   		}
+	   	});
+ 	}
+ 	
+ 	function detail(){
+ 		$.ajax({
+	   		url: ctxPath + 'project/detail',
+	   		type: 'post',
+	   		dataType: 'json',
+	   		data: {
+	   			projectid: projectiddetail
+	   		},
+	   		success: function(res){
+	   			$('#projectDetail').html('');
+	   			var peojectNameHtml = '<tr>'+
+						                    '<td>方案名</td>'+
+						                    '<td>'+
+						                    	'<div style="display: flex;">'+
+						                    		'<span>'+res.project_name+'</span>'+
+						                    		'<div style="margin-left: auto;">'+
+						                    			'<button id="deleteBtn" type="button" class="btn btn-outline-secondary btn-sm bnone">'+
+							                            	'<i class="mdi mdi-delete"></i> 删除 '+
+							                            '</button>'+
+							                            '<button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goedit">'+
+							                                '<i class="fas fas fa-pencil-alt"></i> 编辑 '+
+							                            '</button>'+
+						                    		'</div>'+
+						                    	'</div>'+
+						                    '</td>'+
+						                '</tr>';
+	   			$('#projectDetail').append(peojectNameHtml);
+	   			
+	   			var projectTypeStr = '普通方案';
+	   			if(res.project_type == 2){
+	   				projectTypeStr = '高级方案';
+	   			}
+	   			var projectTypeHtml = '<tr>'+
+						                    '<td>方案类型</td>'+
+						                    '<td>'+projectTypeStr+'</td>'+
+						                '</tr>';
+	   			$('#projectDetail').append(projectTypeHtml);
+	   			
+	   			var keywordHtml = '<tr>'+
+						                '<td>主体关键词</td>'+
+						                '<td>'+res.subject_word+'</td>'+
+						            '</tr>';
+	   			$('#projectDetail').append(keywordHtml);
+	   			
+	   			if(res.project_type == 2){
+	   				var regionalWordHtml = '<tr>'+
+						                        '<td>国家/城市/地域 关键词</td>'+
+						                        '<td>'+res.regional_word+'</td>'+
+						                    '</tr>';
+	   				$('#projectDetail').append(regionalWordHtml);
+	   				
+					var characterWordHtml = '<tr>'+
+												'<td>人物/机构/企业 关键词</td>'+
+												'<td>'+res.character_word+'</td>'+
+											'</tr>';
+					$('#projectDetail').append(characterWordHtml);
+	   				
+	   				var eventWordHtml = '<tr>'+
+						                    '<td>事件/动词 关键词</td>'+
+						                    '<td>'+res.event_word+'</td>'+
+						                '</tr>';
+					$('#projectDetail').append(eventWordHtml);
+	   			}
+	   			
+	   			var stopwordHtml = '<tr>'+
+						                '<td>监测屏蔽歧义词</td>'+
+						                '<td>'+res.stop_word+'</td>'+
+						            '</tr>';
+				$('#projectDetail').append(stopwordHtml);
+	   			
+	   		},
+	   		error: function(res){
+	   			console.log(res);
+	   		}
+	   	});
+ 	}
+    
+    // 删除按钮
+    $('body').on('click', '#deleteBtn', function () {
+        var confirmhtml =
+            '<div class="shadebox" id="confirmsure">' +
+            '    <div class="modal-dialog" role="document"> ' +
+            '        <div class="modal-content">' +
+            '            <div class="modal-header align-flexend no-border"> ' +
+            '                <h5 class="modal-title">提示</h5>' +
+            '                <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>' +
+            '            </div>' +
+            '            <div class="modal-body" style="padding:0 1rem;">' +
+            '                <div class="input-group alcenter"><i class="fa fa-exclamation-circle m-r-10 font-20"></i> 此操作将删除该方案, 是否继续?' +
+            '                </div>' +
+            '            </div>' +
+            '            <div class="modal-footer no-border">' +
+            '                <button type="button" class="btn btn-info" id="confirm"> 确定</button> ' +
+            '                <button type="button" class="btn btn-secondary" id="cancel">取消</button>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>'
+        $("body").append(confirmhtml)
+        $("#closethis").click(function (param) {
+            $("#confirmsure").remove()
+
+        })
+        $("#cancel").click(function (param) {
+            $("#confirmsure").remove()
+        })
+        $("#confirm").click(function (param) {
+            $.ajax({
+                type: "POST",
+                url: ctxPath + "project/delProjectDetail",
+                dataType: 'json',
+                data: {
+                    projectid: detail_projectid
+                },
+                success: function (res) {
+                	if(res.delstatus == 200){
+                		$('#gobackList').trigger("click");
+                	}else{
+                		showInfo(res.msg);
+                	}
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 403) {
+                        window.location.href = ctxPath + "login";
+                    } else {
+                        console.log(thrownError);
+                    }
+                }
+            });
+            $("#confirmsure").remove()
+        })
+    });
+    
+</script>
+</body>
+
+</html>

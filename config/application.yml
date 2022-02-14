@@ -1,0 +1,50 @@
+server:
+  port: 8084
+  servlet:
+      session:
+        cookie:
+          name: local-portal
+          max-age: 3600
+        timeout: 3600
+          
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    mode: LEGACYHTML5 # 用非严格的 HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  http:
+  # 设置编码
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  devtools:
+      restart:
+        enabled: true #热部署生效
+  application:
+    name: stonedt-portal
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/stonedt_portal?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useSSL=false
+      username: root
+      password: 123456
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    max-active: 10000
+    max-idle: 10
+    max-wait: 100000
+    timeout: 100000
+          
+mybatis:
+    type-aliases-package: com.stonedt.intelligence.entity
+    mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+     com.stonedt.intelligence.dao : debug

@@ -1,0 +1,33 @@
+{
+    "onSingleLine": true,
+    "lists": [
+        {
+            "title": "todo",
+            "defaultStyle": "lobilist-danger",
+            "items": [
+                {
+                    "title": "beforeItemDelete is never called",
+                    "description": "even in your \"Event handling\" example"
+                }
+            ]
+        },
+        {
+            "title": "doing",
+            "defaultStyle": "lobilist-info",
+            "items": [
+                {
+                    "title": "Function to get all lobilist info (lists, items) as object"
+                }
+            ]
+        },
+        {
+            "title": "done",
+            "defaultStyle": "lobilist-success",
+            "items": [
+                {
+                    "title": "List style change event"
+                }
+            ]
+        }
+    ]
+}

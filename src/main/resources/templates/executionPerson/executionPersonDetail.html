@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>全文搜索·网络情报分析系统</title>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="row">
+		<div id="content" class="col" style="padding: 100px 250px;">
+			
+		</div>
+	</div>
+	<div class="page-footer">
+        © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src=" @{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src=" @{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src=" @{/dist/js/app.min.js}"></script>
+<script th:src=" @{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src=" @{/dist/js/app-style-switcher.js}"></script>
+<script th:src=" @{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src=" @{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src=" @{/dist/js/waves.js}"></script>
+<script th:src=" @{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jutils-src"></script>
+<script th:inline="javascript" type="text/javascript">
+	var articleId = [[${articleid}]];
+	var menu = [[${menu}]];
+	
+	$('.navLi').click(function () {
+        jumpNavLocation($(this).data('type'), null, null);
+    })
+	
+	$(function(){
+		detail()
+	})
+	
+/**
+ * 左侧菜单 点击
+ * @param e
+ * @returns
+ */
+$('body').on('click', '#sidebarnav li',function (e) {
+    if (!$(this).hasClass("comactive")) {
+    	$(this).siblings().removeClass("comactive")
+    	$(this).addClass("comactive")
+		if(menuStyle == 0 ){
+			let arry = $(this).attr("data-id").split(',');
+			//full_type = arry[0]
+			idList = $(this).attr("data-id")
+			full_poly = $(this).attr("data-poly")
+			var params = '?searchword='+searchWord +'&fulltype=' + full_type + '&menuStyle=0&full_poly='+full_poly+'&pageSize=25&page=1';
+			window.location.href = ctx + 'fullsearch/result' + params;
+		}else{
+			full_type = $(this).attr("data-id")
+			var params = '?searchword='+searchWord +'&fulltype=' + full_type + '&menuStyle=1&page=1';
+			window.location.href = ctx + 'fullsearch/result' + params;
+		}
+    }
+})
+	
+		function detail(){
+		var curWwwPath=window.document.location.href;
+
+		  //获取主机地址之后的目录，如： myproj/view/my.jsp
+
+		  var pathName=window.document.location.pathname;
+
+		  var pos=curWwwPath.indexOf(pathName);
+
+		  //获取主机地址，如： http://localhost:8083
+
+		  var localhostPaht=curWwwPath.substring(0,pos);
+        	$.ajax({
+        		url : localhostPaht+"/fullsearch/executionPersonDetailData",
+        		type : "post",
+        		data:{
+        			article_public_id: articleId
+        		},
+        		success : function(res1) {
+        			console.log(res1)
+        			let res=res1.list[0]
+        			var html = '<div class="feed-element">'+
+                    ' <div class="search-result" style="width: 90%;margin: auto;">'+
+                     		'<div style="float:left;width:170px;min-height: 140px;">'+
+                         		'<p><img id="img" src="'+res.photo+'" onerror=src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597135070832&di=8b414d4f29c3a7d622f8f2929b81d90b&imgtype=0&src=http%3A%2F%2Fhbimg.huabanimg.com%2F0830450561b24f4573bed70d7f74bd43f39302e11bee-s2tj6i_fw658" style="width:150px;height:170px"></p>'+
+                         	'</div>'+ 
+                         	'<div style="margin:10px 0 0 190px;">'+
+	                           	'<h3 style="text-align:center;font-size:18px;"><a target="_blank" href="'+res.detailurl+'">'+res.iname+'</a></h3>'+
+		                   		'<br />'+
+								'<div class="row" style="font-size:14px;">'+
+									'<div class="col-lg-6">'+
+										'<p><b>执行单位：</b>'+res.gistUnit+'</p>'+
+										'<p><b>履行情况：</b>'+res.performance+'</p>'+
+										'<p><b>地址：</b>'+res.address+'</p>'+
+										'<p><b>最新区域：</b>'+res.areaNameNew+'</p>'+
+										'<p><b>行为：</b>'+res.disruptTypeName+'</p>'+
+										'<p><b>案件编号：</b>'+res.caseCode+'</p>'+
+									'</div>'+
+									'<div class="col-lg-6">'+
+										'<p><b>执行单位编号：</b>'+res.gistId+'</p>'+
+										'<p><b>类型：</b>'+res.type+'</p>'+
+										'<p><b>法院名称：</b>'+res.courtName+'</p>'+
+										'<p><b>证件号：</b>'+res.cardNum+'</p>'+
+									'</div>'+
+								'</div>'+
+								'<p style="font-size:14px;"><b>职责：</b>'+res.duty+'</p>'
+		                   	'</div>'+
+		                 '</div>'+
+		             ' </div>'
+   					$('#content').html(html)
+        		},
+        		error: function(err) {
+        			console.log(err)
+        		}
+        	});
+		}
+</script>
+</body>
+</html>

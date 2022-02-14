@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href=" ../assets/images/favicon.png">
+    <title>预警设置·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- Custom CSS -->
+    <link href=" ../dist/css/style.min.css" rel="stylesheet">
+    <link href=" ../dist/css/custom.css" rel="stylesheet">
+    <link href="../assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="../assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="../assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="../assets/libs/nouislider/distribute/nouislider.min.css" rel="stylesheet">
+    <link href="../assets/extra-libs/nouislider/palette-noui.css" rel="stylesheet">
+    <link href="../assets/extra-libs/nouislider/noui-slider.min.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        span {
+            cursor: pointer;
+        }
+
+        .switch {
+            display: inline-block;
+        }
+
+        .bootstrap-switch {
+            border-radius: 22px;
+            width: 49px !important;
+            border: none;
+            padding: 0;
+        }
+
+        .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-label {
+            padding: 0;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .bootstrap-switch .bootstrap-switch-label {
+            /*  		width: 42px !important;  */
+            /* 		height: 22px;  */
+            /*  		border-radius: 11px !important;  */
+            /*  		position: relative;  */
+            display: none !important;
+            border: none !important;
+        }
+
+        .bootstrap-switch .bootstrap-switch-handle-on {
+            /*  		width: 52px !important;  */
+            /*  	    margin-right: -22px;  */
+            /*  	    padding-right: 22px;  */
+            padding: 0 !important;
+            border: none !important;
+        }
+
+        .bootstrap-switch .bootstrap-switch-handle-off {
+            /* 		width: 52px !important; */
+            /* 	    border-radius: 11px; */
+            /* 	    margin-left: -11px; */
+            /* 	    padding-right: 2px; */
+            /* 	    position:relative; */
+            /* 	    color:#fff !important; */
+            border: none !important;
+            padding: 0 !important;
+        }
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/setting_left::setting_left"></div>
+    <div class="page-wrapper">
+        <div class="right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">系统设置</li>
+                                    <li class="breadcrumb-item">预警设置</li>
+                                    <li class="breadcrumb-item" th:text="${warning.group_name}"></li>
+                                    <li class="breadcrumb-item" th:text="${warning.project_name}"></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center ">
+                        <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                            <button type="button" class="btn btn-outline-secondary btn-sm bnone" id="goback">
+                                <i class="mdi mdi-redo-variant"></i>
+                                返回
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="warning-edit-line">
+                            <div>方案名称</div>
+                            <div th:text="${warning.project_name}">
+                            </div>
+                            <div style="margin-left: auto; margin-right: 20%;display: flex;">
+                                <span style="margin-right: 15px;">预警开关</span>
+                                <div id="statusSwitch" class="bt-switch">
+                                    <input id="status" th:if="${warning.warning_status == 0}" type="checkbox"
+                                           data-on-color="success" data-off-color="warning">
+                                    <input id="status" th:if="${warning.warning_status == 1}" type="checkbox" checked
+                                           data-on-color="success" data-off-color="warning">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="warning-edit-line">
+                            <div>预警名称</div>
+                            <div>
+                                <input class="form-control" type="text" name="warning-name" id="warning-name"
+                                       th:value="${warning.warning_name}" placeholder="请输入预警名称">
+                            </div>
+                        </div>
+                        <div class="warning-edit-line">
+                            <div>设置预警词</div>
+                            <div>
+                                <textarea class="form-control" name="warning-word" id="warning-word" cols="30" rows="3"
+                                          th:text="${warning.warning_word}" placeholder="请输入预警词，用英文逗号隔开"></textarea>
+                            </div>
+                            <div class="warning-tips">
+                                <a tabindex="0" class="" role="button" data-toggle="popover" data-trigger="focus"
+                                   title="方案主体关键词提示"
+                                   data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。2、每一类的多个关键词之间默认为或(或者)”的关系。3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                                    <i class="fa fa-question-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="warning-edit-line">
+                            <div>来源类型</div>
+                            <div id="warning-classify">
+
+                            </div>
+                        </div>
+
+                        <!-- double line  start-->
+                        <div class="warning-edit-double">
+                            <div class="warning-left waring_double">
+                                <div>预警内容</div>
+                                <div id="warning-content" th:if="${warning.warning_content} eq 0">
+                                    <span class="badge badge-pill badge-info" data-id="0"
+                                          onclick="badgeClick(this)">全部</span>
+                                    <span class="badge badge-pill badge-light" data-id="1"
+                                          onclick="badgeClick(this)">敏感</span>
+                                </div>
+                                <div id="warning-content" th:if="${warning.warning_content} eq 1">
+                                    <span class="badge badge-pill badge-light" data-id="0"
+                                          onclick="badgeClick(this)">全部</span>
+                                    <span class="badge badge-pill badge-info" data-id="1"
+                                          onclick="badgeClick(this)">敏感</span>
+                                </div>
+                            </div>
+                            <div class="warning-right">
+                                <div>相似文章合并</div>
+                                <div th:if="${warning.warning_similar} eq 1" id="warning-similar">
+                                    <span class="badge badge-pill badge-info" data-id="1"
+                                          onclick="badgeClick(this)">合并</span>
+                                    <span class="badge badge-pill badge-light" data-id="0" onclick="badgeClick(this)">不合并</span>
+                                </div>
+                                <div th:if="${warning.warning_similar} eq 0" id="warning-similar">
+                                    <span class="badge badge-pill badge-light" data-id="1"
+                                          onclick="badgeClick(this)">合并</span>
+                                    <span class="badge badge-pill badge-info" data-id="0"
+                                          onclick="badgeClick(this)">不合并</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- double line end-->
+                        <div class="warning-edit-double">
+                            <div class="warning-left waring_double">
+                                <div>匹配方式</div>
+                                <div th:if="${warning.warning_match} eq 1" id="warning-match">
+                                    <span class="badge badge-pill badge-info" data-id="1"
+                                          onclick="badgeClick(this)">按全文</span>
+                                    <span class="badge badge-pill badge-light" data-id="2" onclick="badgeClick(this)">按标题</span>
+                                    <span class="badge badge-pill badge-light" data-id="3" onclick="badgeClick(this)">按正文</span>
+                                </div>
+                                <div th:if="${warning.warning_match} eq 2" id="warning-match">
+                                    <span class="badge badge-pill badge-light" data-id="1" onclick="badgeClick(this)">按全文</span>
+                                    <span class="badge badge-pill badge-info" data-id="2"
+                                          onclick="badgeClick(this)">按标题</span>
+                                    <span class="badge badge-pill badge-light" data-id="3" onclick="badgeClick(this)">按正文</span>
+                                </div>
+                                <div th:if="${warning.warning_match} eq 3" id="warning-match">
+                                    <span class="badge badge-pill badge-light" data-id="1" onclick="badgeClick(this)">按全文</span>
+                                    <span class="badge badge-pill badge-light" data-id="2" onclick="badgeClick(this)">按标题</span>
+                                    <span class="badge badge-pill badge-info" data-id="3"
+                                          onclick="badgeClick(this)">按正文</span>
+                                </div>
+                            </div>
+                            <div class="warning-right">
+                                <div>预警去重</div>
+                                <div th:if="${warning.warning_deduplication} eq 0" id="warning-deduplication">
+                                    <span class="badge badge-pill badge-light" data-id="1"
+                                          onclick="badgeClick(this)">开启</span>
+                                    <span class="badge badge-pill badge-info" data-id="0"
+                                          onclick="badgeClick(this)">关闭</span>
+                                </div>
+                                <div th:if="${warning.warning_deduplication} eq 1" id="warning-deduplication">
+                                    <span class="badge badge-pill badge-info" data-id="1"
+                                          onclick="badgeClick(this)">开启</span>
+                                    <span class="badge badge-pill badge-light" data-id="0"
+                                          onclick="badgeClick(this)">关闭</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="warning-edit-double">
+                            <div class="warning-left waring_double">
+                                <div>预警来源</div>
+                                <div id="warning-source">
+                                    <span class="badge badge-pill badge-info" data-id="1" onclick="badgeClick(this)">系统推送</span>
+                                    <span class="badge badge-pill badge-light" data-id="2" onclick="badgeClick(this)">邮箱推送</span>
+                                    <input type="text" class="form-control" placeholder="请输入邮箱地址"/>
+                                </div>
+                            </div>
+                            <div class="warning-right">
+                                <div>接收时间</div>
+                                <div>
+                                    <select name="" id="warning-receive-time-start" class="custom-select form-control">
+                                        <option value="00:00">00:00</option>
+                                        <option value="01:00">01:00</option>
+                                        <option value="02:00">02:00</option>
+                                        <option value="03:00">03:00</option>
+                                        <option value="04:00">04:00</option>
+                                        <option value="05:00">05:00</option>
+                                        <option value="06:00">06:00</option>
+                                        <option value="07:00">07:00</option>
+                                        <option value="08:00">08:00</option>
+                                        <option value="09:00">09:00</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="13:00">13:00</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="15:00">15:00</option>
+                                        <option value="16:00">16:00</option>
+                                        <option value="17:00">17:00</option>
+                                        <option value="18:00">18:00</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="20:00">20:00</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="22:00">22:00</option>
+                                        <option value="23:00">23:00</option>
+                                    </select>
+                                    -
+                                    <select name="" id="warning-receive-time-end" class="custom-select form-control">
+                                        <option value="00:00">00:00</option>
+                                        <option value="01:00">01:00</option>
+                                        <option value="02:00">02:00</option>
+                                        <option value="03:00">03:00</option>
+                                        <option value="04:00">04:00</option>
+                                        <option value="05:00">05:00</option>
+                                        <option value="06:00">06:00</option>
+                                        <option value="07:00">07:00</option>
+                                        <option value="08:00">08:00</option>
+                                        <option value="09:00">09:00</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="13:00">13:00</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="15:00">15:00</option>
+                                        <option value="16:00">16:00</option>
+                                        <option value="17:00">17:00</option>
+                                        <option value="18:00">18:00</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="20:00">20:00</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="22:00">22:00</option>
+                                        <option value="23:00">23:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="warning-edit-double m-b-0">
+                            <div class="warning-left waring_double">
+                                <div>周末预警</div>
+                                <div th:if="${warning.weekend_warning} eq 0" id="weekend-warning">
+                                    <span class="badge badge-pill badge-light" data-id="1"
+                                          onclick="badgeClick(this)">开启</span>
+                                    <span class="badge badge-pill badge-info" data-id="0"
+                                          onclick="badgeClick(this)">关闭</span>
+                                </div>
+                                <div th:if="${warning.weekend_warning} eq 1" id="weekend-warning">
+                                    <span class="badge badge-pill badge-info" data-id="1"
+                                          onclick="badgeClick(this)">开启</span>
+                                    <span class="badge badge-pill badge-light" data-id="0"
+                                          onclick="badgeClick(this)">关闭</span>
+                                </div>
+                            </div>
+                            <div class="warning-right">
+                                <div>预警间隔</div>
+                                <div id="warning-interval">
+                                    <!--  <span class="badge badge-pill badge-light" onclick="badgeClick(this)">实时预警</span>
+                                     <span class="badge badge-pill badge-info" onclick="badgeClick(this)">定时预警</span> -->
+                                    <select name="" id="warning-interval-time" class="custom-select form-control">
+                                        <option value="1">1小时</option>
+                                        <option value="2">2小时</option>
+                                        <option value="3">3小时</option>
+                                        <option value="4">4小时</option>
+                                        <option value="5">5小时</option>
+                                        <option value="6">6小时</option>
+                                        <option value="7">7小时</option>
+                                        <option value="8">8小时</option>
+                                    </select>
+                                    <!-- <div class="form-group">
+                                        <div id="pips-steps-filter"></div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div style="width: 140px; display: flex; justify-content: space-between;margin: 0 auto;">
+                            <button onclick="save()" class="btn btn-info">保存</button>
+                            <button onclick="backPage()" class="btn btn-secondary">取消保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- apps -->
+<script src="../dist/js/app.min.js"></script>
+<script src="../dist/js/app.init.light-sidebar.js"></script>
+<script src="../dist/js/app-style-switcher.js"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/extra-libs/sparkline/sparkline.js"></script>
+<!--Wave Effects -->
+<script src="../dist/js/waves.js"></script>
+<!--Menu sidebar -->
+<script src="../dist/js/sidebarmenu.js"></script>
+<!--Custom JavaScript -->
+<script src="../dist/js/custom.min.js"></script>
+<!--     <script src="../assets/libs/wnumb/wNumb.js"></script> -->
+<script src="../assets/libs/nouislider/distribute/nouislider.min.js"></script>
+<script src="../dist/js/pages.js"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+<script src="../assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+
+
+<script type="text/javascript" th:inline="javascript">
+
+    var warningStr = [[${warningStr}]];
+    var project_id = [[${project_id}]];
+    var groupId = [[${groupid}]];
+    var page = [[${page}]];
+    var warning = JSON.parse(warningStr)
+    //来源类型
+    var warning_classify = warning.warning_classify
+    var classifyArr = warning_classify.split(",");
+    var classifyArrs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+    var classifyHtml = ''
+    if (classifyArrs.sort().toString() == classifyArr.sort().toString()) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="0" onclick="badgeClassifyClick(this)" >全部</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="0" onclick="badgeClassifyClick(this)">全部</span>'
+    }
+    if (classifyArr.includes('1')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="1" onclick="badgeClassifyClick(this)">微信</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="1" onclick="badgeClassifyClick(this)">微信</span>'
+    }
+    if (classifyArr.includes('2')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="2" onclick="badgeClassifyClick(this)">微博</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="2" onclick="badgeClassifyClick(this)">微博</span>'
+    }
+    if (classifyArr.includes('3')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="3" onclick="badgeClassifyClick(this)">政务</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="3" onclick="badgeClassifyClick(this)">政务</span>'
+    }
+    if (classifyArr.includes('4')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="4" onclick="badgeClassifyClick(this)">论坛</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="4" onclick="badgeClassifyClick(this)">论坛</span>'
+    }
+    if (classifyArr.includes('5')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="5" onclick="badgeClassifyClick(this)">新闻</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="5" onclick="badgeClassifyClick(this)">新闻</span>'
+    }
+    if (classifyArr.includes('6')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="6" onclick="badgeClassifyClick(this)">报刊</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="6" onclick="badgeClassifyClick(this)">报刊</span>'
+    }
+    if (classifyArr.includes('7')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="7" onclick="badgeClassifyClick(this)">客户端</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="7" onclick="badgeClassifyClick(this)">客户端</span>'
+    }
+    if (classifyArr.includes('8')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="8" onclick="badgeClassifyClick(this)">网站</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="8" onclick="badgeClassifyClick(this)">网站</span>'
+    }
+    if (classifyArr.includes('9')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="9" onclick="badgeClassifyClick(this)">外媒</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="9" onclick="badgeClassifyClick(this)">外媒</span>'
+    }
+    if (classifyArr.includes('10')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="10" onclick="badgeClassifyClick(this)">视频</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="10" onclick="badgeClassifyClick(this)">视频</span>'
+    }
+    if (classifyArr.includes('11')) {
+        classifyHtml += '<span class="badge badge-pill badge-info" data-id="11" onclick="badgeClassifyClick(this)">博客</span>'
+    } else {
+        classifyHtml += '<span class="badge badge-pill badge-light" data-id="11" onclick="badgeClassifyClick(this)">博客</span>'
+    }
+    $('#warning-classify').html(classifyHtml)
+    //预警来源
+    var warning_source = JSON.parse(warning.warning_source)
+    var sourceHtml = ''
+    if (warning_source.type == 1) {
+        sourceHtml = '<span class="badge badge-pill badge-info" data-id="1" onclick="badgeClick(this)">系统推送</span>' +
+            '<span class="badge badge-pill badge-light" data-id="2" onclick="badgeClick(this)">邮箱推送</span>' +
+            '<input style="display:none;" id="email-input" type="text" class="form-control" value="' + warning_source.email + '" placeholder="请输入邮箱地址">'
+    } else {
+        sourceHtml = '<span class="badge badge-pill badge-light" data-id="1" onclick="badgeClick(this)">系统推送</span>' +
+            '<span class="badge badge-pill badge-info" data-id="2" onclick="badgeClick(this)">邮箱推送</span>' +
+            '<input id="email-input" type="text" class="form-control" value="' + warning_source.email + '" placeholder="请输入邮箱地址">'
+    }
+    $('#warning-source').html(sourceHtml)
+    //接收时间
+    var warning_receive_time = JSON.parse(warning.warning_receive_time)
+    $('#warning-receive-time-start').val(warning_receive_time.start)
+    $('#warning-receive-time-end').val(warning_receive_time.end)
+
+    //预警间隔
+    var warning_interval = JSON.parse(warning.warning_interval)
+    var intervalHtml = '<span class="badge badge-pill badge-info" data-id="1" onclick="badgeClick(this)">实时预警</span>' +
+        '<span class="badge badge-pill badge-light" data-id="2" onclick="badgeClick(this)">定时预警</span>'
+    if (warning_interval.type == 2) {
+        intervalHtml = '<span class="badge badge-pill badge-light" data-id="1" onclick="badgeClick(this)">实时预警</span>' +
+            '<span class="badge badge-pill badge-info" data-id="2" onclick="badgeClick(this)">定时预警</span>'
+    }
+    $('#warning-interval').prepend(intervalHtml)
+    $('#warning-interval-time').val(warning_interval.time)
+    $("#loading1").css({"display": "none"});
+
+    //保存
+    function save() {
+        var data = getData();
+        var warning_status = 0;
+        if ($('#status').is(':checked')) {
+            warning_status = 1;
+        }
+
+        let warning_word = data.warning_word;
+        if (warning_word == "" && warning_status == 1) {
+            showtips("预警词为空，请关闭预警开关！");
+            return;
+        }
+
+        if (warning_status == 0 && warning_word != "") {  // 未开 有词
+            swal({
+                title: "预警创建完成",
+                text: "是否开启预警设置",
+                type: "success",
+                showCancelButton: true,
+                confirmButtonColor: "#36bea6",
+                confirmButtonText: "开启预警",
+                cancelButtonColor: "#6c757d",
+                cancelButtonText: "直接创建",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }).then(function (that) {
+                if (that.value) {
+                    $("#checkmonitor").addClass("line-active");  // 是
+                    warning_status = 1;
+                } else {
+                    $("#checkmonitor").addClass("line-active");  // 否
+                    warning_status = 0;
+                }
+                updateData(warning_status,data);
+            });
+        } else if (warning_status == 0 && warning_word == "") {  // 未开   无词
+            updateData(warning_status,data);
+        } else { // 开了 有词
+            updateData(warning_status,data);
+        }
+    }
+
+
+    // 修改数据
+    function updateData(warning_status, data) {
+//        var data = getData()
+        data.warning_status = warning_status;
+        var warning_source = JSON.parse(data.warning_source)
+        if (warning_source.type == 2) {
+            if ($('#warning-source > input').val() == '') {
+                showtips("邮箱地址不能为空！")
+                return
+            }
+        }
+
+        $.ajax({
+            url: ctxPath + 'system/updateWarning',
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            success: function (res) {
+                if (res.status == 200) {
+                    showtips("修改成功！")
+                    window.location.href = '/system/warning?groupid=' + groupId + '&page=' + page
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+
+
+    //返回
+    function backPage() {
+        window.location.href = '/system/warning?groupid=' + groupId + '&page=' + page
+    }
+
+    function badgeClick(that) {
+        if ($(that).hasClass('badge-info')) {
+//       		$(that).removeClass('badge-info')
+//       		$(that).addClass('badge-light')
+//       		$(that).siblings().removeClass('badge-light')
+//       		$(that).siblings().addClass('badge-info')
+        } else {
+            $(that).removeClass('badge-light')
+            $(that).addClass('badge-info')
+            $(that).siblings().removeClass('badge-info')
+            $(that).siblings().addClass('badge-light')
+        }
+    }
+
+    //来源点击事件
+    function badgeClassifyClick(that) {
+        if ($(that).text() == '全部') {
+            if ($(that).hasClass('badge-info')) {
+                $(that).removeClass('badge-info')
+                $(that).addClass('badge-light')
+                $(that).siblings().removeClass('badge-info')
+                $(that).siblings().addClass('badge-light')
+            } else {
+                $(that).removeClass('badge-light')
+                $(that).addClass('badge-info')
+                $(that).siblings().removeClass('badge-light')
+                $(that).siblings().addClass('badge-info')
+            }
+            return
+        }
+        if ($(that).hasClass('badge-info')) {
+            $(that).removeClass('badge-info')
+            $(that).addClass('badge-light')
+        } else {
+            $(that).removeClass('badge-light')
+            $(that).addClass('badge-info')
+        }
+    }
+
+    function getData() {
+        var warning_name_str = $('#warning-name').val() //预警名称
+        var warning_word_str = $('#warning-word').val()//设置预警词
+        var warning_classify_str = ''//来源类型
+        $('#warning-classify > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                var data_id = $(this).attr('data-id');
+                if (data_id != 0) {
+                    warning_classify_str += $(this).attr('data-id') + ','
+                }
+            }
+        });
+        warning_classify_str = warning_classify_str.substring(0, warning_classify_str.length - 1)
+
+        var warning_content_str = ''//预警内容
+        $('#warning-content > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                warning_content_str = $(this).attr('data-id')
+            }
+        });
+
+        var warning_similar_str = ''//相似文章合并
+        $('#warning-similar > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                warning_similar_str = $(this).attr('data-id')
+            }
+        });
+        var warning_match_str = ''//匹配方式
+        $('#warning-match > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                warning_match_str = $(this).attr('data-id')
+            }
+        });
+        var warning_deduplication_str = ''//预警去重
+        $('#warning-deduplication > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                warning_deduplication_str = $(this).attr('data-id')
+            }
+        });
+        var warning_source_str = new Object();//预警来源
+        $('#warning-source > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                warning_source_str.type = $(this).attr('data-id')
+            }
+        });
+        warning_source_str.email = ''
+        if ($('#warning-source > input').val() != null) {
+            warning_source_str.email = $('#warning-source > input').val()
+        }
+
+        var warning_receive_time_str = new Object();//接收时间
+        warning_receive_time_str.start = $('#warning-receive-time-start').val()
+        warning_receive_time_str.end = $('#warning-receive-time-end').val()
+
+        var weekend_warning_str = ''//周末预警
+        $('#weekend-warning > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                weekend_warning_str = $(this).attr('data-id')
+            }
+        });
+        var warning_interval_str = new Object();//预警间隔
+        $('#warning-interval > .badge').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                warning_interval_str.type = $(this).attr('data-id')
+            }
+        });
+        warning_interval_str.time = ''
+        if ($('#warning-interval-time').val() != null) {
+            warning_interval_str.time = $('#warning-interval-time').val()
+        }
+
+        var data = new Object();
+        data.project_id = project_id
+        data.warning_word = warning_word_str
+        data.warning_name = warning_name_str
+        data.warning_classify = warning_classify_str
+        data.warning_name = warning_name_str
+        data.warning_content = warning_content_str
+        data.warning_similar = warning_similar_str
+        data.warning_match = warning_match_str
+        data.warning_deduplication = warning_deduplication_str.toString()
+        data.warning_source = JSON.stringify(warning_source_str)
+        data.warning_receive_time = JSON.stringify(warning_receive_time_str)
+        data.weekend_warning = weekend_warning_str
+        data.warning_interval = JSON.stringify(warning_interval_str)
+        return data
+    }
+
+    $('body').on('click', '#warning-source span', function () {
+        var id = $(this).data('id');
+        if (id == 1) {
+            $('#email-input').hide();
+        } else {
+            $('#email-input').show();
+        }
+    })
+
+    $(".bt-switch input[type='checkbox']").bootstrapSwitch({
+        onText: "ON",
+        offText: "OFF",
+        onColor: "success",
+        offColor: "warning",
+        size: "normal",
+        handleWidth: "10",
+        onSwitchChange: function (event, state) {
+            window.parent.Warn_Start = state;
+            var $el = $(event.el)
+                , value = event.value;
+            var step = this.value;
+            if (state == true) {
+//                 alert(1)
+            } else {
+//             	alert(2)
+            }
+        }
+
+    })
+
+    $('.navLi').click(function () {
+        jumpNavLocation($(this).data('type'), null, null);
+    });
+</script>
+</body>
+
+</html>

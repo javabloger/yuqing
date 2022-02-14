@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.ProjectTaskDao">
+
+	<select id="listProjectTaskByAnalysisFlag" resultType="com.stonedt.intelligence.entity.ProjectTask">
+		<!-- select
+			id, create_time, project_id, project_type, subject_word, regional_word, character_word, event_word, stop_word,
+			analysis_flag, volume_flag
+		from
+			project_task
+		where
+			analysis_flag = 0
+		order by 
+			create_time ASC -->
+			
+			SELECT
+				project_task.id ,
+				project_task.create_time ,
+				project_task.project_id ,
+				project.project_type ,
+				project.subject_word ,
+				project.regional_word ,
+				project.character_word ,
+				project.event_word ,
+				project.stop_word ,
+				project_task.analysis_flag,
+				project_task.volume_flag
+			FROM
+				project_task
+			JOIN project ON project_task.project_id = project.project_id
+			WHERE
+				project_task.analysis_flag = 0
+			ORDER BY
+				project_task.create_time ASC
+	</select>
+	
+	<select id="listProjectTaskByVolumeFlag" resultType="com.stonedt.intelligence.entity.ProjectTask">
+		select
+			id, create_time, project_id, project_type, subject_word, regional_word, character_word, event_word, stop_word,
+			analysis_flag, volume_flag
+		from
+			project_task
+		where
+			volume_flag = 0
+		order by 
+			create_time ASC
+	</select>
+	
+	<update id="updateProjectTaskAnalysisFlag">
+		update
+			project_task
+		set
+			analysis_flag = 1
+		where
+			project_id = #{projectId}
+	</update>
+	
+	
+	
+	
+	<update id="updateProjectTaskAnalysisToUnDealFlag">
+		update
+			project_task
+		set
+			analysis_flag = 0
+		where
+			project_id = #{projectId}
+	</update>
+	
+	
+	<update id="updateProjectTaskVolumeFlag">
+		update
+			project_task
+		set
+			volume_flag = 1
+		where
+			project_id = #{projectId}
+	</update>
+	
+	<insert id="saveProjectTask">
+		insert into
+			project_task(
+				create_time, project_id, project_type, subject_word, regional_word, character_word, event_word, stop_word,
+				analysis_flag, volume_flag
+			)
+			values(
+				now(), #{project_id}, #{project_type}, #{subject_word}, #{regional_word}, #{character_word}, #{event_word},
+				#{stop_word}, #{analysis_flag}, #{volume_flag}
+			)
+	</insert>
+	
+</mapper>

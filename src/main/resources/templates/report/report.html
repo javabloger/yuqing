@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>分析报告详情·网络情报分析系统</title>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <script src="//at.alicdn.com/t/font_1709263_vgbiio5q6f.js"></script>
+    <link th:href="@{/assets/extra-libs/c3/c3.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/extra-libs/css-chart/css-chart.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/chartist/dist/chartist.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css}" rel="stylesheet">
+    <link th:href="@{/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css}" rel="stylesheet" />
+    <link th:href="@{/dist/anycharts/anychart-font.min.css}" rel="stylesheet" >
+    <link th:href="@{/dist/anycharts/anychart-ui.min.css}" rel="stylesheet">
+    <script th:src="@{/dist/anycharts/anychart-base.min.js}"></script>
+    <script th:src="@{/dist/anycharts/anychart-exports.min.js}"></script>
+    <script th:src="@{/dist/anycharts/anychart-tag-cloud.min.js}"></script>
+    <script th:src="@{/dist/anycharts/anychart-ui.min.js}"></script>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+	<style>
+		.bg-blue{
+			background-color: #8eb9f5 !important;
+		}
+	</style>
+</head>
+<body>
+    <div id="main-wrapper">
+        <div th:replace="common/header::header"></div>
+        <div th:replace="common/monitor_left::monitor_left"></div>
+        <div class="page-wrapper">
+            <div class="right-part right-content">
+                <!-- nav start-->
+                <div class="page-breadcrumb">
+                    <div class="row">
+                        <div class="col-lg-5 align-self-center">
+                            <div class="d-flex align-items-center">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">分析报告</li>
+                                        <li class="breadcrumb-item" id="groupName">涉及国家</li>
+                                        <li class="breadcrumb-item" id="projectName">国家高层</li>
+                                        <li class="breadcrumb-item" id="reportTypeName">报告详情</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 align-self-center ">
+                            <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                                <button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goback">
+                                    <i class="mdi mdi-redo-variant"></i> 返回
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- nav end-->
+                <div class="p-20">
+                    <div class="row">
+                        <!-- column -->
+                        <div class="col-sm-12 col-lg-6" >
+                            <div class="card" style="height: 460px;overflow: hidden;">
+                                <div class="card-body" id="dataOverview">
+                                </div>
+                                <div class="m-t-40">
+                                    <canvas id="campaign" height="170px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- column -->
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="row">
+                                <!-- column -->
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="card" style="height: 180px;overflow: hidden;">
+                                        <div class="card-body">
+                                            <h4 class="card-title">资讯数据</h4>
+                                            <h4 class="font-bold m-t-20 m-b-10" id="infoData"></h4>
+                                            <h5 class="card-subtitle m-b-0 font-14">数据来源新闻、资讯、主流网站</h5>
+                                        </div>
+                                        <div class="text-center">
+                                            <div id="visits"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- column -->
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="card" style="height: 180px;overflow: hidden;">
+                                        <div class="card-body">
+                                            <h4 class="card-title">社交数据</h4>
+                                            <h4 class="font-bold m-t-20 m-b-10" id="socialData"></h4>
+                                            <h5 class="card-subtitle m-b-0 font-14">数据来源社交媒体、互动平台</h5>
+                                        </div>
+                                        <div class="earningsbox" style="height:60px; width:100%;"></div>
+                                    </div>
+                                </div>
+                                <!-- column -->
+                                <div class="col-sm-12">
+                                    <div class="card order-widget" style="height: 260px;overflow: hidden;">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <!-- column -->
+                                                <div class="col-sm-12 col-md-8">
+                                                    <h4 class="card-title">情感分析</h4>
+                                                    <h5 class="card-subtitle m-b-0" id="emotionAnalysisText">当日所有数据来源汇总分析</h5>
+                                                    <div class="row m-t-40 d-flex" style="align-items: center;margin-top: 60px;" id="emotionAnalysis">
+                                                    </div>
+                                                </div>
+                                                <!-- column -->
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div id="visitor2" class="m-t-20" style="height:182px; width: 100%; margin-top: 40px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- line6 start -->
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-12"> 
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">热点事件排名</h4>
+                                    <ul class="create-tab-report pro-bb" id="search-tab">
+                                        <li class="create-tab-act" data-type="0">全部</li>
+                                        <li class="" data-type="1">正面</li>
+                                        <li class="" data-type="3">负面</li>
+                                    </ul>
+                                    <div class="table-responsive">
+                                        <table id="hotEventRankingTable" class="table v-middle hot-rank" style="position: relative;">
+                                            <tbody id="hotEventRanking">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- line6 end -->
+                    <!-- line 2 start-->
+                    <!-- <div class="row">
+                        高频词  start
+                        <div class="col-lg-6">
+                            <div class="card m-h-544">
+                                <div class="card-body overview-content">
+                                    <div class="card-title">热点人物 <small></small></div>
+                                    <div class="m-t-10 over-event-box">
+                                        <div class="over-event-titlegpc">
+                                            <span>人物名称</span>
+                                            <span>趋势</span>
+                                            <span>数量</span>
+                                            <span>指数</span>
+                                        </div>
+                                        <div id="hotPeopleList">
+                                        
+                                        </div>
+                                    </div>
+                                    more
+                                    <div class="over-more">
+                                        <a href="#">查看更多</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            高频词  end
+                            高频词  start
+                        <div class="col-lg-6">
+                            <div class="card m-h-544">
+                                <div class="card-body overview-content">
+                                    <div class="card-title">热点地区 <small></small></div>
+                                    <div class="m-t-10 over-event-box">
+                                        <div class="over-event-titlegpc">
+                                            <span>地区</span>
+                                            <span>趋势</span>
+                                            <span>数量</span>
+                                            <span>指数</span>
+                                        </div>
+                                        <div id="hotSpotList">
+                                        
+                                        </div>
+                                    </div>
+                                    more
+                                    <div class="over-more">
+                                        <a href="#">查看更多</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            高频词  end
+                    </div> -->
+                    <!-- line 2 end-->
+                     <!-- point start -->
+<!--                      <div class="bg-white" style="display: flex;width: 100%;margin-bottom: 20px;justify-content: space-between;"> -->
+<!--                         <div style="width: 100%;"> -->
+<!--                             <div class="card m-b-0"> -->
+<!--                                 <div class="card-body p-10"> -->
+<!--                                     <div class="card-title volume-title"> -->
+<!--                                         <span>主题观点聚类分析</span> -->
+<!--                                     </div> -->
+<!--                                     <div class="volume-data"> -->
+<!--                                         line -->
+<!--                                         <div class="volume-line"> -->
+<!--                                             <div class="viewpoint-title"> -->
+<!--                                                 <span>#观点</span> -->
+<!--                                                 <span>#数量</span> -->
+<!--                                                 <span>#占比</span> -->
+<!--                                             </div> -->
+<!--                                             <div id="viewponitbox"> -->
+<!--                                                 <div class="viewpoint-content" id="showinfo"> -->
+<!--                                                     <span class="v-hot1">1</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>33%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span class="v-hot2">2</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>99793</span> -->
+<!--                                                     <span>21%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span class="v-hot3">3</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>8493</span> -->
+<!--                                                     <span>17%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span>4</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>67%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span>5</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>67%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span>6</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>67%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span>7</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>67%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span>8</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>67%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span>9</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>67%</span> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="viewpoint-content"> -->
+<!--                                                     <span>10</span> -->
+<!--                                                     <span><span class="text-over"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</span></span> -->
+<!--                                                     <span>908938493</span> -->
+<!--                                                     <span>67%</span> -->
+<!--                                                 </div> -->
+
+<!--                                             </div> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                         <div style="width:40%;">
+<!--                             <div class="card m-b-0"> -->
+<!--                                 <div class="card-body p-10"> -->
+<!--                                     <div class="volume-data"> -->
+<!--                                         <div style="width: 100%; height: 350px;margin:0;"> -->
+<!--                                             <div id="pie-chart"></div> -->
+<!--                                         </div> -->
+<!--                                         <div style="width: 80%;margin: 0 auto;">观点一：977</div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                    <!-- point end -->
+                    <!-- line 2 start -->
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-8">
+                              <div class="card" style="height: 720px;">
+                                <div class="card-body">
+                                    <div class="d-md-flex align-items-center">
+                                        <div>
+                                            <h4 class="card-title">自媒体热度排名</h4>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive" id="selfMediaRankingListDiv">
+                                        <table class="table no-wrap v-middle">
+                                            <thead>
+                                                <tr class="border-0">
+                                                    <th class="border-0">名称</th>
+                                                    <th class="border-0">平台名称</th>
+                                                    <th class="border-0">粉丝关注</th>
+                                                    <th class="border-0">发表数量</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="selfMediaRankingList">
+<!--                                                 <tr> -->
+<!--                                                     <td> -->
+<!--                                                         <div class="d-flex no-block align-items-center"> -->
+<!--                                                             <div class="m-r-10"><img th:src="@{/assets/images/users/d1.jpg}" -->
+<!--                                                                     alt="user" class="rounded-circle" width="45"></div> -->
+<!--                                                             <div class=""> -->
+<!--                                                                 <h5 class="m-b-0 font-16 font-medium">Hanna Gover</h5> -->
+<!--                                                                 <div>hgover@gmail.com</div> -->
+<!--                                                                 <div>报道多元世界 解读复杂中国</div> -->
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </td> -->
+<!--                                                     <td>Elite Admin</td> -->
+<!--                                                     <td>35</td> -->
+<!--                                                     <td class="blue-grey-text  text-darken-4 font-medium">$96K</td> -->
+<!--                                                 </tr> -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+<!--                             <div class="card"> -->
+<!--                                 <div class="card-body" style="height: 720px;overflow: hidden;"> -->
+<!--                                     <h4 class="card-title">社交网络大V热度排名</h4> -->
+<!--                                     <div class="table-responsive"> -->
+<!--                                         <table class="table v-middle report-table"> -->
+<!--                                             <thead> -->
+<!--                                                 <tr> -->
+<!--                                                     <th class="border-top-0">名称</th> -->
+<!--                                                     <th class="border-top-0">关注数</th> -->
+<!--                                                     <th class="border-top-0">粉丝量</th> -->
+<!--                                                     <th class="border-top-0">发表微博</th> -->
+<!--                                                 </tr> -->
+<!--                                             </thead> -->
+<!--                                             <tbody> -->
+<!--                                                 <tr> -->
+<!--                                                     <td> -->
+<!--                                                         <div class="d-flex align-items-center"> -->
+<!--                                                             <div class="imgleft"><img -->
+<!--                                                                     src="https://tva3.sinaimg.cn/crop.25.153.460.460.180/4562c440gw1ee5gzgczlkj20e80lcdir.jpg?KID=imgbed,tva&Expires=1586354217&ssig=OCqAbfBKHd" -->
+<!--                                                                     alt="user" class="rounded-circle" width="45" /> -->
+<!--                                                             </div> -->
+<!--                                                             <div class="inforight"> -->
+<!--                                                                 <h4 class="m-b-0 font-16">青春影视偶像</h4> -->
+<!--                                                                 <div>性别：女/地区：其他</div> -->
+<!--                                                                 <div class="text-over-2">【瑞幸之后遭两大机构看空，#爱奇艺股价#跳水，#爱奇艺否认造假指控#】4月7日晚， 爱奇艺遭Wolfpack Research和做空机构浑水看空，股价跳水一度跌逾10%。Wolfpack Research称，爱奇艺在2018年上市之前就存在造假行为，且上市后持续造假，虚增收入和用户数量。 爱奇艺随后否认所有指控，称公司披露的</div> -->
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </td> -->
+<!--                                                     <td>482</td> -->
+<!--                                                     <td>816万</td> -->
+<!--                                                     <td class="font-medium">2万</td> -->
+<!--                                                 </tr> -->
+<!--                                                 <tr> -->
+<!--                                                     <td> -->
+<!--                                                         <div class="d-flex align-items-center"> -->
+<!--                                                             <div class="imgleft"><img -->
+<!--                                                                     src="https://tvax3.sinaimg.cn/crop.0.0.512.512.180/005GkEWEly8gdilxd4ui4j30e80e80sy.jpg?KID=imgbed,tva&Expires=1586354217&ssig=ZLFayGBLAl" -->
+<!--                                                                     alt="user" class="rounded-circle" width="45" /> -->
+<!--                                                             </div> -->
+<!--                                                             <div class="inforight"> -->
+<!--                                                                 <h4 class="m-b-0 font-16">追剧少女猫</h4> -->
+<!--                                                                 <div>性别：女/地区：北京 东城区</div> -->
+<!--                                                                 <div class="text-over-2">【瑞幸之后遭两大机构看空，#爱奇艺股价#跳水，#爱奇艺否认造假指控#】4月7日晚， 爱奇艺遭Wolfpack Research和做空机构浑水看空，股价跳水一度跌逾10%。Wolfpack Research称，爱奇艺在2018年上市之前就存在造假行为，且上市后持续造假，虚增收入和用户数量。 爱奇艺随后否认所有指控，称公司披露的</div> -->
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </td> -->
+<!--                                                     <td>301</td> -->
+<!--                                                     <td>307万</td> -->
+<!--                                                     <td class="font-medium">3129</td> -->
+<!--                                                 </tr> -->
+<!--                                                 <tr> -->
+<!--                                                     <td> -->
+<!--                                                         <div class="d-flex align-items-center"> -->
+<!--                                                             <div class="imgleft"><img -->
+<!--                                                                     src="https://tvax3.sinaimg.cn/crop.0.0.996.996.180/a5be4f8cly8gdienfsql2j20ro0romzp.jpg?KID=imgbed,tva&Expires=1586354217&ssig=Wzy5RACWbz" -->
+<!--                                                                     alt="user" class="rounded-circle" width="45" /> -->
+<!--                                                             </div> -->
+<!--                                                             <div class="inforight"> -->
+<!--                                                                 <h4 class="m-b-0 font-16">沈团</h4> -->
+<!--                                                                 <div>性别：男/地区：陕西 西安</div> -->
+<!--                                                                 <div class="text-over-2">【瑞幸之后遭两大机构看空，#爱奇艺股价#跳水，#爱奇艺否认造假指控#】4月7日晚， 爱奇艺遭Wolfpack Research和做空机构浑水看空，股价跳水一度跌逾10%。Wolfpack Research称，爱奇艺在2018年上市之前就存在造假行为，且上市后持续造假，虚增收入和用户数量。 爱奇艺随后否认所有指控，称公司披露的</div> -->
+                                                           
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </td> -->
+<!--                                                     <td>303</td> -->
+<!--                                                     <td>293万</td> -->
+<!--                                                     <td class="font-medium">1万</td> -->
+<!--                                                 </tr> -->
+<!--                                                 <tr> -->
+<!--                                                     <td> -->
+<!--                                                         <div class="d-flex align-items-center"> -->
+<!--                                                             <div class="imgleft"><img -->
+<!--                                                                     src="https://tvax1.sinaimg.cn/crop.0.0.512.512.180/005AJ1vKly8gb7f8ul3ilj30e80e80t0.jpg?KID=imgbed,tva&Expires=1586354217&ssig=T5b4zuzxGI" -->
+<!--                                                                     alt="user" class="rounded-circle" width="45" /> -->
+<!--                                                             </div> -->
+<!--                                                             <div class="inforight"> -->
+<!--                                                                 <h4 class="m-b-0 font-16">追剧风向标</h4> -->
+<!--                                                                 <div>性别：男/地区：山西</div> -->
+<!--                                                                 <div class="text-over-2">【瑞幸之后遭两大机构看空，#爱奇艺股价#跳水，#爱奇艺否认造假指控#】4月7日晚， 爱奇艺遭Wolfpack Research和做空机构浑水看空，股价跳水一度跌逾10%。Wolfpack Research称，爱奇艺在2018年上市之前就存在造假行为，且上市后持续造假，虚增收入和用户数量。 爱奇艺随后否认所有指控，称公司披露的</div> -->
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </td> -->
+<!--                                                     <td>268</td> -->
+<!--                                                     <td>310万</td> -->
+<!--                                                     <td class="font-medium">4512</td> -->
+<!--                                                 </tr> -->
+<!--                                                 <tr> -->
+<!--                                                     <td> -->
+<!--                                                         <div class="d-flex align-items-center"> -->
+<!--                                                             <div class="imgleft"><img -->
+<!--                                                                     src="https://tvax1.sinaimg.cn/crop.0.0.1242.1242.180/9d1109a6ly8fq0mvcuj63j20yi0yiwgr.jpg?KID=imgbed,tva&Expires=1586354217&ssig=Sqkj%2BqrjYv" -->
+<!--                                                                     alt="user" class="rounded-circle" width="45" /> -->
+<!--                                                             </div> -->
+<!--                                                             <div class="inforight"> -->
+<!--                                                                 <h4 class="m-b-0 font-16">影视剧星探</h4> -->
+<!--                                                                 <div>性别：男/地区：北京 东城区</div> -->
+<!--                                                                 <div class="text-over-2">【瑞幸之后遭两大机构看空，#爱奇艺股价#跳水，#爱奇艺否认造假指控#】4月7日晚， 爱奇艺遭Wolfpack Research和做空机构浑水看空，股价跳水一度跌逾10%。Wolfpack Research称，爱奇艺在2018年上市之前就存在造假行为，且上市后持续造假，虚增收入和用户数量。 爱奇艺随后否认所有指控，称公司披露的</div> -->
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </td> -->
+<!--                                                     <td>515</td> -->
+<!--                                                     <td>95万</td> -->
+<!--                                                     <td class="font-medium">3397</td> -->
+<!--                                                 </tr> -->
+<!--                                             </tbody> -->
+<!--                                         </table> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body" style="height: 720px;overflow: hidden;">
+                                    <h4 class="card-title">媒体活跃度分析</h4>
+                                    <div class="d-flex align-items-center flex-row m-t-30" id="mediaActivityAnalysis">
+<!--                                         <div class="display-5 text-info"><i class="mdi mdi-pulse"></i> -->
+<!--                                             <span>730</span></div> -->
+<!--                                         <div class="m-l-10"> -->
+<!--                                             <h3 class="m-b-0">个站点日均</h3><small>超100条数据更新，排名如下</small> -->
+<!--                                         </div> -->
+                                    </div>
+                                    <table class="table no-border report-media ">
+                                        <tbody id="mediaActivityAnalysisList">
+<!--                                             <tr> -->
+<!--                                                 <td> -->
+<!--                                                     <img class="rounded-circle" width="45" src="https://s3.pstatp.com/toutiao/static/img/logo.271e845.png" alt=""> -->
+<!--                                                 </td> -->
+<!--                                                 <td  class="text-muted">头条号</td> -->
+<!--                                                 <td>38%</td> -->
+<!--                                                 <td class="font-medium">1021</td> -->
+<!--                                             </tr> -->
+                                        </tbody>
+                                    </table>
+                                    <!-- <ul class="row list-style-none text-center m-t-30">
+                                        <li class="col-3">
+                                            <h4 class="text-info"><i class="wi wi-day-sunny"></i></h4>
+                                            <span class="d-block text-muted">搜狐号 14%</span>
+                                            <h3 class="m-t-5">226</h3>
+                                        </li>
+                                        <li class="col-3">
+                                            <h4 class="text-info"><i class="wi wi-day-cloudy"></i></h4>
+                                            <span class="d-block text-muted">11:30</span>
+                                            <h3 class="m-t-5">72<sup>°</sup></h3>
+                                        </li>
+                                        <li class="col-3">
+                                            <h4 class="text-info"><i class="wi wi-day-hail"></i></h4>
+                                            <span class="d-block text-muted">13:30</span>
+                                            <h3 class="m-t-5">75<sup>°</sup></h3>
+                                        </li>
+                                        <li class="col-3">
+                                            <h4 class="text-info"><i class="wi wi-day-sprinkle"></i></h4>
+                                            <span class="d-block text-muted">15:30</span>
+                                            <h3 class="m-t-5">76<sup>°</sup></h3>
+                                        </li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- line 2 end -->
+                    <!-- line9 start -->
+                    <!-- <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body p-10" style="height:506px">
+                                    <div class="card-title volume-title">
+                                        <span>网民高频词分布统计</span>
+                                    </div>
+                                    <div class="volume-data">
+                                        <div id="keywords1" style="height: 420px;margin: 0 auto;width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body p-10" style="height:506px">
+                                    <div class="card-title volume-title">
+                                        <span>媒体高频词分布统计</span>
+                                    </div>
+                                    <div class="volume-data">
+                                        <div id="keywords2" style="height: 420px;margin: 0 auto;width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                    
+                    <div class="row">
+						<div class="col-lg-8">
+							<div class="card">
+								<div class="card-body p-10">
+									<div class="card-title volume-title">
+										<!--<span>关键词高频分布统计</span>-->
+										<h4>关键词高频分布统计</h4>
+									</div>
+									<div class="analysis-data">
+										<div id="keywords" style="height: 435px; width: 100%;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="card m-h-544">
+								<div class="card-body overview-content">
+									<!--<div class="card-title">高频词指数</div>-->
+									<h4 class="card-title">高频词指数</h4>
+									<div class="m-t-10 over-event-box">
+										<div class="over-event-titlegpc">
+											<span>高频词</span> <span>趋势</span> <span>数量</span> <span>指数</span>
+										</div>
+										<div id="keywordindex"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <!-- line9 end -->
+                    <!-- line 4 start -->
+<!--                     <div class="row"> -->
+<!--                         <div class="col-lg-12"> -->
+<!--                             <div class="card"> -->
+<!--                                 <div class="card-body"> -->
+<!--                                     <div class="d-md-flex align-items-center"> -->
+<!--                                         <div> -->
+<!--                                             <h4 class="card-title">自媒体热度排名</h4> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                     <div class="table-responsive" id="selfMediaRankingListDiv"> -->
+<!--                                         <table class="table no-wrap v-middle"> -->
+<!--                                             <thead> -->
+<!--                                                 <tr class="border-0"> -->
+<!--                                                     <th class="border-0">名称</th> -->
+<!--                                                     <th class="border-0">平台名称</th> -->
+<!--                                                     <th class="border-0">粉丝关注</th> -->
+<!--                                                     <th class="border-0">发表数量</th> -->
+<!--                                                 </tr> -->
+<!--                                             </thead> -->
+<!--                                             <tbody id="selfMediaRankingList"> -->
+<!-- <!--                                                 <tr> --> 
+<!-- <!--                                                     <td> --> 
+<!-- <!--                                                         <div class="d-flex no-block align-items-center"> --> 
+<!-- <!--                                                             <div class="m-r-10"><img th:src="@{/assets/images/users/d1.jpg}" --> 
+<!-- <!--                                                                     alt="user" class="rounded-circle" width="45"></div> --> 
+<!-- <!--                                                             <div class=""> --> 
+<!-- <!--                                                                 <h5 class="m-b-0 font-16 font-medium">Hanna Gover</h5> --> 
+<!-- <!--                                                                 <div>hgover@gmail.com</div> --> 
+<!-- <!--                                                                 <div>报道多元世界 解读复杂中国</div> --> 
+<!-- <!--                                                             </div> --> 
+<!-- <!--                                                         </div> --> 
+<!-- <!--                                                     </td> --> 
+<!-- <!--                                                     <td>Elite Admin</td> --> 
+<!-- <!--                                                     <td>35</td> --> 
+<!-- <!--                                                     <td class="blue-grey-text  text-darken-4 font-medium">$96K</td> --> 
+<!-- <!--                                                 </tr> -->
+<!--                                             </tbody> -->
+<!--                                         </table> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                    <!-- line 4 end -->
+                    <!-- line 5 start -->
+                    <div class="row">
+                        <!-- column -->
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-body" style="height: 680px;overflow: hidden;">
+                                    <h4 class="card-title">上市公司热度排名</h4>
+                                    <!-- <h5 class="card-subtitle">Email Campaigns</h5> -->
+                                    <div class="table-responsive">
+                                        <table class="table v-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-top-0">名称</th>
+                                                    <th class="text-center border-top-0">词频</th>
+                                                    <th class="text-center border-top-0">占比</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="highWordIndexList">
+<!--                                                 <tr> -->
+<!--                                                     <td class="font-bold"> -->
+<!--                                                         <span class="v-hot v-hot1">1</span> -->
+<!--                                                         /templates -->
+<!--                                                     </td> -->
+<!--                                                     <td class="text-center">14</td> -->
+<!--                                                     <td class="font-bold text-center">14.10%</td> -->
+<!--                                                 </tr> -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- column -->
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-body" style="height: 680px;overflow: hidden;">
+                                    <h4 class="card-title">热点地区排名</h4>
+                                    <div id="chinadt" style="width:600px; height:432px;margin: 10px auto;"></div>
+                                    <!-- row -->
+                                    <div id="hotSpotRankingList">
+<!-- 	                                    <div class="row m-b-15"> -->
+<!-- 	                                        <div class="col-3">India</div> -->
+<!-- 	                                        <div class="col-7"> -->
+<!-- 	                                            <div class="progress m-t-5"> -->
+<!-- 	                                                <div class="progress-bar bg-info" role="progressbar" style="width: 48%" -->
+<!-- 	                                                    aria-valuenow="48" aria-valuemin="0" aria-valuemax="100"></div> -->
+<!-- 	                                            </div> -->
+<!-- 	                                        </div> -->
+<!-- 	                                        <div class="col-2">28%</div> -->
+<!-- 	                                    </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- column -->
+                    </div>
+                    <!-- line5 end -->
+                    
+
+                </div>
+                <div class="page-footer">
+                    © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- showinfo 弹出层 -->
+    <div class="usercenter-box" style="display: none;" id="showhot">
+        <div class="hotpoint">
+            <div class="hotpoint-title">全球主要产油国达成规模最大减产 业内人士：油价回升不会太快 <i class="mdi mdi-close-circle-outline"></i></div>
+            <div class="hotpoint-content"> 
+                <a href="#">后疫情时代餐饮业发展趋势预判</a>
+                <a href="#">新天药业：预计一季度净利同比下降79.82%-85.58%</a>
+                <a href="#">原油亚盘：美国WTI原油大涨8%后回落 历史性减产协议仍存在隐患</a>
+                <a href="#">宣传“深呼吸十秒法”可测是否感染新冠，日本爱知县警方道歉</a>
+                <a href="#">午间公告|新乡化纤一季度净利润同比增长125.15%-168.04%</a>
+                <a href="#">全面复工难题如何破解？――民营经济大县福建晋江蹲点观察</a>
+                <a href="#">全球多行业停工停产，这些海外业务占比超50%的A股或受影响</a>
+                <a href="#">瑞幸"凉"了? 空头“猎杀”中概股十年之变：从无名之辈到明星公司</a>
+            </div>
+        </div>
+    </div>
+    
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/dist/js/app.min.js}"></script>
+    <script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+    <script th:src="@{/dist/js/app-style-switcher.js}"></script>
+    <script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+    <script th:src="@{/dist/js/waves.js}"></script>
+    <script th:src="@{/dist/js/sidebarmenu.js}"></script>
+    <script th:src="@{/dist/js/custom.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+    <script th:src="@{/assets/libs/chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/assets/libs/gaugeJS/dist/gauge.min.js}"></script>
+    <script th:src="@{/assets/libs/flot/excanvas.min.js}"></script>
+    <script th:src="@{/assets/libs/flot/jquery.flot.js}"></script>
+    <script th:src="@{/assets/libs/jquery.flot.tooltip/js/jquery.flot.tooltip.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- <script src=" dist/js/pages/dashboards/dashboard2.js"></script> -->
+    <script th:src="@{/assets/libs/chartist/dist/chartist.min.js}"></script>
+    <script th:src="@{/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+    <script th:src="@{/assets/libs/chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/dist/js/echarts.min.js}"></script>
+    <script th:src="@{/dist/js/china.js}"></script>
+    <script th:src="@{/common/tools.js}"></script>
+    <script th:src="@{/dist/reportDetail.js?unixtemp=0728}"></script>
+    
+    <script type="text/javascript" th:inline="javascript">
+	    var reportId = [[${id}]];
+	    var groupId = [[${groupid}]];
+	    var projectId = [[${projectid}]];
+	    
+	    var hotEventRanking = {
+	    		all: [],
+	    		negative: [],
+	    		positive: []
+	    };
+	    
+	    groupAndProjectName();
+	    reportDetail();
+	    
+ 	    // 左侧方案切换
+	    function switchProject(event) {
+	        let $event = $(event);
+	        groupId = $event.attr("data-groupid");
+	        projectId = $event.attr("data-index");
+	        window.location.href= ctxPath+'report?groupid='+groupId+'&projectid='+projectId;
+	    }
+	    
+	 	// 方案组名称
+	    function groupAndProjectName(){
+	    	$.ajax({
+	    		url: ctxPath + 'project/names',
+	    		type: 'post',
+	    		dataType: 'json',
+	    		data: {
+	    			projectId: projectId,
+	    			groupId: groupId
+	    		},
+	    		success: function(res){
+	    			$('#groupName').html(res.groupName);
+	    			$('#projectName').html(res.projectName);
+	    		},
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 403) {
+                        window.location.href = ctxPath + "login";
+                    } else {
+                        $("#popularinformation").css({"position": "relative", "min-height": "300px"})
+                        dataerror("#popularinformation")
+                    }
+                }
+	    	});
+	    }
+	    
+	    // 获取报告详情数据
+	    function reportDetail(){
+	    	$.ajax({
+	    		url: ctxPath + 'report/reportDetail',
+	    		type: 'post',
+	    		dataType: 'json',
+	    		data: {
+	    			reportId: reportId
+	    		},
+	    		beforeSend: function(){
+	    			loading('#dataOverview');
+	    		},
+	    		success: function(res){
+	    			if(res.report_type == 1) $('#reportTypeName').html('日报详情');
+	    			if(res.report_type == 2) $('#reportTypeName').html('周报详情');
+	    			if(res.report_type == 3) $('#reportTypeName').html('月报详情');
+	    			// 1数据概览逻辑处理 2、3资讯和社交数据逻辑处理
+	    			if(res.data_overview){
+	    				toHtmlDataOverview(res);
+	    			}
+	    			// 4情感分析
+	    			if(res.emotion_analysis){
+	    				toHtmlEmotionAnalysis(res);
+	    			}
+	    			// 5、热点事件排名
+	    			if(res.hot_event_ranking){
+	    				hotEventRanking = JSON.parse(res.hot_event_ranking);
+	    				toHtmlHotEventRanking(0, hotEventRanking.all);
+	    			}
+	    			// 6、热点人物
+	    			/* if(res.hot_people){
+	    				toHtmlHotPeople(res);
+	    			} */
+	    			// 7、热点地区
+	    			/* if(res.hot_spots){
+	    				toHtmlHotSpot(res);
+	    			} */
+	    			// 10、媒体活跃度分析
+	    			if(res.media_activity_analysis){
+	    				toHtmlMediaActivityAnalysis(res);
+	    			}
+	    			// 11、网民高频词云
+	    			/* if(res.netizen_word_cloud){
+	    				var list = JSON.parse(res.netizen_word_cloud);
+	    				if(list.length == 0){
+	    					nodata('#keywords1', '暂时没有计算结果，正在努力计算ing...')
+	    				}else{
+	    					netizenWordCloudChart(list);
+	    				}
+	    			} */
+	    			// 11、关键词高频分布统计
+	    			if(res.highword_cloud){
+	    				var list = JSON.parse(res.highword_cloud);
+	    				if(list.length == 0){
+	    					nodata('#keywords', '暂时没有计算结果，正在努力计算ing...')
+	    				}else{
+	    					keywordsCloud(list);
+	    				}
+	    			}
+
+	    			// 12、高频词指数
+	    			if(res.highword_cloud_index){
+	    				var list = JSON.parse(res.highword_cloud_index);
+	    				if(list.length == 0){
+	    					nodata('#keywordindex', '数据正在计算中...')
+	    				}else{
+	    					keywordIndex(list);
+	    				}
+	    			}
+	    			// 13、自媒体热度排名
+	    			if(res.self_media_ranking){
+	    				toHtmlSelfMediaRanking(res);
+	    			}
+	    			// 14、IPO指数
+	    			if(res.ner){
+	    				debugger;
+	    				toHtmlHighWordIndex(res.ner);
+	    			}
+	    			// 15、热点地区排名
+	    			if(res.hot_spot_ranking){
+	    				toHtmlHotSpotRanking(res);
+	    			}
+	    		},
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status == 403) {
+                        window.location.href = ctxPath + "login";
+                    } else {
+                        $("#popularinformation").css({"position": "relative", "min-height": "300px"})
+                        dataerror("#popularinformation")
+                    }
+                }
+	    	});
+	    }
+	    
+	    //  7、热点地区 html 生成
+	    function toHtmlHotSpot(res){
+	    	var trendIs = [
+	    		'<i class="zm mdi mdi-arrow-down fm"></i>', 
+	    		'<i class="mdi mdi-dots-horizontal"></i>',
+	    		'<i class="zm mdi mdi-arrow-up"></i>'
+	    	];
+	    	var hotSpots = JSON.parse(res.hot_spots);
+	    	var list = hotSpots;
+	    	$('#hotSpotList').html('');
+	    	for(var i=0; i<list.length; i++){
+	    		var html = '<div class="over-event-listgpc">'+
+			                    '<span><a target="_blank" href="'+ctxPath+'monitor?groupid='+groupId+'&projectid='+projectId+'&search='+list[i].keyword+'">'+list[i].keyword+'</a></span>'+
+			                    '<span>'+trendIs[list[i].trend-1]+'</span>'+
+			                    '<span>'+list[i].count+'</span>'+
+			                    '<span>'+list[i].index+'</span>'+
+			                '</div>';
+			    $('#hotSpotList').append(html);
+	    	}
+	    	if(list.length == 0){
+	    		nodata('#hotSpotList', '数据正在计算中...');
+		    }
+	    }
+	    
+	    //  6、热点人物 html 生成
+	    function toHtmlHotPeople(res){
+	    	var trendIs = [
+	    		'<i class="zm mdi mdi-arrow-down fm"></i>', 
+	    		'<i class="mdi mdi-dots-horizontal"></i>',
+	    		'<i class="zm mdi mdi-arrow-up"></i>'
+	    	];
+	    	var hotPeople = JSON.parse(res.hot_people);
+	    	var list = hotPeople;
+	    	$('#hotPeopleList').html('');
+	    	for(var i=0; i<list.length; i++){
+	    		var html = '<div class="over-event-listgpc">'+
+			                    '<span><a target="_blank" href="'+ctxPath+'monitor?groupid='+groupId+'&projectid='+projectId+'&search='+list[i].keyword+'">'+list[i].keyword+'</a></span>'+
+			                    '<span>'+trendIs[list[i].trend-1]+'</span>'+
+			                    '<span>'+list[i].count+'</span>'+
+			                    '<span>'+list[i].index+'</span>'+
+			                '</div>';
+			    $('#hotPeopleList').append(html);
+	    	}
+	    	if(list.length == 0){
+	    		nodata('#hotPeopleList', '数据正在计算中...');
+		    }
+	    }
+	 // 11、关键词高频分布统计
+	    function keywordsCloud(highwords) {
+	        $('#keywords').html('')
+	        $('#keywords').removeClass("anychart-credits");
+	    // anychart.onDocumentReady(function () {
+	        var a = highwords;
+	        var chart = anychart.tagCloud(a);
+	        chart.addEventListener('pointClick', onPointClick);
+	        chart.container("keywords");
+	        chart.draw();
+	        clearlogo();
+	    // });
+	    }
+	    function onPointClick(e) {
+	    	// 读取point name
+	    	var name=e.data.name;
+	    	// 读取point value
+	    	var value=e.data.value;
+	    // // 读取自定义属性point attribute
+	    // var attribute = e.data.Attributes['test'];
+	    	// 弹出提示框
+	    	alert("point_name="+name+"  point_value="+value);
+	    	}
+	    function clearlogo() {
+	        setTimeout(() => {
+	            $(".anychart-credits").hide()
+	        }, 100);
+	    }
+	 
+	 // 12、高频词指数
+	    function keywordIndex(data) {
+	        var html = "";
+	        var trend = '';
+	        for (var i = 0; i < data.length; i++) {
+	            if (data[i].trend == 1) {
+	                trend = "mdi mdi-arrow-up";
+	            } else if (data[i].trend == 2) {
+	                trend = "mdi mdi-dots-horizontal";
+	            } else {
+	                trend = "mdi mdi-arrow-down fm";
+	            }
+
+	            let keyword = data[i].keyword;
+	            if (keyword > 5){
+                    keyword = keyword.substring(0 , 4) + ".....";
+                }
+
+	            html +=
+	                '<div class="over-event-listgpc">' +
+	                '<span><a target="_blank" href="' + ctxPath + 'monitor?groupid=' + groupId + '&projectid=' + projectId + '&search=' + data[i].keyword + '" title="'+data[i].keyword+'">' + keyword + '</a></span>' +
+	                '<span><i class="zm ' + trend + '"></i></span>' +
+	                '<span>' + data[i].count + '</span>' +
+	                '<span>' + data[i].index + '</span> ' +
+	                '</div>'
+	        }
+	        $("#keywordindex").html(html);
+	        if (data.length == 0) {
+	            nodata('#keywordindex', '暂无数据！')
+	        }
+	    }
+	    
+	 	// 15、热点地区排名  html 生成
+	    function toHtmlHotSpotRanking(res){
+	 		var classArray = ['bg-info', 'bg-cyan', 'bg-purple', 'bg-orange', 'bg-blue'];
+	    	var hotSpotRanking = JSON.parse(res.hot_spot_ranking);
+	    	hotSpotRankingChart(hotSpotRanking.chart);
+	    	var list = hotSpotRanking.list;
+	    	$('#hotSpotRankingList').html('');
+	    	for(var i=0; i<list.length; i++){
+	    		var html = '<div class="row m-b-15">'+
+			                    '<div class="col-3">'+list[i].name+'</div>'+
+			                    '<div class="col-7">'+
+			                        '<div class="progress m-t-5">'+
+			                            '<div class="progress-bar '+classArray[i]+'" role="progressbar" style="width: '+list[i].rate+'"'+
+			                                ' aria-valuenow="48" aria-valuemin="0" aria-valuemax="100"></div>'+
+			                        '</div>'+
+			                    '</div>'+
+			                    '<div class="col-2">'+list[i].rate+'</div>'+
+			                '</div>';
+	    		$('#hotSpotRankingList').append(html);
+	    	}
+	    	if(list.length == 0){
+	    		nodata('#hotSpotRankingList', '数据正在计算中...');
+		    }
+	    }
+	    
+	    // 14、高频词指数  html 生成
+	    function toHtmlHighWordIndex(res){
+	    	debugger;
+	    	res = JSON.parse(res).ipo;
+	    	
+	    	
+	    	var list = res;
+	    	var classArray = ['v-hot1', 'v-hot2', 'v-hot3'];
+	    	for(var i=0; i<list.length; i++){
+	    		var classHtml = '';
+	    		if(i < 3){
+	    			classHtml = classArray[i];
+	    		}
+
+	    		let keyword = list[i].keyword;
+	    		if(keyword.length > 10){
+                    keyword = keyword.substring(0,9) + "......";
+                }
+
+	    		var html = '<tr>'+
+					           '<td>'+
+					                '<span class="v-hot '+classHtml+'">'+(i+1)+'</span>'+
+					                '<a target="_blank" href="'+ctxPath+'monitor?groupid='+groupId+'&projectid='+projectId+'&search='+list[i].keyword+'" title="'+list[i].keyword+'">'+keyword+'</a>'+
+					            '</td>'+
+					            '<td class="text-center">'+list[i].count+'</td>'+
+					            '<td class="font-bold text-center">'+list[i].calculatedRatioWithPercentSign+'</td>'+
+					        '</tr>';
+	    		$('#highWordIndexList').append(html);
+	    	}
+	    	if(list.length == 0){
+	    		nodata('#highWordIndexList', '数据正在计算中...');
+		    }
+	    }
+	    
+	    // 13、自媒体热度排名  html 生成
+	    function toHtmlSelfMediaRanking(res){
+	    	var selfMediaRanking = JSON.parse(res.self_media_ranking);
+	    	$('#selfMediaRankingListDiv').css('min-height', 'none');
+	    	var list = selfMediaRanking;
+	    	for(var i=0; i<list.length; i++){
+		    	var logo = list[i].logo;
+		    	var slogan = list[i].slogan;
+		    	if(slogan.length > 20) slogan = slogan.substring(0, 20) + '...';
+		    	var logoHtml = '<img src="'+ctxPath+'dist/img/user.jfif" alt="user" class="rounded-circle" width="45">';
+		    	if(logo) logoHtml = '<img src="'+logo+'" alt="user" class="rounded-circle" width="45">';
+	    		var html = '<tr>'+
+			                    '<td>'+
+			                        '<div class="d-flex no-block align-items-center">'+
+			                            '<div class="m-r-10">'+
+			                            logoHtml+
+			                            '</div>'+
+			                            '<div class="">'+
+			                                '<h5 class="m-b-0 font-16 font-medium">'+list[i].name+'</h5>'+
+// 			                                '<div>hgover@gmail.com</div>'+
+			                                '<div style="margin-top: 5px;">'+slogan+'</div>'+
+			                            '</div>'+
+			                        '</div>'+
+			                    '</td>'+
+			                    '<td>'+list[i].platform_name+'</td>'+
+			                    '<td>'+list[i].fans_count+'</td>'+
+			                    '<td class="blue-grey-text  text-darken-4 font-medium">'+list[i].volume+'</td>'+
+			                '</tr>';
+	    		$('#selfMediaRankingList').append(html);
+	    	}
+	    	if(list.length == 0){
+	    		$('#selfMediaRankingListDiv').css('min-height', '250px');
+		    	nodata('#selfMediaRankingList', '数据正在计算中...');
+		    }
+	    }
+	    
+	 	// 10、媒体活跃度分析 html 生成
+	    function toHtmlMediaActivityAnalysis(res){
+	    	var mediaActivityAnalysis = JSON.parse(res.media_activity_analysis);
+	    	var mediaActivityAnalysisHtml = '<div class="display-5 text-info"><i class="mdi mdi-pulse"></i>'+
+		                	'<span>'+mediaActivityAnalysis.total_site+'</span>'+
+		                '</div>'+
+		                '<div class="m-l-10">'+
+		                    '<h3 class="m-b-0">个站点日均</h3><small>'+mediaActivityAnalysis.total+'条数据更新，排名如下</small>'+
+		                '</div>';
+		    $('#mediaActivityAnalysis').html(mediaActivityAnalysisHtml);
+		    var list = mediaActivityAnalysis.sites;
+		    for(var i=0; i<list.length; i++){
+		    	var sourceName = '<span>'+list[i].name+'</span>';
+		    	var sourceNameHtml = list[i].name;
+            	if (list[i].name.length > 5) {
+            		sourceNameHtml = '<span title="'+list[i].name+'">'+list[i].name.substring(0, 5)+'...'+'</span>';
+				}
+		    	var logo = list[i].logo;
+		    	var logoHtml = '';
+
+		    	if(logo) {
+		    	    logoHtml = '<img class="rounded-circle" width="45" src="'+logo+'" alt="">';
+		    	}else{
+                    logoHtml = '<img class="rounded-circle" width="45" src="/assets/images/moren.jpg" alt="">';
+                }
+
+		    	var html = '<tr>'+
+					            '<td>'+
+					            logoHtml+
+					            '</td>'+
+					            '<td  class="text-muted">'+sourceNameHtml+'</td>'+
+					            '<td>'+list[i].rate+'</td>'+
+					            '<td class="font-medium">'+list[i].count+'</td>'+
+					        '</tr>';
+				$('#mediaActivityAnalysisList').append(html);
+		    }
+		    if(list.length == 0){
+		    	nodata('#mediaActivityAnalysisList', '数据正在计算中...');
+		    }
+	    }
+	    
+	 	// 5、热点事件排名 tab切换事件
+	    $("#search-tab li").on("click",function(){
+	        var type = $(this).attr("data-type");
+	        $(this).siblings().removeClass("create-tab-act");
+	        $(this).addClass("create-tab-act");
+	        if(type == '0') toHtmlHotEventRanking(0, hotEventRanking.all);
+	        if(type == '1') toHtmlHotEventRanking(1, hotEventRanking.positive);
+	        if(type == '3') toHtmlHotEventRanking(3, hotEventRanking.negative);
+	    })
+	    
+	    // 5、热点事件排名 html生成
+	    function toHtmlHotEventRanking(type, data){
+	    	$('#hotEventRanking').html('');
+	    	$('#hotEventRankingTable').css('min-height', 'none');
+	 		for(var i=0; i<data.length; i++){
+	 			var classArray = ['v-hot1', 'v-hot2', 'v-hot3'];
+	 			var classHtml = '';
+	    		if(i < 3) classHtml = classArray[i];
+	 			var keywordArray = [];
+	 			if(data[i].key_words){
+	 				var keywords = JSON.parse(data[i].key_words);
+		 			for(key in keywords){
+		 				keywordArray.push(key);
+		 			}
+	 			}
+// 	 			var keywordHtml = '';
+// 	 			if(keywordArray.length > 0) keywordHtml = '<span>关键词：'+keywordArray.slice(0, 5).join(' ')+'</span>';
+				var emotionHtml = '';
+				if(type == 0){
+					var emotion = data[i].emotion;
+					if(emotion == 1) emotionHtml = '<span style="margin-right: 15px;" class="link moodzm">正面</span>';
+					if(emotion == 2) emotionHtml = '<span style="margin-right: 15px;" class="link moodzx">中性</span>';
+					if(emotion == 3) emotionHtml = '<span style="margin-right: 15px;" class="link moodfm">负面</span>';
+				}
+				var rate = data[i].rate;
+				if(!rate) rate = '00.00%';
+
+				let title = data[i].title;
+				if (title.length > 50){
+                    title = title.substring(0 , 49) + "......";
+                }
+
+				var html = '<tr>'+
+					            '<td>'+
+					                '<div style="display:flex;">'+
+					                	'<a target="_blank" title="'+data[i].title+'" style="font-weight: 500;"href="'+ctxPath+'monitor/detail/'+data[i].article_public_id+'?menu=report&groupid='+groupId+'&projectid='+projectId+'">'+
+					                		'<span class="v-hot '+classHtml+'">'+(i+1)+'</span>'+
+                                                title+
+					                	'</a>'+
+					                	'<div style="margin-left: auto;">'+
+					                		'<span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：'+timeParse(data[i].publish_time)+'</span>'+
+					                		'<span style="white-space: nowrap;margin-right: 15px;">来源：'+data[i].source_name+'</span>'+
+					                		emotionHtml+
+					                		/*'<span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;'+rate+'</span>'+*/
+					                	'</div>'+
+					                '</div>'+
+					                '<div class="text-over-2">'+
+					                	data[i].content+
+					                '</div>'+
+					                '<div style="display: flex;">'+
+					                '</div>'+
+					            '</td>'+
+					        '</tr>';
+				$('#hotEventRanking').append(html);
+	 			
+	 		}
+	 		if(data.length == 0){
+	 			$('#hotEventRankingTable').css('min-height', '150px');
+	 			nodata('#hotEventRanking', '暂时没有计算结果，正在努力计算ing...');
+	 		}
+	 	}
+	 	
+	 	// 4情感分析html 生成
+	 	function toHtmlEmotionAnalysis(res){
+	 		var emotionAnalysis = JSON.parse(res.emotion_analysis);
+	 		var reportType = res.report_type;
+	 		if(reportType == 1) $('#emotionAnalysisText').html('当日所有数据来源汇总分析');
+	 		if(reportType == 2) $('#emotionAnalysisText').html('本周所有数据来源汇总分析');
+	 		if(reportType == 3) $('#emotionAnalysisText').html('当月所有数据来源汇总分析');
+			var emotionAnalysisHtml = '<div class="col-4 border-right d-flex just-bet">'+
+		                                    '<i class="fa fa-circle text-cyan"></i>'+
+		                                    '<h3 class="m-b-0 font-medium">'+emotionAnalysis.positive_count+'</h3>'+
+		                                    '<span>正面</span>'+
+		                                '</div>'+
+		                                '<div class="col-4 border-right d-flex just-bet">'+
+		                                    '<i class="fa fa-circle text-orange"></i>'+
+		                                    '<h3 class="m-b-0 font-medium">'+emotionAnalysis.negative_count+'</h3>'+
+		                                    '<span>负面</span>'+
+		                                '</div>'+
+		                                '<div class="col-4 d-flex just-bet">'+
+		                                    '<i class="fa fa-circle text-info"></i>'+
+		                                    '<h3 class="m-b-0 font-medium">'+emotionAnalysis.neutral_count+'</h3>'+
+		                                    '<span>中性</span>'+
+		                                '</div>';
+		    $('#emotionAnalysis').html(emotionAnalysisHtml);
+		    emotionAnalysisChart(emotionAnalysis.chart);
+	 	}
+	 	
+	 	//1数据概览逻辑处理 2、3资讯和社交数据逻辑处理 html生成
+	 	function toHtmlDataOverview(res){
+			var dataOverview = JSON.parse(res.data_overview);
+			var timeHtml = '';
+			var reportStarttime = res.report_starttime;
+			var reportEndtime = res.report_endtime;
+			if(res.report_type == 1) {
+				var year1 = reportStarttime.substring(0, 4);
+				var month1 = reportStarttime.substring(5, 7);
+				var day1 = reportStarttime.substring(8, 10);
+				timeHtml = year1+'年'+month1+'月'+day1+'日采集总数据量';
+			}else{
+				var year1 = reportStarttime.substring(0, 4);
+				var month1 = reportStarttime.substring(5, 7);
+				var day1 = reportStarttime.substring(8, 10);
+				var year2 = reportEndtime.substring(0, 4);
+				var month2 = reportEndtime.substring(5, 7);
+				var day2 = reportEndtime.substring(8, 10);
+				timeHtml = year1+'年'+month1+'月'+day1+'日至'+year2+'年'+month2+'月'+day2+'日采集总数据量';
+			}
+			var dataOverviewHtml = '<div class="d-flex align-items-center m-b-20">'+
+                            '<div>'+
+                                '<h1 class="font-bold m-b-0">'+dataOverview.total+'</h1>'+
+                                '<span>'+timeHtml+'</span>'+
+                            '</div>'+
+                            '<div class="ml-auto">'+
+                                '<i class="mdi mdi-database-plus text-info display-5"></i>'+
+                            '</div>'+
+                        '</div>'+
+                        '<p>本报告就加入素材的文章进行分析，共有'+dataOverview.total+'篇相关素材。其中，网站'
+                        +dataOverview.web_count+'篇，占比最大达到'+dataOverview.web_rate
+                        +'；客户端'+dataOverview.app_count+'篇，占比'+dataOverview.app_rate+'；监测主题其中非敏感'
+                        +dataOverview.non_sensitive_count+'条，非敏感占比'+dataOverview.non_sensitive_rate+'.敏感'
+                        +dataOverview.sensitive_count+'条，敏感占比'+dataOverview.sensitive_rate+'.'+
+                        '</p>'+
+                        '<a href="javascript: void(0)" class="font-bold">报告更新时间 '+res.report_time+'</a>';
+            $('#dataOverview').html(dataOverviewHtml);
+            $("#infoData").html(dataOverview.information_count);
+            $("#socialData").html(dataOverview.social_count);
+	 	}
+	 	
+	    $('.navLi').click(function(){
+	    	jumpNavLocation($(this).data('type'), groupId, projectId);
+	    });
+    </script>
+
+</body>
+
+</html>

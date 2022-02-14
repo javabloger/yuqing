@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>产品手册·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <style>
+    	*{
+    		padding:0;
+    		margin:0;
+    	}
+    	html::-webkit-scrollbar{
+    		width: 0;
+    		height: 0;
+    	}
+    	body{
+    		width: 100vw;
+    		height: 100vh;
+    	}
+    	body>iframe{
+    		width:100%;
+    		height: 100%;
+    		margin: 0 auto;
+    	}
+    </style>
+</head>
+<body>
+	<iframe th:src="@{{pdfPath}(pdfPath=${pdfPath})}"></iframe>
+</body>
+</html>

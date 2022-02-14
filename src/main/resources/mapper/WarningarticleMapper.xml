@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.WarningarticleDao">
+
+
+	<select id="selectWAlsitByUser" resultType="map">
+		SELECT
+			article_id id,
+			article_title title,
+			article_emotion emotionalIndex,
+			article_time publish_time,
+			article_detail,
+			popup_id,
+			project_id
+		FROM
+			warning_article 
+		WHERE
+			user_id = #{user_id}
+		ORDER BY
+			popup_time DESC, article_title DESC
+			LIMIT 5
+	</select>
+	
+	<select id="selectWAlsitByUser2" resultType="map">
+		SELECT
+			wa.article_id id,
+			wa.article_title title,
+			wa.article_emotion emotionalIndex,
+			wa.article_time publish_time,
+			wa.article_detail,
+			wa.popup_id,
+			wa.project_id
+		FROM
+			warning_article wa
+        LEFT JOIN 
+			project p
+		ON wa.project_id = p.project_id
+		WHERE
+			wa.user_id = #{user_id}
+		AND
+			p.is_selected = 1
+		ORDER BY
+			wa.popup_time,
+			wa.article_title 
+			LIMIT 5
+	</select>
+
+</mapper>

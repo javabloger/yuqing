@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.intelligence.dao.UserLogDao">
+    <insert id="saveUserLog">
+      INSERT INTO
+
+      user_log (user_id,article_public_id,method_name,module_name,times,timee,create_time,username,organization_id,organization_name,status,parameters,class_name,module_id,submodule_id,submodule_name)
+
+      VALUES
+
+     (#{user_id},#{article_public_id},#{method_name},#{module_name},#{times},#{timee},#{create_time},#{username},#{organization_id},#{organization_name},#{status},#{parameters},#{class_name},#{module_id},#{submodule_id},#{submodule_name})
+    </insert>
+    
+    <select id="getUserOrganizationById" resultType="map" parameterType="map">
+        SELECT * FROM organization
+
+        WHERE organization_id = #{map.organization_id}
+    </select>
+    
+    <select id="getMoudleByName" resultType="map" parameterType="string">
+        SELECT * FROM module
+
+        WHERE module_name = #{module_name}
+    </select>
+
+    <select id="getSubMoudleByName" resultType="map" parameterType="string">
+        SELECT
+	submodule_id,
+	submodule_name,
+	module.module_id AS module_id,
+	module_name
+FROM
+	submodule
+	LEFT JOIN module ON submodule.module_id = module.module_id
+WHERE
+	submodule_name = #{submodule_name}
+    </select>
+
+</mapper>

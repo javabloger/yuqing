@@ -1,0 +1,9 @@
+.datepaginator-sm .pagination li a,
+.datepaginator-lg .pagination li a,
+.datepaginator .pagination li a {
+    padding: 0 5px;
+    height: 60px;
+    border: 1px solid #e9ecef;
+    float: left;
+    position: relative;
+}

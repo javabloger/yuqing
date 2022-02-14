@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.SystemDao">
+
+	<select id="getWarningByProjectid" resultType="com.stonedt.intelligence.entity.WarningSetting">
+		select
+			create_time, warning_setting_id, project_id, warning_status, warning_name, warning_word, warning_classify,
+			warning_content, warning_similar, warning_match, warning_deduplication, warning_source, warning_receive_time,
+			weekend_warning, warning_interval
+		from
+			warning_setting
+		where
+			project_id = #{projectId}
+	</select>
+
+	<select id="listWarning" resultType="com.stonedt.intelligence.entity.WarningSetting">
+		SELECT
+			w.* ,p.project_name,p.user_id,s.group_name
+		FROM
+			warning_setting AS w
+			LEFT JOIN project AS p ON w.project_id = p.project_id 
+			JOIN solution_group as s on p.group_id =  s.group_id
+		WHERE
+			p.del_status = 0
+		and
+			p.user_id = #{userId}
+		<if test="group_id!=null and group_id!=''">  
+		    AND	p.group_id = #{group_id}
+		</if>  
+		order by warning_status desc,p.create_time desc
+	</select>
+	
+	<select id="listWarningMsg" resultType="com.stonedt.intelligence.entity.WarningSetting">
+		SELECT
+			w.*, p.project_name, p.user_id
+		FROM
+			warning_setting AS w
+			LEFT JOIN project AS p ON w.project_id = p.project_id 
+		WHERE
+			p.del_status = 0
+		AND w.warning_status = 1
+	</select>
+	
+	<update id="updateWarningStatusById">
+		UPDATE warning_setting 
+		SET warning_status = #{warning_status}
+		WHERE
+			project_id = #{project_id}
+	</update>
+
+	<select id="getWarningWord" resultType="com.stonedt.intelligence.entity.WarningSetting">
+		SELECT * FROM warning_setting
+
+		WHERE project_id = #{project_id}
+	</select>
+	
+	<select id="getWarningByProjectId" resultType="com.stonedt.intelligence.entity.WarningSetting">
+		SELECT
+			w.* ,p.project_name,g.group_name
+		FROM
+			warning_setting AS w
+			LEFT JOIN project AS p ON w.project_id = p.project_id  
+			RIGHT JOIN solution_group AS g ON p.group_id = g.group_id
+		WHERE
+			w.project_id = #{project_id}
+	</select>
+	
+	<update id="updateWarning">
+		UPDATE warning_setting 
+		SET warning_name = #{warning_name},
+			warning_status = #{warning_status},
+			warning_word = #{warning_word},
+			warning_classify = #{warning_classify},
+			warning_content = #{warning_content},
+			warning_similar = #{warning_similar},
+			warning_match = #{warning_match},
+			warning_deduplication = #{warning_deduplication},
+			warning_source = #{warning_source},
+			warning_receive_time = #{warning_receive_time},
+			weekend_warning = #{weekend_warning},
+			warning_interval = #{warning_interval}
+		WHERE
+			project_id = #{project_id}
+	</update>
+	
+	<insert id="saveWarningPopup">
+		INSERT INTO 
+			warning_article ( 
+				create_time, warning_article_id, user_id, popup_id, popup_content, popup_time, article_id, article_time, 
+				article_title, article_emotion, status, project_id, read_status, article_detail 
+			)
+			VALUES (
+				#{create_time},#{warning_article_id},#{user_id},#{popup_id},#{popup_content},#{popup_time},#{article_id},
+				#{article_time},#{article_title},#{article_emotion},#{status},#{project_id},#{read_status}, #{article_detail}
+			)
+	</insert>
+	
+	<select id="getWarningArticle" resultType="map">
+<!-- 		SELECT -->
+<!-- 			*  -->
+<!-- 		FROM -->
+<!-- 			warning_article  -->
+<!-- 		WHERE -->
+<!-- 			read_status = 0  -->
+<!-- 		AND status =0 -->
+<!-- 		AND user_id = #{user_id} -->
+<!-- 		<if test="project_id!=null and project_id!=''">   -->
+<!-- 		    AND project_id = #{project_id} -->
+<!-- 		</if> -->
+<!-- 		ORDER BY article_time DESC -->
+		
+		SELECT
+			w.*, p.group_id, p.project_name
+		FROM
+			warning_article as w
+		join project as p on w.project_id = p.project_id
+		join warning_setting as b on  p.project_id = b.project_id
+		WHERE
+			w.read_status = 0 
+			AND p.del_status = 0
+		<if test="openFlag == 1">
+			AND b.warning_status = 1
+		</if>
+		AND w.status =0
+		AND w.user_id = #{user_id}
+		<if test="project_id!=null and project_id!=''">  
+		    AND w.project_id = #{project_id}
+		</if>
+		ORDER BY w.article_time DESC
+	</select>
+	
+	<update id="updateWarningArticle">
+		UPDATE warning_article 
+		SET read_status = 1 
+		WHERE
+			article_id = #{article_id}
+		AND user_id = #{user_id}
+	</update>
+	
+	<insert id="addWarning" parameterType="map">
+		INSERT INTO warning_setting(create_time, warning_setting_id, project_id, warning_status,warning_name, warning_word, warning_classify, warning_content, warning_similar,warning_match,warning_deduplication,warning_source, warning_receive_time, weekend_warning, warning_interval)
+
+		VALUES (#{map.create_time},#{map.warning_setting_id},#{map.project_id},#{map.warning_status},#{map.warning_name},#{map.warning_word}, #{map.warning_classify},#{map.warning_content},#{map.warning_similar},#{map.warning_match},#{map.warning_deduplication},#{map.warning_source},#{map.warning_receive_time}, #{map.weekend_warning}, #{map.warning_interval})
+	</insert>
+	
+	
+	
+	<delete id="delReadSign">
+		DELETE FROM read_sign where user_id = #{user_id} and article_id = #{article_id};
+	</delete>
+	
+	<insert id="readSign">
+		INSERT INTO 
+			read_sign ( 
+				create_time, user_id, article_id
+			)
+			VALUES (
+				#{create_time},#{user_id},#{article_id}
+			)
+	</insert>
+	
+	<select id="selectReadSign" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			*
+		FROM
+			read_sign
+		WHERE
+			user_id = #{user_id} and article_id=#{article_id}
+	</select>
+	
+
+</mapper>

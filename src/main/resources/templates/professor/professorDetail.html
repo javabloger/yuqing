@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>全文搜索·网络情报分析系统</title>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <link th:href="@{/dist/css/xscss/xs.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/xscss/normalize.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/xscss/htmleaf-demo.css}" rel="stylesheet">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="row">
+		<div id="content" class="col" style="padding-top:64px;padding-left:200px;font-size:14px;">
+			<div class="content-item-box" style="width:1329px;">
+			<div class="content-item-1">
+				<div class="content-item-touxiang">
+					<a id="avatar" href="" target="_blank" class="item-link">
+						<img id="img" src="" onerror=src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2146034403,1504718527&fm=26&gp=0.jpg">
+					</a>
+				</div>
+				<div class="item-xiangqing">
+					<div id="title" class="item-username" style="font-size:1.5em;">
+					</div>
+					<div id="institution" class="item-usernameNumber"></div>
+					<div style="clear: both;color: #999;">
+						被看次数：
+						<span id="views"></span>
+					</div>
+					<ul class="xiangqinglist">
+						<li class="li1">
+							<p style="font-size:14px;">被引频次</p>
+							<p id="times_cited" style="font-size:14px;"></p>
+						</li>
+						<li class="li1">
+							<p style="font-size:14px;">成果数</p>
+							<p id="works" style="font-size:14px;"></p>
+						</li>
+						<li class="li1">
+							<p style="font-size:14px;">H指数</p>
+							<p style="font-size:14px;" id="H_index"></p>
+						</li>
+						<li class="li1">
+							<p style="font-size:14px;">G指数</p>
+							<p style="font-size:14px;" id="G_index"></p>
+						</li>
+					</ul>
+					<div class="worker-content">
+						<div>
+							<span class="worker-content-title">领域: &nbsp;</span>
+							<span>
+								<a id="field" class="worker-link" style="color: grey;cursor:text;"></a>
+							</span>
+						</div>
+						<!-- <div>
+							<span class="worker-content-title">详情地址: &nbsp;</span>
+							<span>
+								<a id="detail_url" href="#" target="_blank" class="worker-link" style="color: grey;"></a>
+							</span>
+						</div> -->
+						<div>
+							<span class="worker-content-title">来源: &nbsp;</span>
+							<span>
+								<a id="source_name" href="#" target="_blank" class="worker-link" style="color: grey;"></a>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="effectmap_pie">
+				<div class="pie_map_wrapper">
+					<div class="pie_map_container">
+						<div class="pie_map_container_item">
+							<div class="pie_map_container_item_text">
+								<div class="circleChart" id="circle1"></div>
+								<div style="font-size: 18px;" class="content-item-contentadsd">
+									期刊
+									<p class="percentage" style="font-size: 18px;color: #333;">不详</p>
+								</div>
+							</div>
+							<div
+								style="position: relative;float: left;margin-right: 60px;width: 100px;height: 100px;z-index: 4;cursor: pointer;">
+								<div class="circleChart" id="circle2"></div>
+								<div 
+									style="font-size:18px;position: absolute;z-index: 100;text-align: center;width: 100%;top: 30px;left: 0;height: 40px;color: #666;">
+									会议
+									<p style="font-size: 18px;color: #333;">不详</p>
+								</div>
+							</div>
+							<div
+								style="position: relative;float: left;margin-right: 60px;width: 100px;height: 100px;z-index: 4;cursor: pointer;">
+								<div class="circleChart" id="circle3"></div>
+								<div
+									style="font-size:18px;position: absolute;z-index: 100;text-align: center;width: 100%;top: 30px;left: 0;height: 40px;color: #666;">
+									专著
+									<p style="font-size: 18px;color: #333;">不详</p>
+								</div>
+							</div>
+							<div
+								style="position: relative;float: left; width: 100px;height: 100px;z-index: 4;cursor: pointer;">
+								<div class="circleChart" id="circle4"></div>
+								<div
+									style="font-size:18px;position: absolute;z-index: 100;text-align: center;width: 100%;top: 30px;left: 0;height: 40px;color: #666;">
+									其它
+									<p style="font-size: 18px;color: #333;">不详</p>
+								</div>
+							</div>
+							<div
+								style="position: relative;float: left; width: 100px;height: 100px;z-index: 4;cursor: pointer;">
+								<div class="circleChart" id="circle5"></div>
+								<div
+									style="font-size:18px;position: absolute;z-index: 100;text-align: center;width: 100%;top: 30px;left: 0;height: 40px;color: #666;">
+									总计
+									<p id="works2" style="font-size: 18px;color: #333;">不详</p>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="zongshu">
+							总计
+							<p id="works2" class="number">不详</p>
+						</div> -->
+					</div>
+				</div>
+				<div class="in_content_result_wr">
+					<!-- <div class="unfinde">
+						<h2>暂无数据</h2>
+					</div> -->
+					<!-- <div style="display: none;"> -->
+					<div class="in_conternt_reslist">
+						<div class="result">
+							<div class="res_con" style="color: #666;">
+								<h3 class="text-center" style="font-size:18px;">
+									期刊数量：<span id="quantity">不详</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									被引用百分比：<span class="percentage">不详</span>
+								</h3>
+								<div id="detail" class="res_info text-center">
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="text-center">
+						<div class="btn-group">
+							<button class="btn btn-white" type="button"><i class="fa fa-chevron-left"></i></button>
+							<button class="btn btn-white">1</button>
+							<button class="btn btn-white  active">2</button>
+							<button class="btn btn-white">3</button>
+							<button class="btn btn-white">4</button>
+							<button class="btn btn-white">5</button>
+							<button class="btn btn-white">6</button>
+							<button class="btn btn-white">7</button>
+							<button class="btn btn-white" type="button"><i class="fa fa-chevron-right"></i> </button>
+						</div>
+					</div> -->
+					<!-- </div> -->
+				</div>
+			</div>
+			<div style="float: right;width: 370px;">
+				<div style="display:none;border-bottom: 1px dotted #bfbfbf;padding-bottom: 17px;margin-top: 25px;color: #666;">
+					<h3 class="username">
+						<a href="" class="co_author_more">更多>></a>
+						<span class="username-span" style="font-size:18px;">合作学者</span>
+					</h3>
+					<div class="co_authorlist">
+						<div class="co_author_item">
+							<a href="" class="au_img_link">
+								<img src="./img/a1.jpg" >
+							</a>
+							<span class="au_info">
+								<p>
+									<a href="">鲁鹏</a>
+								</p>
+								<p>
+									<span>山东大学哲学与社会发展学院</span>
+								</p>
+							</span>
+						</div>
+						<div class="co_author_item">
+							<a href="" class="au_img_link">
+								<img src="./img/a1.jpg" >
+							</a>
+							<span class="au_info">
+								<p>
+									<a href="">鲁鹏</a>
+								</p>
+								<p>
+									<span>山东大学哲学与社会发展学院</span>
+								</p>
+							</span>
+						</div>
+						<div class="co_author_item">
+							<a href="" class="au_img_link">
+								<img src="./img/a1.jpg" >
+							</a>
+							<span class="au_info">
+								<p>
+									<a href="">鲁鹏</a>
+								</p>
+								<p>
+									<span>山东大学哲学与社会发展学院</span>
+								</p>
+							</span>
+						</div>
+						<div class="co_author_item">
+							<a href="" class="au_img_link">
+								<img src="./img/a1.jpg" >
+							</a>
+							<span class="au_info">
+								<p>
+									<a href="">鲁鹏</a>
+								</p>
+								<p>
+									<span>山东大学哲学与社会发展学院</span>
+								</p>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="co_affiliate_wr" style="color: #666;">
+					<h2 style="font-size:18px;">合作机构</h2>
+					<ul id="cooperation_agency">
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="page-footer">
+        © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src=" @{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src=" @{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src=" @{/dist/js/app.min.js}"></script>
+<script th:src=" @{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src=" @{/dist/js/app-style-switcher.js}"></script>
+<script th:src=" @{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src=" @{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src=" @{/dist/js/waves.js}"></script>
+<script th:src=" @{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jutils-src"></script>
+<script th:src="@{/dist/js/xsjs/circleChart.es5.min.js}"></script>
+<script th:src="@{/dist/js/xsjs/circleChart.js}"></script>
+<script th:src="@{/dist/js/xsjs/circleChart.min.js}"></script>
+<script th:inline="javascript" type="text/javascript">
+	var articleId = [[${articleid}]];
+	var menu = [[${menu}]];
+	$('.navLi').click(function () {
+	        jumpNavLocation($(this).data('type'), null, null);
+	    })
+	$(function(){
+		detail()
+	})
+	
+/**
+ * 左侧菜单 点击
+ * @param e
+ * @returns
+ */
+$('body').on('click', '#sidebarnav li',function (e) {
+    if (!$(this).hasClass("comactive")) {
+    	$(this).siblings().removeClass("comactive")
+    	$(this).addClass("comactive")
+		if(menuStyle == 0 ){
+			let arry = $(this).attr("data-id").split(',');
+			//full_type = arry[0]
+			idList = $(this).attr("data-id")
+			full_poly = $(this).attr("data-poly")
+			var params = '?searchword='+searchWord +'&fulltype=' + full_type + '&menuStyle=0&full_poly='+full_poly+'&pageSize=25&page=1';
+			window.location.href = ctx + 'fullsearch/result' + params;
+		}else{
+			full_type = $(this).attr("data-id")
+			var params = '?searchword='+searchWord +'&fulltype=' + full_type + '&menuStyle=1&page=1';
+			window.location.href = ctx + 'fullsearch/result' + params;
+		}
+    }
+})
+ 
+		function detail(){
+			var curWwwPath=window.document.location.href;
+
+			  //获取主机地址之后的目录，如： myproj/view/my.jsp
+
+			  var pathName=window.document.location.pathname;
+
+			  var pos=curWwwPath.indexOf(pathName);
+
+			  //获取主机地址，如： http://localhost:8083
+
+			  var localhostPaht=curWwwPath.substring(0,pos);
+        	$.ajax({
+        		url : localhostPaht+"/fullsearch/professorDetailData",
+        		type : "post",
+        		data:{
+        			article_public_id: articleId
+        		},
+        		success : function(res1) {
+        			console.log(res1)
+        			let res=res1.list[0]
+        			let arr=JSON.parse(res.field)
+        			let fieldStr=new String()
+        			for(let i=0;i<arr.length;i++){
+        				fieldStr+=arr[i]+"  "
+        			}
+					document.getElementById("avatar").href=res.detail_url
+					document.getElementById("img").src=res.avatar
+					document.getElementById("title").innerHTML=res.title
+					document.getElementById("views").innerHTML=res.views
+					document.getElementById("institution").innerHTML=res.institution
+					document.getElementById("times_cited").innerHTML=res.times_cited
+					document.getElementById("works").innerHTML=res.works
+					document.getElementById("works2").innerHTML=res.works
+					document.getElementById("H_index").innerHTML=res.H_index
+					document.getElementById("G_index").innerHTML=res.G_index
+					document.getElementById("field").innerHTML=fieldStr
+					// document.getElementById("detail_url").href=res.detail_url
+					// document.getElementById("detail_url").innerHTML=res.detail_url
+					document.getElementById("source_name").href=res.detail_url
+					document.getElementById("source_name").innerHTML=res.source_name
+					let cooperation_agencyArr=JSON.parse(res.cooperation_agency)
+					for (const i in cooperation_agencyArr) {
+						$('#cooperation_agency').append('<li>'
+								+'<span class="co_paper_name">'
+								+'<span class="cooperation_agency">'+cooperation_agencyArr[i].agency+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'
+								+'<span style="float:right">合作次数：'+cooperation_agencyArr[i].frequency+'</span>'
+								+'</span>'
+						+'</li>');
+					}
+					let periodicalObj=JSON.parse(res.periodical)
+					if(periodicalObj.quantity!==undefined){
+						document.getElementById("quantity").innerHTML=periodicalObj.quantity
+						let percentageEls=document.getElementsByClassName("percentage")
+						for (const percentageEl of percentageEls) {
+							percentageEl.innerHTML=periodicalObj.percentage*100+'%'
+						}
+						for (const key of Object.keys(periodicalObj.detail)) {
+							$('#detail').append(
+								'<span style="font-size: 1.3em;">'+key+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'+
+								'<span>'+
+									'<span style="font-size: 1.3em;">被引量: </span>'+
+									'<span style="font-size: 1.3em;">'+(periodicalObj.detail)[key]+'</span><br>'+
+								'</span>'
+							)
+						}
+					}
+        		},
+        		error: function(err) {
+        			console.log(err)
+        		}
+        	});
+		}
+</script>
+</body>
+</html>

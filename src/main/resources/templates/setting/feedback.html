@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href=" ../assets/images/favicon.png">
+    <title>反馈建议·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!-- Custom CSS -->
+    <link href=" ../dist/css/style.min.css" rel="stylesheet">
+    <link href=" ../dist/css/custom.css" rel="stylesheet">
+    <link href="../assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="../assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+<!--     <div class="preloader"> -->
+<!--         <div class="lds-ripple"> -->
+<!--             <div class="lds-pos"></div> -->
+<!--             <div class="lds-pos"></div> -->
+<!--         </div> -->
+<!--     </div> -->
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <!--<header class="topbar">-->
+            <!--<nav class="navbar top-navbar navbar-expand-md navbar-dark">-->
+                <!--<div class="navbar-header">-->
+                    <!--&lt;!&ndash; This is for the sidebar toggle which is visible on mobile only &ndash;&gt;-->
+                    <!--<a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i-->
+                            <!--class="ti-menu ti-close"></i></a>-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--&lt;!&ndash; Logo &ndash;&gt;-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--<a class="navbar-brand navbar-bg" href="overview.html">-->
+                        <!--&lt;!&ndash; Logo icon &ndash;&gt;-->
+                        <!--<b class="logo-icon">-->
+                            <!--&lt;!&ndash;You can put here icon as well // <i class="wi wi-sunset"></i> //&ndash;&gt;-->
+                            <!--&lt;!&ndash; Dark Logo icon &ndash;&gt;-->
+                            <!--&lt;!&ndash; Light Logo icon &ndash;&gt;-->
+                            <!--<img src=" ../assets/images/favicon.png" alt="homepage" class="light-logo" />-->
+                        <!--</b>-->
+                        <!--&lt;!&ndash;End Logo icon &ndash;&gt;-->
+                        <!--&lt;!&ndash; Logo text &ndash;&gt;-->
+                        <!--<span class="logo-text">-->
+                            <!--&lt;!&ndash; dark Logo text &ndash;&gt;-->
+                            <!--&lt;!&ndash; Light Logo text &ndash;&gt;-->
+                            <!--<span class="light-logo logo-title">网络数据监测平台</span>-->
+                            <!--&lt;!&ndash; <img src=" ../assets/images/favicon.png" class="light-logo" alt="homepage" /> &ndash;&gt;-->
+                        <!--</span>-->
+                    <!--</a>-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--&lt;!&ndash; End Logo &ndash;&gt;-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--&lt;!&ndash; Toggle which is visible on mobile only &ndash;&gt;-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--<a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"-->
+                        <!--data-toggle="collapse" data-target="#navbarSupportedContent"-->
+                        <!--aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i-->
+                            <!--class="ti-more"></i></a>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                <!--&lt;!&ndash; End Logo &ndash;&gt;-->
+                <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                <!--<div class="navbar-collapse collapse" id="navbarSupportedContent">-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--&lt;!&ndash; toggle and nav items &ndash;&gt;-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--<ul class="navbar-nav float-left mr-auto" id="thirdMenu">-->
+                        <!--<li class="nav-item d-none d-md-block"><a-->
+                                <!--class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"-->
+                                <!--data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; mega menu &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--<li class="nav-item dropdown hover-none">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect waves-dark" href="../overview.html">-->
+                                <!--<span class="d-none d-md-block"> <i class="fa fa-chart-bar"></i> 监测分析</span>-->
+                                <!--<span class="d-block d-md-none"><i class="mdi mdi-dialpad font-24"></i></span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+
+                        <!--<li class="nav-item hover-none ">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect  waves-dark" href="../monitor.html">-->
+                                <!--<span class="d-none d-md-block"> <i class="fa fa-crosshairs"></i> 数据监测</span>-->
+                                <!--<span class="d-block d-md-none"><i class="mdi mdi-dialpad font-24"></i></span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+
+                        <!--<li class="nav-item dropdown hover-none">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect  waves-dark"-->
+                                <!--href="../projectCenter/projectlist.html">-->
+                                <!--<span class="d-none d-md-block"> <i class="fa fa-list"></i> 监测管理</span>-->
+                                <!--<span class="d-block d-md-none"><i class="mdi mdi-dialpad font-24"></i></span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+
+                        <!--<li class="nav-item dropdown hover-none">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect  waves-dark" href="../volumeMonitor.html">-->
+                                <!--<span class="d-none d-md-block"> <i class="fa fa-rss"></i> 声量监测</span>-->
+                                <!--<span class="d-block d-md-none"><i class="mdi mdi-dialpad font-24"></i></span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+
+                        <!--<li class="nav-item dropdown hover-none">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect  waves-dark" href="../fullSearch.html">-->
+                                <!--<span class="d-none d-md-block"> <i class="fa fa-search"></i> 全文搜索</span>-->
+                                <!--<span class="d-block d-md-none"><i class="mdi mdi-dialpad font-24"></i></span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+
+                        <!--<li class="nav-item dropdown hover-none">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect  waves-dark" href="../reportList.html">-->
+                                <!--&lt;!&ndash; <i class="fa fa-chart-pie"></i>  &ndash;&gt;-->
+                                <!--<span class="d-none d-md-block"> <i class="fa fa-tasks"></i> 分析报告</span>-->
+                                <!--<span class="d-block d-md-none"> <i class="mdi mdi-dialpad font-24"></i></span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+
+                        <!--&lt;!&ndash; <li class="nav-item dropdown hover-none">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect  waves-dark" href="javascript:void(0)"  >-->
+                            <!--<span class="d-none d-md-block"> <i class="fa fa-user-md"></i> 用户管理</span>-->
+                            <!--<span class="d-block d-md-none"><i class="mdi mdi-dialpad font-24"></i></span>-->
+                            <!--</a>-->
+                        <!--</li> &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; End mega menu &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; create new &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; Search &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>-->
+                            <!--<form class="app-search position-absolute">-->
+                                <!--<input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>-->
+                            <!--</form>-->
+                        <!--</li> &ndash;&gt;-->
+                    <!--</ul>-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--&lt;!&ndash; Right side toggle and nav items &ndash;&gt;-->
+                    <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                    <!--<ul class="navbar-nav float-right">-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; create new &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; Comment &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--<li class="nav-item dropdown">-->
+                            <!--<a class="nav-link dropdown-toggle waves-effect  waves-dark" href="javascript:void(0)"-->
+                                <!--data-toggle="dropdown">-->
+                                <!--&lt;!&ndash; <i class="far fa-bell font-24"></i> &ndash;&gt;-->
+                                <!--&lt;!&ndash; <i class="mdi mdi-bell font-24"></i> &ndash;&gt;-->
+                                <!--<svg class="icon font-18">-->
+                                    <!--<use xlink:href="#icon-message"></use>-->
+                                <!--</svg>-->
+                            <!--</a>-->
+                            <!--<div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown message-box">-->
+                                <!--<span class="with-arrow"><span class="bg-primary"></span></span>-->
+                                <!--<ul class="list-style-none">-->
+                                    <!--<li>-->
+                                        <!--<div class="drop-title bg-primary text-white">-->
+                                            <!--<h4 class="m-b-0 m-t-5">4 条新资讯</h4>-->
+                                            <!--&lt;!&ndash; <span class="font-light">Notifications</span> &ndash;&gt;-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<div class="message-center notifications">-->
+                                            <!--&lt;!&ndash; Message &ndash;&gt;-->
+                                            <!--<a href="javascript:void(0)" class="message-item">-->
+                                                <!--<span class="btn btn-danger btn-circle"><i-->
+                                                        <!--class="fa fa-link"></i></span>-->
+                                                <!--<div class="mail-contnet" style=" width: calc(100% - 50px);">-->
+                                                    <!--<h5 class="message-title">预计秋季小范围使用！Moderna新冠疫苗要来了</h5>-->
+                                                    <!--<span class="mail-desc">腾讯网</span>-->
+                                                    <!--<span class="time">9:40 AM</span>-->
+                                                <!--</div>-->
+                                            <!--</a>-->
+                                            <!--&lt;!&ndash; Message &ndash;&gt;-->
+                                            <!--<a href="javascript:void(0)" class="message-item">-->
+                                                <!--<span class="btn btn-success btn-circle"><i-->
+                                                        <!--class="ti-calendar"></i></span>-->
+                                                <!--<div class="mail-contnet" style=" width: calc(100% - 50px);">-->
+                                                    <!--<h5 class="message-title"> 广州各医院陆续恢复日常医疗服务 有医院“隔床”收治患者</h5>-->
+                                                    <!--<span class="mail-desc">广州各医院陆续恢复日常医疗服务-->
+                                                        <!--有医院“隔床”收治患者虽然新冠肺炎疫情得到有效控制，但是目前广州各大医院陆续恢复日常医疗服务的同时，依旧对门诊、住院、手术病人进行了极其严格的筛查和防</span>-->
+                                                    <!--<span class="time">9:10 AM</span>-->
+                                                <!--</div>-->
+                                            <!--</a>-->
+                                            <!--&lt;!&ndash; Message &ndash;&gt;-->
+                                            <!--<a href="javascript:void(0)" class="message-item">-->
+                                                <!--<span class="btn btn-info btn-circle"><i class="ti-settings"></i></span>-->
+                                                <!--<div class="mail-contnet" style=" width: calc(100% - 50px);">-->
+                                                    <!--<h5 class="message-title">欧美期指大跌：斯托克50指数期货跌超8% 道指、标普期货均跌逾4%</h5>-->
+                                                    <!--<span-->
+                                                        <!--class="mail-desc">美股10天第四次熔断。道指24天跌去10000点北京时间19日凌晨，美股又熔断了。北京时间19日0时56分，标普500指数大跌7%触发熔断机制，暂停</span>-->
+                                                    <!--<span class="time">2020-03-19 13:01:05</span>-->
+                                                <!--</div>-->
+                                            <!--</a>-->
+                                            <!--&lt;!&ndash; Message &ndash;&gt;-->
+                                            <!--<a href="javascript:void(0)" class="message-item">-->
+                                                <!--<span class="btn btn-primary btn-circle"><i class="ti-user"></i></span>-->
+                                                <!--<div class="mail-contnet" style=" width: calc(100% - 50px);">-->
+                                                    <!--<h5 class="message-title">工信部加快提升IPv6端到端贯通能力 4股有望受益</h5>-->
+                                                    <!--<span-->
+                                                        <!--class="mail-desc">特别提出要优化提升IPv6网络接入能力，全面扩大数据中心IPv6覆盖范围，到2020年底IPv6活跃连接数达到11.5亿。工信部提出，将通过优化提升IPv6网络接入能力、加快提升内容分发网络IPv6应用加速能力、大幅提升云服务平台IPv6业务承载能力、全面扩大数据</span>-->
+                                                    <!--<span class="time">08:15 AM</span>-->
+                                                <!--</div>-->
+                                            <!--</a>-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a class="nav-link text-center m-b-5 text-dark" href="javascript:void(0);">-->
+                                            <!--<strong>查看更多</strong> <i class="fa fa-angle-right"></i> </a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; End Comment &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--&lt;!&ndash; Messages &ndash;&gt;-->
+                        <!--&lt;!&ndash; ============================================================== &ndash;&gt;-->
+                        <!--<li class="nav-item ">-->
+                            <!--<a class="nav-link waves-effect  waves-dark" href="warning.html" id="2" data-toggle=""-->
+                                <!--aria-haspopup="true" aria-expanded="false">-->
+                                <!--&lt;!&ndash; <i class="font-24 far fa-sun "></i> &ndash;&gt;-->
+                                <!--&lt;!&ndash; <i class="font-24 mdi mdi-comment-processing"></i> &ndash;&gt;-->
+                                <!--<svg class="icon font-18" aria-hidden="true">-->
+                                    <!--<use xlink:href="#icon-setting"></use>-->
+                                <!--</svg>-->
+                                <!--&lt;!&ndash; <i class="font-24 mdi mdi-comment-processing"></i> &ndash;&gt;-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li class="nav-item ">-->
+                            <!--<a class="nav-link waves-effect  waves-dark" href="login.html" id="2" data-toggle=""-->
+                                <!--aria-haspopup="true" aria-expanded="false">-->
+                                <!--&lt;!&ndash; <i class="font-24 far fa-sun "></i> &ndash;&gt;-->
+                                <!--&lt;!&ndash; <i class="font-24 mdi mdi-comment-processing"></i> &ndash;&gt;-->
+                                <!--<svg class="icon font-18" aria-hidden="true">-->
+                                    <!--<use xlink:href="#icon-exit"></use>-->
+                                <!--</svg>-->
+                                <!--&lt;!&ndash; <i class="font-24 mdi mdi-comment-processing"></i> &ndash;&gt;-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</nav>-->
+        <!--</header>-->
+        <div th:replace="common/header::header"></div>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <!--<aside class="left-sidebar">-->
+            <!--&lt;!&ndash; Sidebar scroll&ndash;&gt;-->
+            <!--<div class="scroll-sidebar allleft-menu">-->
+                <!--&lt;!&ndash; Sidebar navigation&ndash;&gt;-->
+                <!--<nav class="sidebar-nav">-->
+                    <!--<ul id="sidebarnav">-->
+                        <!--<li class="sidebar-item ">-->
+                            <!--<a class="sidebar-link  has-arrow waves-effect waves-dark" href="javascript:void(0)"-->
+                                <!--aria-expanded="false">-->
+                                <!--<i class="mdi mdi-bell-ring-outline"></i>-->
+                                <!--<span class="hide-menu">预警设置</span>-->
+                            <!--</a>-->
+                            <!--<ul aria-expanded="false" class="collapse">-->
+                                <!--<li class="sidebar-item">-->
+                                    <!--<a href="warning.html" style="font-size: 13px; padding: 5px 15px 5px 55px;"-->
+                                        <!--class="sidebar-link"> <span class="hide-menu"> 配置列表 </span> </a>-->
+                                <!--</li>-->
+                                <!--<li class="sidebar-item">-->
+                                    <!--<a href="warningMessage.html" style="font-size: 13px; padding: 5px 15px 5px 55px;"-->
+                                        <!--class="sidebar-link"> <span class="hide-menu"> 消息列表 </span> </a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li class="sidebar-item">-->
+                            <!--<a class="sidebar-link waves-effect waves-dark " href="preference.html"-->
+                                <!--aria-expanded="false">-->
+                                <!--<i class="mdi mdi-filter-outline"></i>-->
+                                <!--<span class="hide-menu">偏好设置</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li class="sidebar-item">-->
+                            <!--<a class="sidebar-link  waves-effect waves-dark" href="userCenter.html"-->
+                                <!--aria-expanded="false">-->
+                                <!--<i class="mdi mdi-account-convert"></i>-->
+                                <!--<span class="hide-menu">账号管理</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li class="sidebar-item">-->
+                            <!--<a class="sidebar-link waves-effect waves-dark active" href="feedback.html" aria-expanded="false">-->
+                                <!--<i class="mdi mdi-message-text-outline"></i>-->
+                                <!--<span class="hide-menu">反馈建议</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</nav>-->
+                <!--&lt;!&ndash; End Sidebar navigation &ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash; End Sidebar scroll&ndash;&gt;-->
+        <!--</aside>-->
+        <div th:replace="common/setting_left::setting_left"></div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <div class="right-content p-0">
+                <!-- nav start-->
+           <div class="page-breadcrumb">
+               <div class="row">
+                   <div class="col-lg-5 align-self-center">
+                       <div class="d-flex align-items-center">
+                           <nav aria-label="breadcrumb">
+                               <ol class="breadcrumb">
+                                   <li class="breadcrumb-item">系统设置</li>
+                                   <li class="breadcrumb-item">反馈建议</li>
+                                   <li class="breadcrumb-item">用户反馈</li>
+                               </ol>
+                           </nav>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <!-- nav end-->
+                <div class="p-20">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center over-load t2" id="loading1">
+                                <div class="spinner-border spinner-border text-info" role="status">
+                                    <span class="sr-only">加载中...</span>
+                                </div>
+                            </div>
+                            <div class="card-title">用户反馈</div>
+                            <div class="chat-box" style="min-height: 200px;max-height:450px;padding-right: 20px;">
+                                <!--chat Row -->
+                                <ul class="chat-list">
+                                    <!--chat Row -->
+                                    <li class="chat-item">
+                                        <div class="chat-img"><img src="../assets/images/users/1.jpg" alt="user">
+                                        </div>
+                                        <div class="chat-content">
+                                            <h6 class="font-medium">系统管理员</h6>
+                                            <div class="box bg-light-info">欢迎使用网络数据监测平台</div>
+                                        </div>
+                                        <div class="chat-time">10:56 am</div>
+                                    </li>
+                                    <!--chat Row -->
+                                    <li class="chat-item">
+                                        <div class="chat-img"><img src="../assets/images/users/1.jpg" alt="user">
+                                        </div>
+                                        <div class="chat-content">
+                                            <h6 class="font-medium">系统管理员</h6>
+                                            <div class="box bg-light-info">请描述您使用过程中遇到的问题，或想法</div>
+                                        </div>
+                                        <div class="chat-time">10:57 am</div>
+                                    </li>
+                                    <!--chat Row -->
+                                    <li class="odd chat-item">
+                                        <div class="chat-content">
+                                            <div class="box">我想要报告定制的功能</div>
+                                            <span class="m-l-10">我</span>
+                                            <br>
+                                        </div>
+                                        <div class="chat-time">10:59 am</div>
+                                    </li>
+                                    <!--chat Row -->
+                                    <li class="chat-item">
+                                        <div class="chat-img"><img src="../assets/images/users/1.jpg" alt="user">
+                                        </div>
+                                        <div class="chat-content">
+                                            <h6 class="font-medium">系统管理员</h6>
+                                            <div class="box bg-light-info"> 感谢您的反馈</div>
+                                        </div>
+                                        <div class="chat-time">11:00 am</div>
+                                    </li>
+                                    <!--chat Row -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body border-top">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile">
+                                        <label class="custom-file-label" for="customFile">上传图片</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-field m-t-0 m-b-0">
+                                        <input id="textarea1" placeholder="请填写您遇到的问题或意见建议" class="form-control border-0" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <a class="btn-circle btn-lg btn-cyan float-right text-white" href="javascript:void(0)">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- footer start  -->
+                <!-- ============================================================== -->
+                <div class="page-footer">
+                    © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+                </div>
+                <!-- ============================================================== -->
+                <!-- footer end  -->
+                <!-- ============================================================== -->
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src=" ../assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src=" ../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src=" ../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- apps -->
+    <script src=" ../dist/js/app.min.js"></script>
+    <script src=" ../dist/js/app.init.light-sidebar.js"></script>
+    <script src=" ../dist/js/app-style-switcher.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src=" ../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src=" ../assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src=" ../dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src=" ../dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src=" ../dist/js/custom.min.js"></script>
+    <!-- this pages -->
+    <script src="../dist/js/projectlist.js"></script>
+    <script src="../dist/js/pages.js"></script>
+    <!-- 右上角提示 -->
+    <script src="../assets/libs/block-ui/jquery.blockUI.js"></script>
+    <script>
+    
+	    $('.navLi').click(function(){
+	    	jumpNavLocation($(this).data('type'), null, null);
+	    })
+    
+        $(function () {
+            var currentPage = 1
+            var totalPages = 5
+            $("#page").bootstrapPaginator({
+                bootstrapMajorVersion: 3, //版本
+                currentPage: currentPage, //当前页数
+                numberOfPages: 20, //每次显示页数
+                totalPages: totalPages, //总页数
+                shouldShowPage: true, //是否显示该按钮
+                useBootstrapTooltip: false,
+                onPageClicked: function (event, originalEvent, type, page) {
+                    console.log("PAGE = " + page)
+                }
+            });
+        });
+        // loading
+        setTimeout(() => {
+            $("#loading1").hide()
+        }, 1000);
+
+        var prodata =
+            [
+                {
+                    "name": "国家高层",
+                    "keywords": "关键词[快讯]中国广核：2018、2019、2020三个财政年度民生教育(01569)4.2亿元人币购TCL教育网保持每股派息适度增长",
+                    "createtime": "2020-03-26",
+                    "id": 1
+                },
+                {
+                    "name": "中共中央",
+                    "keywords": "BB：区块链可以提高治理效率和相互问责，加密技术为我们提供透明价值存储",
+                    "createtime": "2020-03-26",
+                    "id": 22222
+                },
+                {
+                    "name": "中国人民",
+                    "keywords": "2019年ROE继续跑赢行业 中银证券实美股暴力反弹11％，A股修复反弹可期现持续稳健发展",
+                    "createtime": "2020-03-26",
+                    "id": 33333
+                },
+                {
+                    "name": "国家政党",
+                    "keywords": "Zoom年内股% 公司高管高位价已上涨超100% 公司% 公司高管高位高管高位大量% 公司高管高位减持Zoom年内股价已上涨超100% 公司高管高位大量减持",
+                    "createtime": "2020-03-26",
+                    "id": 44444
+                },
+            ]
+        function createprolist(prodata) {
+            var data = prodata
+            var listtr = ''
+            if (data == undefined) {
+                data = []
+            }
+            for (var i = 0; i < data.length; i++) {
+                listtr +=
+                    '<div class="table-hover d-flex project-list-box pro-bt">' +
+                    '    <div class="project-chb">' +
+                    '        <div class="custom-control custom-checkbox">' +
+                    '            <input type="checkbox" class="custom-control-input" id="cst' + (i + 1) + '">' +
+                    '            <label class="custom-control-label" for="cst' + (i + 1) + '"></label>' +
+                    '        </div>' +
+                    '    </div>' +
+                    '    <div class="project-name"><a href="projectlistDetail.html">' +
+                    data[i].name +
+                    '    </a></div>' +
+                    '    <div class="project-keywords text-over"><a href="projectlistDetail.html">' +
+                    data[i].keywords +
+                    '    </a></div>' +
+                    '    <div class="project-times">' +
+                    data[i].createtime +
+                    '    </div>' +
+                    '    <div class="project-edit-delete">' +
+                    '        <i class="fas fas fa-pencil-alt"onclick="proedit(' + data[i].id + ')" data-id="' + data[i].id + '"></i>' +
+                    '        <i class="fas fa-trash-alt" onclick="prodelete(' + data[i].id + ')" data-id="' + data[i].id + '"></i>' +
+                    '    </div>' +
+                    '</div>'
+
+            }
+            $("#projectlist").html(listtr)
+        }
+        createprolist(prodata)
+        function prodelete(that) {
+            console.log("删除方案id", that)
+            showtips("删除方案的id" + that)
+        }
+        function proedit(id) {
+            console.log(id)
+            window.location.href = "editProject.html"
+        }
+
+        // Growl notification
+        $('.growl').on('click', function () {
+            $.blockUI({
+                message: "这是页面的提示",
+                fadeIn: 700,
+                fadeOut: 700,
+                timeout: 3000,
+                showOverlay: false,
+                centerY: false,
+                css: {
+                    width: '250px',
+                    top: '20px',
+                    left: '',
+                    right: '20px',
+                    border: 'none',
+                    padding: '15px 5px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: 0.9,
+                    color: '#fff'
+                }
+            });
+            setTimeout(() => {
+                window.location.href = "createProject.html"
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

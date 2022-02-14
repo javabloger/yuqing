@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.ReportCustomDao">
+
+	<select id="listReportCustom" resultType="com.stonedt.intelligence.entity.ReportCustom">
+		select
+			create_time, report_id, report_name, report_type, report_starttime, report_endtime, report_status, report_time,
+			project_id, user_id
+		from
+			report_custom
+		where
+			del_status = 0
+		<if test="reportType != null">
+			and
+				report_type = #{reportType}
+		</if>
+			and
+				project_id = #{projectId}
+		<if test="nameSearch != null and nameSearch != ''">
+			and
+				report_name like CONCAT('%', '${nameSearch}', '%')
+		</if>		
+		order by 
+			create_time DESC
+	</select>
+	
+	<insert id="saveReportCustom" parameterType="com.stonedt.intelligence.entity.ReportCustom">
+		insert into 
+			report_custom(
+				create_time, report_id, report_name, report_type, report_starttime, report_endtime, report_status,
+				report_topping, report_time, del_status, project_id, keyword, stopword, user_id
+			)
+			values(
+				#{create_time}, #{report_id}, #{report_name}, #{report_type}, #{report_starttime}, #{report_endtime}, 
+				#{report_status}, #{report_topping}, #{report_time}, #{del_status}, #{project_id}, #{keyword},
+				 #{stopword}, #{user_id}
+			)
+	</insert>
+	
+	<select id="listReportCustomByStatus" parameterType="Integer" resultType="com.stonedt.intelligence.entity.ReportCustom">
+		select
+			report_id, report_starttime, report_endtime, keyword, stopword, report_time, report_type, project_id
+		from
+			report_custom
+		where
+			del_status = 0
+		and
+			report_status = #{report_status} 
+		order by create_time ASC limit 1
+	</select>
+	
+	<update id="updateReportCustomStatus" parameterType="com.stonedt.intelligence.entity.ReportCustom">
+		update
+			report_custom
+		set
+			report_status = #{report_status}
+		where
+			report_id = #{report_id}
+	</update>
+	
+	<update id="batchUpdateReportCustom">
+		update 
+			report_custom
+		set
+			del_status = 1
+		where 
+			user_id = #{userId} 
+		and 
+			report_id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		
+	</update>
+	
+	
+	
+	<update id="batchUpdateReportCustomStatus">
+	update 
+			report_custom
+		set report_status = 1
+		where 
+			user_id = #{userId} 
+		and 
+	       report_id = #{reportId}
+	  
+	
+	</update>
+	
+	<select id="searchReportByUserAndType2" resultType="map">
+		SELECT
+		r.report_id,
+		r.report_name,
+		r.report_time,
+		r.project_id projectid,
+		r.report_status,
+		p.group_id groupid
+	FROM
+		report_custom r,
+		project p 
+	WHERE
+		r.project_id = p.project_id 
+		AND r.user_id = #{user_id}
+		AND r.report_type = #{report_type}
+		AND p.is_selected = 1
+	ORDER BY
+		r.report_time DESC
+		LIMIT 4 
+	</select>
+	
+	
+	
+	
+	
+</mapper>

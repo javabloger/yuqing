@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>创建方案·网络情报分析系统</title>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <![endif]-->
+    <style>
+    	input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+			color: #b6b7b7 !important;
+		}
+		input:-moz-placeholder, textarea:-moz-placeholder {
+			color: #b6b7b7 !important;
+		}
+		input::-moz-placeholder, textarea::-moz-placeholder {
+		    color: #b6b7b7 !important;
+		}
+		input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+		    color: #b6b7b7 !important;
+		}
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+<!--     <div th:replace="common/project_left::project_left"></div> -->
+    <div th:replace="common/monitor_left::monitor_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">监测管理</li>
+                                    <li class="breadcrumb-item" id="projectname"></li>
+                                    <li class="breadcrumb-item">新增方案</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center ">
+                        <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                            <button class="btn btn-sm btn-outline-secondary bnone" type="button" id="goback">
+                                <i class="mdi mdi-redo-variant"></i> 返回
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="progress-tab">
+                            <li class="line-active">
+                                <span>1</span>
+                                <span>选择创建方案类型</span>
+                            </li>
+                            <li class="line-active">
+                                <span>2</span>
+                                <span>创建监测方案</span>
+                            </li>
+                            <li class="" id="createcomplete">
+                                <span>3</span>
+                                <span>创建方案完成</span>
+                            </li>
+                            <li class="" id="checkmonitor">
+                                <span>4</span>
+                                <span>查看监测数据</span>
+                            </li>
+                        </ul>
+                        <div class="pro-introduce m-t-20">什么是监测方案：监测方案是与您相关或您关注的词条，通过您设置的词条，系统将把互联网中与您相关的信息内容第一时间通知您。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="create-tab" id="search-tab">
+                            <li class="create-tab-act" data-type="2">快速创建</li>
+                            <li class="" data-type="1">高级创建</li>
+                            <li id="tips" data-type="3">当前是快速创建，可设置550字</li>
+                        </ul>
+                        <!-- tab1 start -->
+                        <div id="tab2" class="card m-b-0" style="display: none;">
+                            <div class="card-body p-b-0">
+                                <div class="create-line m-b-30">
+                                    <span>方案名称</span>
+                                    <input id="proname1" type="text" maxlength="10" class="form-control"
+                                           placeholder="请输入方案名称">
+                                    <span>*方案名称控制在6字符以内</span>
+                                </div>
+                                <div class="create-line m-b-30">
+                                    <span>所属方案组名称</span>
+                                    <select name="" id="groupList" class="form-control">
+                                    </select>
+                                </div>
+                                <div class="create-line2 m-b-20">
+                                    <span>方案主体关键词</span>
+                                    <textarea class="form-control" name="" id="prokeywords1" rows="4"
+                                              placeholder=''></textarea>
+                                    <div class="create-tips">
+                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="方案主体关键词提示"
+                                           data-content="1：“+”表示“并且”,“|”表示“或”
+														<br>                                           
+														2：什么情况下用“|”：
+														如想关注北京或上海或广州的新闻，表达式为“北京|上海|广州”，表示文章中出现 “北京”、“上海”、“广州”任意一个城市就能监测到。
+														<br>
+														3：什么情况下用“+”：
+														如想关注北京车牌摇号的新闻，表达式为“北京+车牌摇号”，表示文章中同时出现 “北京”和“车牌摇号”两个关键词才能监测到。
+														<br>
+														4：什么情况下同时用到“+”、“|”：
+														如想关注上海世博会的新闻，由于“世博会”又可能被称为“世界博览会”，表达式为 “上海+(世博会|世界博览会)”，表示文章中出现“上海”，同时出现“世博会”或者 “世界博览会”中任意一个词，就能监测到；
+														<br>
+														5：什么情况下用到排除关键词：
+														如想关注上海、北京、广州的新闻，但又不想看到内容中有“三室一厅”、“二室 一厅”这种关键词的广告，可以使用排除关键词的方式。 匹配关键词表达式“北京|上海|广州” 排除关键词表达式“三室一厅|二室一厅”">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="create-line2 m-b-20">
+                                    <span>监测屏蔽歧义词</span>
+                                    <textarea class="form-control" name="" id="proshield1" rows="4"
+                                              placeholder=''></textarea>
+                                    <div class="create-tips">
+                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="监测屏蔽歧义词提示"
+                                           data-content="1：“+”表示“并且”,“|”表示“或”
+														<br>                                           
+														2：什么情况下用“|”：
+														如想关注北京或上海或广州的新闻，表达式为“北京|上海|广州”，表示文章中出现 “北京”、“上海”、“广州”任意一个城市就能监测到。
+														<br>
+														3：什么情况下用“+”：
+														如想关注北京车牌摇号的新闻，表达式为“北京+车牌摇号”，表示文章中同时出现 “北京”和“车牌摇号”两个关键词才能监测到。
+														<br>
+														4：什么情况下同时用到“+”、“|”：
+														如想关注上海世博会的新闻，由于“世博会”又可能被称为“世界博览会”，表达式为 “上海+(世博会|世界博览会)”，表示文章中出现“上海”，同时出现“世博会”或者 “世界博览会”中任意一个词，就能监测到；
+														<br>
+														5：什么情况下用到排除关键词：
+														如想关注上海、北京、广州的新闻，但又不想看到内容中有“三室一厅”、“二室 一厅”这种关键词的广告，可以使用排除关键词的方式。 匹配关键词表达式“北京|上海|广州” 排除关键词表达式“三室一厅|二室一厅”">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="create-btn-group">
+                                    <button class="btn btn-info m-r-10" type="button" id="gosubmit1">确定</button>
+                                    <button class="btn btn-secondary" type="button" id="goback1">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tab1 end -->
+                        <!-- tab2 start -->
+                        <div id="tab1" class="card m-b-0" >
+                            <div class="card-body p-b-0">
+                                <div class="create-line m-b-30">
+                                    <span>方案名称</span>
+                                    <input id="proname" type="text" maxlength="6" class="form-control"
+                                           placeholder="请输入方案名称">
+                                    <span>*方案名称控制在6字符以内</span>
+                                </div>
+                                <div class="create-line m-b-30">
+                                    <span>所属方案组名称</span>
+                                    <select name="" id="groupList2" class="form-control">
+                                        <option value="1">涉及国家</option>
+                                    </select>
+                                </div>
+                                <div class="create-line2 m-b-20">
+                                    <span>方案主体关键词</span>
+                                    <textarea class="form-control" name="" id="prokeywords" rows="4"
+                                              placeholder='关键词之间用逗号","隔开；例如：汽车行业，别克，辉腾，三菱'></textarea>
+                                    <div class="create-tips">
+                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="方案主体关键词提示"
+                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="create-line2 m-b-20">
+                                    <span>国家/城市/地域 关键词</span>
+                                    <textarea class="form-control" name="" id="proarea" rows="4"
+                                              placeholder='关键词之间用逗号","隔开;例如：美国，上海，北京，滕家沟，南京西路'></textarea>
+                                    <div class="create-tips">
+                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="国家/城市/地域 关键词提示"
+                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="create-line2 m-b-20">
+                                    <span>人物/机构/企业 关键词</span>
+                                    <textarea class="form-control" name="" id="properson" rows="4"
+                                              placeholder='关键词之间用逗号","隔开；例如：马云，北京网安中心，腾讯科技'></textarea>
+                                    <div class="create-tips">
+                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="人物/机构/企业 关键词提示"
+                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="create-line2 m-b-20">
+                                    <span>事件/动词 关键词</span>
+                                    <textarea class="form-control" name="" id="proaccident" rows="4"
+                                              placeholder='关键词之间用逗号","隔开；例如：高管离职，拖欠工资，跑路，开销，焦虑'></textarea>
+                                    <div class="create-tips">
+                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="事件/动词 关键词提示"
+                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="create-line2 m-b-20">
+                                    <span>监测屏蔽歧义词</span>
+                                    <textarea class="form-control" name="" id="proshield" rows="4"
+                                              placeholder='关键词之间用逗号","隔开；例如：合作，用不，二娃，流连'></textarea>
+                                    <div class="create-tips">
+                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="监测屏蔽歧义词提示"
+                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="create-btn-group">
+                                    <button class="btn btn-info m-r-10" type="button" id="gosubmit">确定</button>
+                                    <button class="btn btn-secondary" type="button" id="goback">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tab2 end -->
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- apps -->
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<!--Wave Effects -->
+<script th:src="@{/dist/js/waves.js}"></script>
+<!--Menu sidebar -->
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<!--Custom JavaScript -->
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<!-- this pages -->
+<script th:src="@{/dist/js/projectlist.js}"></script>
+<!-- 分页 -->
+<script th:src="@{/dist/js/pages.js}"></script>
+<!-- 右上角提示 -->
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+<script th:src="@{/common/tools.js}"></script>
+<!-- 提示框 -->
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+
+<script th:inline="javascript" type="text/javascript">
+
+    var groupId = [[${groupId}]];
+
+    $(document).ready(function () {
+        sendGroupByadd();  // 组装方案组数据
+    });
+    
+    // 左侧方案切换
+    function switchProject(event) {
+        let $event = $(event);
+        groupId = $event.attr("data-groupid");
+        projectId = $event.attr("data-index");
+        window.location.href = ctxPath + 'project/detail?groupid='+groupId+'&projectid='+projectId;
+    }
+    
+    /**
+     * @author huajiancheng
+     * @date 2020/04/15
+     * @description 发送新增方案的信息
+     */
+    function sendProjectInfo(data) {
+        //新增方案
+        $.ajax({
+            url: ctxPath + "project/commitproject",
+            type: "post",
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(data),
+            success: function (res) {
+                console.log(res)
+                let code = res.code;
+                let msg = res.msg;
+                if (code == 200) {
+                    let g_id = res.data.group_id;
+                    let p_id = res.data.project_id;
+                    $("#createcomplete").addClass("line-active");
+                    showInfoResult("方案新增完成", "稍后可以到数据监测中查看该方案的数据监测", g_id, p_id);
+                } else {
+                    showInfo(msg);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                } else {
+                    console.log(thrownError);
+                }
+            }
+        });
+    }
+    
+    function sendGroupByadd() {
+        $.ajax({
+            type: "POST",
+            url: ctxPath + "project/groupandproject",
+            dataType: 'json',
+            data: {},
+            success: function (res) {
+                let code = res.code;
+                if (code == 200) {
+                    let data = res.data;
+                    let groupStr = '';
+                    for (let i = 0; i < data.length; i++) {
+                        let dataJson = data[i];
+                        let group_id = dataJson.group_id;
+                        let group_name = dataJson.group_name;
+                        if (group_id == groupId) {
+                            groupStr += '<option selected value="' + group_id + '">' + group_name + '</option>'
+                        } else {
+                            groupStr += '<option value="' + group_id + '">' + group_name + '</option>'
+                        }
+                    }
+                    $("#groupList").html(groupStr); // 修改方案 普通方案 方案组下拉框
+                    $("#groupList2").html(groupStr); // 修改方案 高级方案 方案组下拉框
+                } else {
+                    showInfo("出错啦，请稍后再试");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                } else {
+                    console.log(thrownError);
+                }
+            }
+        });
+    }
+
+    /**
+     * @author liyoulin
+     * @date 2020/04/15
+     * @description 切换快速创建和高级方案
+     */
+    $("#search-tab li").on("click", function () {
+        var tip = $(this).attr("data-type")
+        switch (tip) {
+            case "2":
+                $(this).siblings().removeClass("create-tab-act");
+                $(this).addClass("create-tab-act");
+                $("#tips").html("当前是快速创建，可设置550字");
+                $("#tab2").hide();
+                $("#tab1").show();
+                break;
+            case "1":
+                $(this).siblings().removeClass("create-tab-act");
+                $(this).addClass("create-tab-act");
+                $("#tips").html("当前是高级创建，可设置100字");
+                $("#tab1").hide();
+                $("#tab2").show();
+                break;
+            case "3":
+                break;
+            default:
+                break;
+        }
+    });
+
+    /**
+     * @author huajiancheng
+     * @date 2020/04/15
+     * @description 快速新增方案数据
+     * @param message 提示的信息
+     */
+    $("#gosubmit1").click(function (param) {
+        var proname = $("#proname1").val().trim();  // 方案名称
+        var prokeywords = $("#prokeywords1").val().trim();  // 关键词
+        var proshield = $("#proshield1").val().trim(); // 屏蔽词
+        if (proname == '') {
+            $("#proname1").addClass("text-error");
+            showtips("请填写完整！");
+
+        } else {
+            $("#proname1").removeClass("text-error");
+        }
+        if(proname.length>6){
+        	showtips("方案名称长度最多六个字符");
+        	return;
+        }
+        if (prokeywords == '') {
+            $("#prokeywords1").addClass("text-error");
+            showtips("请填写完整！")
+        } else {
+            $("#prokeywords1").removeClass("text-error");
+        }
+        $("#createcomplete").addClass("line-active");
+
+
+        if (prokeywords.indexOf("，") != -1) {
+            prokeywords = prokeywords.toString().replace(new RegExp("，", 'gm'), ",");
+        }
+
+        if (proshield.indexOf("，") != -1) {
+            proshield = proshield.toString().replace(new RegExp("，", 'gm'), ",");
+        }
+
+
+
+        let prokeywordsArray = prokeywords.split(",");
+        if (prokeywordsArray.length >= 100) {
+            showInfo("关键词不能超过100个！");
+        }
+
+
+        let proshieldArray = proshield.split(",");
+        if (proshieldArray.length >= 100) {
+            showInfo("屏蔽词词不能超过100个！");
+        }
+
+        if (proname != '' && prokeywords != '' && proshieldArray.length < 100 && prokeywordsArray.length < 100) {
+            let group_id = $("#groupList option:selected").val().trim();
+            let dataJson = new Object();
+            dataJson.project_name = proname;
+            dataJson.subject_word = prokeywords;
+            dataJson.stop_word = proshield;
+            dataJson.group_id = group_id;
+            dataJson.project_type = 1;
+            sendProjectInfo(dataJson);
+        }
+    });
+
+
+    $("#goback1").click(function (param) {
+        $("#proname1").removeClass("text-error");
+        $("#prokeywords1").removeClass("text-error");
+        $("#proshield1").removeClass("text-error");
+        $("#createcomplete").removeClass("line-active");
+        window.location.href = ctxPath + "project";
+    });
+
+
+    $(document).on('click', '#goback', function (param) {
+        $("#proname1").removeClass("text-error");
+        $("#prokeywords1").removeClass("text-error");
+        $("#proshield1").removeClass("text-error");
+        $("#createcomplete").removeClass("line-active");
+        window.location.href = ctxPath + "project";
+    });
+
+
+    // 高级方案确认
+    $("#gosubmit").click(function () {
+        var proname = $("#proname").val();
+        var prokeywords = $("#prokeywords").val();
+        var properson = $("#properson").val();
+        var proarea = $("#proarea").val();
+        var proaccident = $("#proaccident").val();
+        var proshield = $("#proshield").val();
+        if (proname == '') {
+            $("#proname").addClass("text-error");
+            showtips("请填写完整！")
+        } else {
+            $("#proname").removeClass("text-error");
+        }
+        if (prokeywords == '') {
+            $("#prokeywords").addClass("text-error");
+            showtips("请填写完整！");
+        } else {
+            $("#prokeywords").removeClass("text-error");
+        }
+
+
+        if (prokeywords.indexOf("，") != -1) {
+            prokeywords = prokeywords.toString().replace(new RegExp("，", 'gm'), ",");
+        }
+
+        if (properson.indexOf("，") != -1) {
+            properson = properson.toString().replace(new RegExp("，", 'gm'), ",");
+        }
+
+        if (proarea.indexOf("，") != -1) {
+            proarea = proarea.toString().replace(new RegExp("，", 'gm'), ",");
+        }
+
+        if (proaccident.indexOf("，") != -1) {
+            proaccident = proaccident.toString().replace(new RegExp("，", 'gm'), ",");
+        }
+
+        if (proshield.indexOf("，") != -1) {
+            proshield = proshield.toString().replace(new RegExp("，", 'gm'), ",");
+        }
+
+
+        let prokeywordsArray = prokeywords.split(",");
+        if (prokeywordsArray.length >= 100) {
+            showInfo("关键词不能超过100个！");
+        }
+
+
+        let propersonArray = properson.split(",");
+        if (propersonArray.length >= 100) {
+            showInfo("人物词不能超过100个！");
+        }
+
+
+        let proareaArray = proarea.split(",");
+        if (proareaArray.length >= 100) {
+            showInfo("地域词不能超过100个！");
+        }
+
+        let proaccidentArray = proaccident.split(",");
+        if (proaccidentArray.length >= 100) {
+            showInfo("事件词不能超过100个！");
+        }
+
+
+        let proshieldArray = proshield.split(",");
+        if (proshieldArray.length >= 100) {
+            showInfo("屏蔽词不能超过100个！");
+        }
+
+        if (proname != '' && prokeywords != '' && prokeywordsArray.length <100
+            && propersonArray.length <100 && proareaArray.length <100
+            && proaccidentArray.length <100 && proshieldArray.length <100) {
+            let group_id = $("#groupList2 option:selected").val();
+            let dataJson = new Object();
+            dataJson.project_name = proname;
+            dataJson.subject_word = prokeywords;
+            dataJson.stop_word = proshield;
+            dataJson.group_id = group_id;
+            dataJson.project_type = 2;
+            dataJson.event_word = proaccident; // 事件关键词
+            dataJson.regional_word = proarea; // 地域词
+            dataJson.character_word = properson;  // 人物关键词
+            sendProjectInfo(dataJson);
+        }
+    });
+    
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), groupId, null);
+    })
+
+</script>
+</body>
+
+</html>

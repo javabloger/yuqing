@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.intelligence.dao.OpinionConditionDao">
+
+    <select id="getOpinionConditionByProjectId" resultType="com.stonedt.intelligence.entity.OpinionCondition">
+		select
+			id, create_time, opinion_condition_id, project_id, time, precise, emotion, similar, sort, matchs,timee,times,classify/*增加数据来源的查询*/,websitename/*网站名称*/,author/*作者名称*/,
+			organization/*涉及机构*/,categorylable/*文章分类*/,enterprisetype/*涉及企业*/,hightechtype/*高科技型企业*/,policylableflag/*涉及政策*/,datasource_type/*数据品类*/,eventIndex/*涉及事件*/,industryIndex/*涉及行业*/,
+			province/*涉及省份*/,city/*涉及城市*/
+		from
+			opinion_condition
+		where
+			project_id = #{projectId}
+	</select>
+
+    <update id="updateOpinionCondition" parameterType="com.stonedt.intelligence.entity.OpinionCondition">
+        update
+        opinion_condition
+        set
+        time = #{time},
+        precise = #{precise},
+        emotion = #{emotion},
+        similar = #{similar},
+        sort = #{sort},
+        matchs = #{matchs}
+        <if test='time == 8'>
+            ,times = #{times}
+            ,timee = #{timee}
+        </if>
+        <if test='time != 8'>
+            ,times = ''
+            ,timee = ''
+        </if>
+        where
+        opinion_condition_id = #{opinion_condition_id}
+    </update>
+
+    <!--新建方案后新增一个偏好设置-->
+    <insert id="addOpinionConditionById" parameterType="map">
+	INSERT INTO opinion_condition(create_time, opinion_condition_id, project_id, time, precise, emotion, similar, sort, matchs)
+	VALUES (#{map.create_time}, #{map.opinion_condition_id}, #{map.project_id},#{map.time},#{map.precise},#{map.emotion},#{map.similar},#{map.sort},#{map.matchs})
+    </insert>
+
+
+    <update id="updateOpinionConditionByMap" parameterType="map">
+        update
+        opinion_condition
+        set
+        time = #{map.timeType},
+        precise = #{map.precise},
+        emotion = CONCAT('[',#{map.emotionalIndex},']'),
+        similar = #{map.similar},
+        sort = #{map.searchType},
+        matchs = #{map.matchingmode} + 1,
+        classify = CONCAT('[',#{map.classify},']')/*增加数据来源的修改项*/,
+        websitename = #{map.sourceWebsite},/*网站名称信息添加*/
+        author = #{map.author}/*作者名称添加*/,
+        organization = #{map.orgtypelist},/*涉及机构*/
+        categorylable = #{map.categorylable},/*文章分类*/
+        enterprisetype = #{map.enterprisetypelist},/*涉及企业*/
+        hightechtype = #{map.hightechtypelist},/*高科技型企业*/
+        policylableflag = #{map.policylableflag},/*涉及政策*/
+        datasource_type = #{map.datasource_type}/*数据品类*/
+        ,eventIndex = #{map.eventlable}/*涉及事件*/
+        ,province = #{map.province}/*涉及省份*/
+        ,industryIndex = #{map.industrylable}/*涉及行业*/
+        ,city = #{map.city}/*涉及城市*/
+        <if test='map.timeType == 8'>
+            ,timee = #{map.timee}
+            ,times = #{map.times}
+        </if>
+
+        <if test='map.timeType != 8'>
+            ,timee = ''
+            ,times = ''
+        </if>
+        where
+        project_id = #{map.projectid}
+    </update>
+    
+    
+    <update id="updateOpinionConditionById" parameterType="map">
+         UPDATE opinion_condition  SET
+
+         precise = #{map.precise}
+
+         WHERE   project_id = #{map.projectid}
+    </update>
+    
+    <select id="getOpinionConditionById" parameterType="map" resultType="map">
+      SELECT * FROM opinion_condition
+
+      WHERE   project_id = #{map.projectid}
+    </select>
+</mapper>

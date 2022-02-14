@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.ProjectDao">
+
+    <select id="getProject" resultType="com.stonedt.intelligence.entity.Project">
+		select
+			project_type as projectType,
+			subject_word as subjectWord,
+			character_word as characterWord,
+			event_word as eventWord,
+			regional_word as regionalWord,
+			stop_word as stopWord
+		from
+			project
+		where
+			project_id = #{projectId}
+	</select>
+
+    <select id="getProjectName" resultType="String">
+		select
+			project_name
+		from
+			project
+		where
+			project_id = #{projectId}
+
+		AND del_status = 0
+	</select>
+
+    <select id="getProjectByProId" resultType="map">
+		SELECT
+			project.id as id, 
+			project.create_time as create_time,
+			project.project_id as project_id,
+			project.project_name as project_name,
+			project.update_time as update_time,
+			project.project_type as project_type,
+			IFNULL(project.project_description, '') as project_description,
+			IFNULL(project.subject_word, '') as subject_word,
+			IFNULL(project.character_word, '') as character_word,
+			IFNULL(project.event_word, '') as event_word,
+			IFNULL(project.regional_word, '') as regional_word,
+			IFNULL(project.stop_word, '') as stop_word,
+			project.del_status as del_status,
+			project.group_id as group_id,
+			project.user_id as user_id,
+			solution_group.group_name
+		FROM
+			project
+			LEFT JOIN solution_group ON project.group_id = solution_group.group_id
+		WHERE
+			project_id =  #{projectId}
+			AND project.del_status = 0
+			AND solution_group.del_status = 0
+	</select>
+
+
+
+	<select id="getProjectInfo" resultType="map" parameterType="map">
+		select
+			*
+		from
+			project
+		where
+			project_id = #{map.project_id}
+		AND del_status = 0
+	</select>
+
+
+    <select id="getGroupInfoByUserId" resultType="map">
+      SELECT * FROM solution_group
+
+      WHERE user_id = #{user_id}
+
+      AND del_status = #{del_status}
+      
+      order by  create_time desc
+    </select>
+
+    <select id="getProjectInfoByGroupIdAndUserId" resultType="map">
+        SELECT * FROM project
+
+        WHERE del_status = #{map.del_status}
+
+        AND group_id = #{map.group_id}
+
+        AND user_id = #{map.user_id}
+
+        <if test='map.project_name != "" and map.project_name != null'>
+            AND project_name LIKE CONCAT('%', #{map.project_name},'%')
+        </if>
+        
+        order by  update_time desc
+    </select>
+
+    <select id="getProjectAndGroupInfoByUserId" resultType="map" parameterType="map">
+        SELECT date_format(project.create_time, '%Y-%m-%d') AS create_time,project.project_id,project.project_name,
+
+        project.character_word, project.event_word, project.regional_word, project.stop_word,project.subject_word,
+
+        project.group_id,solution_group.group_name FROM project LEFT JOIN solution_group
+
+        ON project.group_id = solution_group.group_id
+
+        WHERE solution_group.del_status = 0
+
+        AND project.del_status = 0
+
+        AND project.user_id = #{map.user_id}
+        <if test='map.group_id != null and map.group_id != "" '>
+            AND project.group_id = #{map.group_id}
+        </if>
+
+        <if test='map.project_name != null and map.project_name != "" '>
+            AND project.project_name LIKE CONCAT('%',#{map.project_name},'%')
+        </if>
+
+        AND solution_group.user_id = #{map.user_id}
+        
+        order by  project.update_time desc
+    </select>
+
+    <insert id="insertProject" parameterType="com.stonedt.intelligence.entity.Project">
+			insert into project (create_time,project_id,project_name,update_time,project_type
+			,project_description,subject_word,character_word,event_word,regional_word,stop_word
+			,group_id,user_id
+			) values(now(),#{projectId},#{projectName},now(),#{projectType},#{projectDescription},
+			#{subjectWord},#{characterWord},#{eventWord},#{regionalWord},#{stopWord},#{groupId},#{userId}
+			)
+	</insert>
+
+    <select id="listProjects" resultType="com.stonedt.intelligence.entity.Project">
+		select
+			project_id AS projectId, 
+			project_name AS projectName, 
+			project_type AS projectType, 
+			subject_word AS subjectWord, 
+			IFNULL(character_word, '') AS characterWord, 
+			IFNULL(event_word, '') AS eventWord,
+			IFNULL(regional_word, '') AS regionalWord,
+			IFNULL(stop_word, '') AS stopWord, 
+			user_id AS userId
+		from
+			project
+		where
+			del_status = 0
+<!-- 		and -->
+<!-- 			project_id = 1264818552590962688 -->
+	</select>
+
+
+    <select id="getProjectByProjectId" parameterType="map" resultType="map">
+        SELECT * FROM project
+
+        WHERE del_status = #{map.del_status}
+
+        AND  project_id = #{map.project_id}
+    </select>
+
+
+    <insert id="timingProject">
+		replace INTO volume_monitor 
+			( create_time, volume_monitor_id, project_id, time_period, keyword_emotion_statistical, keyword_source_distribution, keyword_news_rank, keyword_emotion_trend, highword_cloud, keyword_exposure_rank, media_user_volume_rank )
+		VALUES
+			(#{create_time},#{volume_monitor_id},#{project_id},#{time_period},#{keyword_emotion_statistical},#{keyword_source_distribution},#{keyword_news_rank},#{keyword_emotion_trend},#{highword_cloud},#{keyword_exposure_rank},#{media_user_volume_rank} )
+		
+	</insert>
+
+    <update id="delProject" parameterType="map">
+		UPDATE project SET  del_status = #{map.del_status}
+
+		WHERE  project_id = #{map.project_id}
+
+		AND user_id = #{map.user_id}
+	</update>
+
+    <update id="editProjectInfo" parameterType="map">
+		UPDATE 
+			project 
+		SET  
+			project_name = #{map.project_name},
+		 	project_type = #{map.project_type}, 
+		 	update_time = #{map.update_time},
+		  	project_description = #{map.project_description},
+		  	subject_word = #{map.subject_word},
+		  	character_word = #{map.character_word},
+		  	event_word = #{map.event_word},
+		  	regional_word = #{map.regional_word},
+			stop_word = #{map.stop_word},
+			group_id = #{map.group_id}
+		WHERE  
+			project_id = #{map.project_id}
+		AND 
+			user_id = #{map.user_id}
+	</update>
+	
+	
+	<select id="getProjectCount" resultType="integer" parameterType="map">
+		SELECT  count(project_id) FROM project
+
+		WHERE  user_id = #{map.user_id}
+
+		AND  group_id = #{map.group_id}
+
+		AND  project_name = #{map.project_name}
+
+		AND del_status = #{map.del_status}
+	</select>
+	
+	<select id="listProjectByGroupId" resultType="com.stonedt.intelligence.entity.Project">
+		select
+			project_id as projectId, project_name as projectName
+		from
+			project
+		where
+			group_id = #{groupId}
+		and
+			del_status = 0
+		order by create_time desc
+	</select>
+	
+	<select id="queryUserid" resultType="map">
+		select * from project where user_id = #{user_id} and del_status=0
+	</select>
+	
+	<update id="batchUpdateProject">
+		update 
+			project
+		set
+			del_status = 1
+		where 
+			user_id = #{userId} 
+		and 
+			project_id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		
+	</update>
+	
+	<select id="getGroupNameById" resultType="map">
+		SELECT  * FROM solution_group
+
+		WHERE group_id = #{map.group_id}
+
+		AND user_id = #{map.user_id}
+	</select>
+	    
+    <select id="getProjectCountByGroupId" resultType="Integer">
+    	select
+    		count(0)
+    	from
+    		project
+    	where
+    		del_status = 0
+    	and
+    		group_id = #{groupId}
+    </select>
+
+
+	<!--查询所有的关键词-->
+	<select id="getAllKeywords" resultType="map">
+		SELECT subject_word FROM project
+
+		WHERE del_status = 0
+
+		ORDER BY create_time DESC
+	</select>
+
+
+	<!--获取方案信息-->
+	<select id="getProjectInfoById" resultType="map">
+		SELECT * FROM project
+
+		WHERE del_status = #{map.del_status}
+
+		AND project_id = #{map.project_id}
+
+		AND  group_id = #{map.group_id}
+	</select>
+
+	<select id="getProjectCountById" resultType="integer">
+		SELECT count(0) FROM project
+
+		WHERE del_status = #{map.del_status}
+
+		AND user_id = #{map.user_id}
+
+	</select>
+	
+	<select id="getKeywordsByUser2" resultType="String">
+		select subject_word from project where user_id = #{user_id} and del_status = 0
+		<!--  and is_selected = 1
+		<if test="type == 1">
+			and type_id = 1
+		</if> -->
+	</select>
+	
+	
+	<select id="getprojectByUser2" resultType="map">
+		select project_id,project_name,group_id from project where user_id = #{user_id} and del_status = 0 
+	<!-- 	and is_selected = 1
+		<if test="type == 1">
+			and type_id = 2
+		</if> -->
+		 GROUP BY update_time desc
+		limit 5
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!-- Favicon icon -->
+		 <link rel="icon" type="image/png" sizes="16x16" href=" assets/images/favicon.png">
+		<title>今日热点·网络情报分析系统</title>
+		<!-- Custom CSS -->
+		<link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+		<link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+<!-- 		<script th:src="//at.alicdn.com/t/font_1709263_vgbiio5q6f.js"></script> -->
+		<link rel="stylesheet" th:href="@{/dist/anycharts/anychart-ui.min.css}">
+		<script th:src="@{/dist/anycharts/anychart-base.min.js}"></script>
+		<script th:src="@{/dist/anycharts/anychart-ui.min.js}"></script>
+		<script th:src="@{/dist/anycharts/anychart-tag-cloud.min.js}"></script>
+
+		<!-- this pages  -->
+		<link th:href="@{/assets/extra-libs/c3/c3.min.css}" rel="stylesheet">
+		<link th:href="@{/assets/extra-libs/css-chart/css-chart.css}" rel="stylesheet">
+		<link href="/dist/css/sweetalert.css" rel="stylesheet">
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+	</head>
+
+	<body>
+		<!-- ============================================================== -->
+		<!-- Preloader - style you can find in spinners.css -->
+		<!-- ============================================================== -->
+		<div class="preloader">
+			<div class="lds-ripple">
+				<div class="lds-pos"></div>
+				<div class="lds-pos"></div>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- Main wrapper - style you can find in pages.scss -->
+		<!-- ============================================================== -->
+		<div id="main-wrapper">
+		<div th:replace="common/zhheader::header"></div>
+<!--         <div th:replace="common/monitor_left::monitor_left"></div> -->
+			<!-- ============================================================== -->
+			<!-- Topbar header - style you can find in pages.scss -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- End Topbar header -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Left Sidebar - style you can find in sidebar.scss  -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+			<!-- ============================================================== -->
+			<!-- Page wrapper  -->
+			<!-- ============================================================== -->
+			<div class="page-wrapper" style="margin-left: 0;">
+				<div class="right-part right-content">
+				
+<!-- 				<div class="page-breadcrumb"> -->
+<!--                 <div class="row" id="chu"> -->
+<!--                     <div class="col-lg-5 align-self-center"> -->
+<!--                         <div class="d-flex align-items-center"> -->
+<!--                             <nav aria-label="breadcrumb"> -->
+<!--                                 <ol class="breadcrumb" id="navname"> -->
+<!--                                     <li class="breadcrumb-item">今日热点</li> -->
+<!--                                     <li class="breadcrumb-item"></li> -->
+<!--                                     <li class="breadcrumb-item"></li> -->
+<!--                                 </ol> -->
+<!--                             </nav> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div id="nodata"></div> -->
+<!--                     <div class="col-lg-7 align-self-center ">
+<!--                         <div class="d-flex no-block justify-content-end align-items-center data-number-min"> -->
+<!--                             <small class="font-13"> -->
+<!--                                 <i class="mdi mdi-clock"></i>数据统计更新于：<span id="updateTime"></span> -->
+<!--                             </small> -->
+<!--                             <h4 class="text-info m-b-0 m-l-10"> 58256</h4> -->
+<!--                             <select id="timePeriodSelect" onchange="timePeriodSelectFunc()" -->
+<!--                                     class="form-control custom-select select-outline" -->
+<!--                                     style="width: 100px;margin-left:10px;"> -->
+<!--                                 <option value="1">24小时</option> -->
+<!--                                 <option value="2">3天</option> -->
+<!--                                 <option value="3">7天</option> -->
+<!--                                 <option value="4">15天</option> -->
+<!--                             </select> -->
+<!--                         </div> -->
+<!--                     </div> --> 
+<!--                 </div> -->
+<!--             </div> -->
+				
+				
+				
+				
+					<!-- nav start-->
+					<!-- nav end-->
+					<div class="p-20">
+						<!-- <div style="text-align:right;margin-bottom:10px;">
+							<a onclick="getProjects()" class="btn text-black align-items-center active">
+								<i class="fas fas fa-pencil-alt"></i>
+								<span class="hide-menu m-l-10">个性化设置</span>
+							</a>
+						</div> -->
+						<!-- <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+								<button type="button" onclick="getProjects()" class="btn btn-outline-secondary btn-sm bnone" id="deleteexportlist">
+									<i class="fas fas fa-search-plus"></i> 个性化设置
+								</button>
+							</div> -->
+						<!-- line 1 start-->
+						
+						<div class="row">
+							<!-- zixun  start -->
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title ">抖音热榜</i>
+											<i class="font-24 far fa-clipboard ">
+										</div> -->
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										政策
+										</div>
+										<!-- <div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('抖音')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div> -->
+										
+										
+										</div>
+										<div class="text-center over-load" id="loading8">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="hot_policydata">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title ">B站热点</i>
+											<i class="font-24 far fa-clipboard ">
+										</div> -->
+										
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										经济
+										</div>
+										<!-- <div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('哔哩哔哩')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div> -->
+										</div>
+										
+										
+										<div class="text-center over-load" id="loading9">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="hot_finaceData">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title ">腾讯热门视频</i>
+											<i class="font-24 far fa-clipboard ">
+										</div> -->
+										
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										科技
+										</div>
+										<!-- <div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('36kr')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div> -->
+										</div>
+										
+										<div class="text-center over-load" id="loading10">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="hot_36kr">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- fang an start -->
+						</div>
+						
+						
+						
+						
+						
+						<div class="row">
+							<!-- zixun  start -->
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										微信热点
+										</div>
+										<div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('微信')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div>
+										
+										
+										</div>
+										<!-- <div class="col-lg-7 align-self-center">
+											<div class="d-flex no-block justify-content-end align-items-center data-number-min">
+												
+											</div>
+										</div> -->
+										<div class="text-center over-load" id="loading1">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="weixin">
+											<ul>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzx">中性</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodfm">负面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- zixun  end -->
+							<!-- qinggan start -->
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title ">微博热点
+										</div> -->
+										
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										微博热点
+										</div>
+										<div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('微博')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div>
+										
+										
+										</div>
+										
+										<div class="text-center over-load" id="loading2">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="weibo">
+											<ul>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzx">中性</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodfm">负面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- qinggan start -->
+							<!-- fang an start -->
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title">百度热点</div> -->
+										
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										百度热点
+										</div>
+										<div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('百度')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div>
+										
+										
+										</div>
+										
+										
+										<div class="text-center over-load" id="loading3">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="all-hot">
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- fang an start -->
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body p-10">
+										<div class="card-title volume-title">
+											<span>热点搜索词</span>
+										</div>
+										<div class="volume-data">
+											<div id="keywords" style="width: 100%;height: 300px;"></div>
+											<!--<div id="keywords" style="height: 230px;margin: 0 auto;width: 977px;">
+												<img src="gpc.png" style="margin: 0 auto; height: 230px;width: 977px;" alt="">
+											</div>-->
+											
+											
+											<!-- 词云分布 -->
+										<!--<div class="ev-analysis-detail-abstract">
+											<span>词云分布</span>
+										</div>
+										<div class="event-card-box">
+											<div id="keywords" style="width: 100%;height: 300px;"></div>
+										</div>-->
+											
+											
+											
+											
+											
+											
+											
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- zixun  start -->
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title ">抖音热榜</i>
+											<i class="font-24 far fa-clipboard ">
+										</div> -->
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										抖音热榜
+										</div>
+										<div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('抖音')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div>
+										
+										
+										</div>
+										<div class="text-center over-load" id="loading5">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="douyin">
+											<ul>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzx">中性</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodfm">负面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title ">B站热点</i>
+											<i class="font-24 far fa-clipboard ">
+										</div> -->
+										
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										B站热点
+										</div>
+										<div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('哔哩哔哩')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div>
+										</div>
+										
+										
+										<div class="text-center over-load" id="loading6">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="bilibili">
+											<ul>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzx">中性</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodfm">负面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="card m-h-372">
+									<div class="card-body overview-content">
+										<!-- <div class="card-title ">腾讯热门视频</i>
+											<i class="font-24 far fa-clipboard ">
+										</div> -->
+										
+										<div class="card-title">
+										<div class="align-self-center" style="display:inline;">
+										腾讯热门
+										</div>
+										<div class="align-self-center" style="display:inline;margin-left:70%">
+										<button type="button" class="btn btn-outline-secondary btn-sm bnone" onclick="moreHotdata('腾讯视频')">
+													<i class="mdi mdi-checkbox-multiple-blank"></i> 更多
+												</button>
+										</div>
+										</div>
+										
+										<div class="text-center over-load" id="loading7">
+											<div class="spinner-border spinner-border text-info" role="status">
+												<span class="sr-only">加载中...</span>
+											</div>
+										</div>
+										<div class="over-conbox" id="tecentvedio">
+											<ul>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzm">正面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodzx">中性</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+												<li>
+													<a th:href="@{/fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1}">
+														<div class="over-newsbox">
+															<div class="content-title">
+																<div class="over-weibohottopictitle"><span class="content-logo" style="background: url(https://file.ipadown.com/tophub/assets/images/media/s.weibo.com.png);"></span>宣布无限量化宽松政策；全球金融资产价格能否反弹需进一步观察</div>
+															</div>
+															<div class="over-tips">
+																<span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 微博</span>
+																<span class="link f-right moodfm">负面</span>
+																<span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"><i class="fas fa-fire" style="color: #fe475d;"> </i>  97000</span>
+
+															</div>
+														</div>
+														<i class="mdi mdi-chevron-right font-20"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- fang an start -->
+						</div>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						<!-- <div class="row">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="card-title"><i class=" fa fas"></i> 关注热点事件排名</div>
+										<h4 class="card-title"><i class=" fa fas"></i> 推送舆情</h4>
+										<ul class="create-tab-report pro-bb" id="search-tab">
+											<li class="create-tab-act" data-type="0">全部</li>
+											<li class="" data-type="1">正面</li>
+											<li class="" data-type="2">负面</li>
+										</ul>
+										<div class="table-responsive">
+											<table id="hotEventRankingTable" class="table v-middle hot-rank" style="position: relative; min-height: 150px;">
+												<tbody id="hotEventRanking" >
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/e047ec6e3392caa67917c7859e79c221?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot v-hot1">1</span>揭秘“北京九所”:这里的事曾“跟任何人都不能说”</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：62天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：360doc.com</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;55.56%</span></div>
+															</div>
+															<div class="text-over-2">六十年前，中国处在三年困难时期，同时面临着西方大国的核讹诈与核垄断。一批科学家下定决心，为了祖国核事业“干惊天动地事，做隐姓埋名人！” 胡思得、李德元和李维新是原二机部第九研究所三位参与核武器研制的科学家，如今都已到了耄耋之年，但加入这项事业时，他们都还是刚刚大学毕业的年轻人。近日，三位科学家接受记者专访，一起回忆中国核武器探索的峥嵘岁月。 “核武器”三个字后面是“跟任何人都不能说”的隐秘 1958年7月，北京西郊的一片高粱地里，一座名为“花园路3号院”的办公楼开始动工，“北京九所”就是在这里。 同年8月，22岁的胡思得从上海复旦大学毕业，被分配到九所。来九所报到的当天，他见到了第九研究所一室主任——33岁的邓稼先。 当时，邓稼先给年轻的大学生安排的工作是学习一本钱三强从苏联带回来的《超声速流与冲击波》。胡思得回忆，学来学去，为什么要学，成了大问题。一个月后，他“斗胆”向邓稼先提出，“能不能开一个党小组会，给我们讲一讲到底干什么？” 胡思得回忆，邓稼先后来告诉他们要搞核武器，“讲完‘核武器’三个字后，又讲了很多不能跟任何人说我们是干什么的话，至少交代了二三十分钟。” 胡思得 1957年，中国政府与苏联签订了《中苏国防新技术协定》。按照协定，苏联将援助中国研制原子弹，向中国提供原子弹的教学模型和图纸资料。但1959年6月，苏联致函中国，表示不会向中国提供原子弹教学模型和图纸资料。1960年7月，苏联政府撕毁同中国签订的所有协定和合同，苏联专家带着重要的图纸资料撤出中国。有一种悲观的说法是：“中国再过20年也搞不出原子弹”。 1960年，三年自然灾害导致粮食短缺，但九所的大楼里，哪怕大家饿到浮肿，算盘和手摇计算机的噼啪作响也从来没有停过。年轻的科研人员在邓稼先的带领下，紧张地进行着“九次计算”。 “当时我们的党支部书记有一个任务，晚上十点钟一定到办公室来看看，把浮肿的同志赶回去，但很多浮肿的同志到外面转转，书记一走又回来了。”胡思得回忆，他们都是自觉自愿的，没有人强迫要这样做。 李维新 李维新表示，由于当时中国用的计算机跟美国计算机相比，百万次每秒计算速度相差上百倍，为保证精准就得靠精确计算反复检查。李德元回忆说，这个事情很单调，但心里怀着宏大的目标。“很多记者、很多作家要想写我们的故事，我说你们不要写，这里面没有故事性、没有爱情，是很枯燥的。” 李德元 大胆质疑苏联专家给的数字，从理论上推翻苏联数据 当时，郭永怀、王淦昌、彭桓武、程开甲、陈能宽、秦元勋、周毓麟等顶尖的科学家都在九所集结。但“九次计算”历时近一年，如同一个关口，卡在那里——其中一个重要数据和苏联专家讲课时提到的技术指标不符合。 直到1961年，周光召加入九所。“他从头至尾把我们的数据重复算了一遍，觉得没错。所以他当时就提出一个怀疑，会不会苏联专家的数字给错了？”胡思得表示，这是一个非常大胆的怀疑，一个没有搞过原子弹的人，否定原子弹专家给出的数据，这谈何容易？ 1961年9月，周光召从炸药能量的利用率入手，求出炸药所做的最大功，从理论上证明了“九次计算”结果的正确性和苏联数据的不可能。 “九次计算”持续将近一年时间，反复磨砺，厚积薄发，为之后原子弹和氢弹的成功奠定了坚实的理论基础。 罗布泊腾起了蘑菇云，办公室里却不敢欢呼 1963年初，中国第一颗原子弹理论设计方案按预定计划诞生。邓稼先在这份历史性的文件上，郑重地签署了自己的名字。 1964 年10月16日，罗布泊一声巨响，火球腾地而起，冲击波从地面上卷起粗壮的尘柱，戈壁滩上冉冉升起翻滚飞腾的蘑菇烟云。根据现场采集的数据表明，爆炸威力初估TNT当量在2万吨以上，科学家们确认这是一次成功的核爆炸。 那一天，胡思得身在青海核武器生产基地，李德元和李维新依旧在北京的九所办公室里。“得知试验获得圆满成功后，当时大家都在鼓掌，不敢欢呼。”李维新回忆，因为会议室靠围墙太近了，怕声音传到外头，“那时候这个事情还是保密的。” 新中国首次核试验的成功震撼了全世界！仅仅两年零八个月后，震撼再度降临，中国第一颗氢弹爆炸成功，继美国、苏联和英国之后，中国成为第四个掌握氢弹原理和制造技术的国家。 李德元：“我对国家有贡献，这一辈子过得可以” 为什么中国人只用两年多时间，就实现了原子弹到氢弹的突破？很多年来，人们一直在找寻这个问题的答案。家国情怀，是九所人给出的第一个答案。 胡思得感慨地说：“这些老科学家从旧社会走过来，亲身感受到国家如果弱了，就会受帝国主义欺负，这口气很难咽下去。所以一有机会能够为国家服务，他们就要回来。‘我愿以身许国’，就这么六个字。” 60年过去了，当年的年轻人都已成为耄耋老人，他们依然怀念核武器研制过程中的科学精神，只问科学不问人的讨论，是科学工作者最珍视的工作氛围。“科学就是简单的东西，一个人真正受用一辈子的东西，是科学态度。”李德元这样说。 接受采访不久后，李德元因病医治无效逝世，享年88岁。 他们为核武器默默奉献了一辈子。因为保密，他们的相册中几乎没有壮年时期的照片，所获得的荣誉和奖项也不能对外公布。 “我参加了中国的核武器研制，这是我一辈子的价值。我很自豪参加这么伟大的事业。”李德元说，“我大言不惭地说，我对国家是有贡献的，这一辈子过得可以。”</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/d683d673d3d29a47ea9e1e11952845b2?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot v-hot2">2</span>258家配资平台被曝光后仍有近半在运营 这些宣传套路要提防！</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：63天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：Zaker</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;22.22%</span></div>
+															</div>
+															<div class="text-over-2">经济观察网 实习记者 王语嫣 记者 姜鑫 &nbsp;监管的曝光似乎并没有压住场外配资兴盛的势头。 场外配资平台黑名单曝光后，记者对名单中 258 家平台进行盘点发现，截至 7 月 13 日，有 110 家平台的网站链接可以点击进入，仍在运营。 " 虽说查的严，但线上线下还有很多机构没查到。" 曾在线上配资平台工作过的张启（化名）说。 此前，经济观察网刊发的《被证监会集中曝光后 有配资平台仍在继续运营》一文中探究了场外配资平台可能涉及的虚假营销、虚拟盘操作等，记者此次试图进一步揭开配资平台的运营套路，以期投资者避免落入配资 " 陷阱 "。 游击运营、单线操作、多重诱惑 自 7 月 8 日证监会集中曝光场外配资平台后，7 月 11 日银保监会也发声表示，严禁银行保险机构违规参与场外配资，严查乱加杠杆和投机炒作行为。 不少分析人士认为，这是对 7 月初以来出现的牛市行情进行降温，避免形成 " 疯牛 " 趋势，严查实则是推进股市朝 " 健康牛 " 迈进。 不过，有些平台被曝光后，仍在运营，且各出 " 奇招 " 吸引投资者。 记者打开仍在运营的网站，映入眼帘的多为来自平台的 " 提醒 "，包括充值账户与二维码时常更换，以及网站域名可能无法打开、投资者需记住备用域名等，某平台甚至有 4 个备用域名可供投资者进入。此外，也有网站在打开后会进行自动跳转，从而投资者可在新域名网站进行配资。同时，也有平台机构的名称相似、但运用不同网站，但最终共同指向同一家公司。这一切仿佛暗示着配资平台已做好了与官方监管打游击战的准备。 此外，记者在新浪微博搜索 " 配资 " 时仍能发现有多位个人用户宣传推广配资机构，并附上网站链接引流；同时，若在 APP store 中搜索 " 股票策略 "、" 股票杠杆 " 等关键词也可找到配资平台 APP。 张启向记者解释，目前能在 APP store 上搜到的配资平台至少已经运营了 3-5 个月，还有很多配资平台是搜不到的；此外，大多数平台主要依靠代理商发展新客户，包括邀请客户加入股票群、通过直播宣传、通过电话营销等方式，因此，仍有许多平台虽无法直接被搜索到网站，但仍旧在暗中运作。 一位券商营业部工作人员则向记者介绍了目前更为普遍的运营模式，即 " 单线操作 "。由于近年来官方监管趋严，诸多平台无法明目张胆地对外宣传，有部分平台选择撤销线上公开平台，而在线下维持老客户关系，将自身账户借给老客户配资炒股；通过此，以往较为流行的场外软件分仓操作被取代，母账户也不再被分仓为多个子账户，单线操作即一人一个账户，平台与客户间以人情关系为基础而进行配资，这种方式不易被证券机构、证监会发现查处，更为隐蔽。 有证券机构业务人员表示，其实官方曝光、打压等举措对大部分配资平台影响有限，但可以曝光部分平台的恶性操作。这里所谓的 " 恶性操作 " 即以诱导与承诺收益等为营销策略的平台操作。 记者发现某些平台存在此类 " 恶性操作 "，如 " 红牡丹配资 " 平台首页显示宣传语：稳赢财富、享受升值；再如 " 红太阳配资 "、" 米涂配资 " 等平台则会宣传道：一个涨停即赚 110%。 事实上，配资风险极高，杠杆炒股并不能保证稳赢稳赚，若股市稍有波动，投资者可能就会触及配资平台设置的平仓线。而多数配资平台仅仅在宣传页面上谈收益，避谈风险，新手极易被迷惑。 锦天城律师事务所高级合伙人、律师邹文龙表示，" 如若配资平台以诱导性话语（包括承诺收益、避谈风险等）引诱投资人进行配资，那么配资平台应负法律责任，如若配资公司已提示投资人相关的投资风险、政策风险、道德风险等，那么投资人需自行承担损失。" 然而，上有政策、下有对策，目前部分平台为规避法律责任，仅在网站页面用小号字体标明 " 投资有风险 " 等提示，但投资人极易忽视。 记者发现也有配资平台以高杠杆为诱惑吸引投资者。如名为 " 明珠国际 " 的配资平台表示，该平台提供 100 倍固定杠杆配资资金，即投资 1000 元用作保证金，即可操作 10 万元的交易资金，并且该平台仅收取 0.15% 的手续费、0.04% 留仓费以及点差费，不收取利息。对比于证券公司融资业务的低杠杆、高利息来说，此类场外配资高杠杆、零利息的操作不常见。 对此类平台宣传，张启解释道，" 场外配资赚的就是高利息、高管理费，像这种完全不赚钱的机构，多半是假的。" 另一证券公司人士则谈到，这类机构如果不收利息等费用，很可能就是赚投资者的本金，背后或许是 A/B 盘操作或直接收了钱跑路。 此外，平台机构的诱导手段还包括代理拉新机制与举办炒股比赛等。有平台以 " 加盟做代理、月赚百万佣金 " 为噱头吸引用户加入并拉新，也有平台可为用户返最高 90% 的新用户利息作为拉新佣金。此外，名为 " 牛 360 配资 " 的平台还举办了实盘炒股比赛，前六名均有现金奖励，据其网站页面显示，炒股比赛第一名的投资者 7 天收益率高达 205.26%，可获得平台奖励 10000 元现金。正是重重诱惑之下，诸多配资平台屡禁不止，有配资平台官网显示，平台已运营超过 8 年，服务用户数十万，配资金额达到百亿元。 " 白名单 "、穿仓免责背后的套路 记者在向某配资平台进行咨询时，其客服人员表示，部分股票被禁止购买，包括 ST 股、首日上市新股、僵尸股、三块钱以下低价股等。此外，雪球论坛中有用户分析道，目前配资公司相比于 2015 年做了一些改动，对股票设置白名单，投资者可购买所谓的 " 大白马 " 股与蓝筹股，而亏损股、甚至券商股都被禁止购买，该用户还表示，这一举措实际是配资公司选最好的票，并再次强化股票市场的 " 抱团效应 "。 张启解释，" 这样的操作很少见，如若真的按照此来运作，那么就不符合配资平台的运营逻辑了，配资公司会回避一些明显危险的个股，但不会设置太多标的范围，不然等于自断财路，因为配资公司的心理就是赌投资者大部分时候是亏损的。" 另一私募机构工作者向记者表示，其实在目前的大环境下，配资公司已经在主动降低风险了，对投资股票也有所限制，只让投资者购买风险低的股票，而这无形中也会让投资者更放心地选择用配资来进行操作。 此外，记者发现，不少配资平台首页都会赫然显示：穿仓免责。某配资平台客服人员向记者谈到，目前配资市场上每家平台都会承诺穿仓免责，投资者不用为此担心。 穿仓免责，即投资者本金亏损为负数后，平台将为投资者出资填补清零，投资者自身不用负责。听起来，投资者最多只会亏损自己出的本金部分，而不会额外亏损，但这样的好事真的有吗？平台做出这样的承诺是否可信呢？ 记者试图向某配资平台索要穿仓免责的合同，但客服人员多次推脱，并未给出白纸黑字的合同文件，其网站上的交易指南也未提及穿仓免责的合约。另一家平台则展示了穿仓免责的交易规则，即当投资者由于当天新持有股票，导致平台强平不成功，继续亏损至本金 100% 情况下，券商有权强制收回交易账号进行结算，穿仓部分客户无需赔偿。 针对此，上述证券机构人士表示，平台展示的交易细则多半不会出现问题，但有平台会在穿仓后找到帮助客户办理开户的平台员工，迫使其向客户追回穿仓亏损的资金。 上述证券机构人士解释道，穿仓免责是大部分平台都会实施的，毕竟场外配资是隐蔽交易链，若平台真的亏损资金，平台会优先考虑自保而放弃追讨亏损资金，但部分平台若有一定社会背景，恐会违约；此外，为了保证平台自身利益，平台会像上述所说设置禁购股，从而降低自身风险，保证平台借出的钱不会亏损。 锦天城律师事务所高级合伙人、律师邹文龙则补充道，穿仓免责与强行平仓等操作都是配资公司惯用的手法，其导致的后果及法律责任如何判定，主要基于在交易前平台与投资者是否达成协议、是否明确可能承担的风险与损失。显然，上述强行追讨亏损资金的行为若违背交易前签署的合约，那么平台应负一定的法律责任。 另一方面，邹文龙表示，配资平台本质是以 " 配资 " 名义行券商机构之事，其并未取得证监会颁发的牌照或资质，不论从哪一方面来说，这都是违法行为，双方签订的合同也属于无效合同；目前法律对投资人的保护仅能在投资人资金受损时从双方交易合约、配资平台操作等方面给予相应支持，但在这其中，平台若有意规避相应责任、或进行了恶性操作，投资人恐难以全身而退。</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/6ccd0e4f4d9f531aaa6db8f2148d6e60?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot v-hot3">3</span>315晚会|美容院推销“步步惊心”：连环计设套 学生成“小白鼠”</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：62天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：新浪</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;22.22%</span></div>
+															</div>
+															<div class="text-over-2">　　直播：315晚会&nbsp;　　7月16日晚消息，今年的“3•15”晚会受疫情影响延期至今日播出。据央视发布的消息，今年的“3•15”晚会主题定为“凝聚力量、共筑美好”，积极关注新产业、新业态和新消费模式。　　免费送护理、免费送面膜，这种以“免费”做噱头，实则推销高价美容项目的行为，似乎已经成为美容行业的套路。315晚会剧组也接到了大量相关投诉。　　在暗访中，记者参与了美容院的集中拓客大型活动，由两位店长为员工们传授经验，将没怎么做过美容的顾客称作“小白鼠”，以“免费体验”的名义把顾客揽进店门后，用一环扣一环的“连环计”来给顾客下套。这个过程中，多个项目老师、门店经理，蹲墙角、爬门缝，想方设法偷听掌握顾客的情况，一旦有需要，随时扮演不同的身份进入房间，同美容师打配合。　　要想让顾客对优惠政策信以为真花钱办卡，戏得演逼真，该有的情节必不可少。在拓客活动期间，没有固定收入、涉世未深的学生，是最受欢迎的“小白鼠”。在“体验”时，美容师会不失时机，以申请优惠的名义把“学生证”从房间里拿出来，在学生面前溜一圈再送回去。让学生们以为自己可以通过“学生证”来获得优惠。而实际上，对于手头没钱的学生，可诺丹婷美容院的梁经理告诉记者，“没钱也能有办法让她们花钱办卡”，她们会推荐各种网贷让学生来借钱美容，有一个月收入只有3500元的女孩，就在劝说下从网上借了20000元来做美容。　　在美容师销售技巧的培训课上，一位姓何的讲师鼓励员工：“只要你想要成交客人，就要学会讲故事，讲案例。铺垫到位了，我们的经理协助、我们的老师协助，解决问题了，钱收进来了，客人滚蛋！”　　同时，为了防止顾客事后反悔，美容院会以格式条款或其它各种借口，拒绝消费者的退款请求。这样一来，即便顾客事后意识到自己遭遇套路上当受骗，也很难把钱要回来。一位员工告诉记者，“我们这里就这样子的，为了钱不择手段。”&nbsp;&nbsp;扫二维码查看直播责任编辑：蒋晓桐</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/48b13b341c9471dc3cdb7a9905820fea?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot ">4</span>1亿元存款被盗！这家支行行长"内外勾结"，资金掮客转手大赚695万，"贴息存款"有哪些风险？</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：63天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：网易号</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;0.00%</span></div>
+															</div>
+															<div class="text-over-2">“你盯着别人的利息，别人却盯着你的本金。”将1亿元存款放在银行，一年期最高能有多少利率？除了已有的存款利息，有资金掮客额外许诺了年利率3.55%的利息，背后却偷偷将存款转出放贷，从中套利。 　　“贴息存款”曾让不少储户中招受骗，上市公司亦不例外。近日，酒鬼酒股份有限公司（简称“酒鬼酒”，SZ.000799）披露一则公告显示，公司近日收到中国农业银行杭州华丰路支行支付的赔偿款（含利息）共计7194.12万元。起因是之前存在该行账户的1亿元资金被数名犯罪嫌疑人转走。 在揽储压力下，处于监管灰色地带的“贴息存款”一度在银行间十分盛行，遇上了现金流充裕，缺乏合适理财渠道的酒企，双方“不谋而合”，却被诈骗团伙所盯上。 　　“异地存款卖酒”演变为地下融资 　　最新披露的二审民事判决书显示，农行华丰路支行和酒鬼酒公司针对1亿元存款被盗原因，有着针锋相对的观点。 农行华丰路支行针对一审判决提出的上诉请求，指出本案系酒鬼酒公司为获取融资高息参与的以“购酒存款”为名的非法金融活动。酒鬼酒则辩称，公司存入农行华丰路支行所开账户中1亿元系存款，本意是通过经销商罗某开拓华东市场，提升产品销售才答应罗某揽储要求。 　　“异地存款销酒”的模式曾风靡一时，是经销商与酒企之间签订的一种商业营销模式。即酒企承诺将存款存入经销商指定的银行账户上，经销商购入一定数量的高档酒，并贴息给酒企。除了酒鬼酒，泸州老窖、洋河股份也曾因“异地存款销酒”出现巨额存款失踪案。 　　表面上看，酒企能去库存还能获得贴息，银行能获得高额存款，看似双赢，但经销商原本就能直接购酒销售，为何还要多费周折甚至额外付出利息？ 　　回溯过往，事情起因在于一纸协议。 　　2013年11月，作为经销商的南京金亚尊酒业有限公司（下称金亚尊公司）的法定代表人、执行董事罗某，找到了酒鬼酒供销公司总经理郝某，提出了“异地存款卖酒”的方式，并签订了协议书。 　　协议书上约定，酒鬼酒供销公司在指定的农行华丰路支行存入1亿元，存款一年，不提前支取，存款利息由银行支付；对应的是，金亚尊公司要购买600万元的酒鬼酒产品，并支付355万元存贷款利息差额和290万元的定息补差款，以及贴息16.5%等内容。 　　贴息存款指除去原有的银行利息外，另外根据存款金额给到储户的利息部分，贴息存款属于监管的灰色地带。但部分银行在揽储压力下，往往对贴息存款的风险“视而不见”，甚至铤而走险。 　　对于酒鬼酒而言，此次签订1亿元存款合同获得了什么？酒鬼酒不仅可以得到原来一年期定期存款利息的290万元，还可以额外获得355万元存贷款利息差，并成功售出600万元的产品（以2013年财报显示的酒鬼酒毛利率85.28%计算，毛利润超过500万元），代价则是这笔存款必须要存入罗某指定的农行华丰路支行，并且一年内不得提前支取。 　　实际上，罗某付出这么多代价，是为了将这笔1亿元资金转出使用，以较高利率放贷给第三方。判决书披露，罗某找到了急需用钱的浙江皎然实业有限公司（以下简称“皎然公司”）大股东寿某江。 　　2013年11月中旬的一天，罗某经人介绍与寿某江面谈贴息事宜。寿某江问罗某这1亿元存款是否是“非阳光的”，是否可以使用，得到罗某的肯定答复。罗某提出除银行正常的利息外，“贴息方”要支付16.5%的贴息，包括存贷款利息差、购酒款和给予罗某个人的中介费。 　　和酒鬼酒那边进行接洽的同时，罗某、寿某江两人还找到了支行行长进行谋划。罗某等人到农行华丰路支行行长方某办公室，与方某商讨酒鬼酒公司开户事宜，并告知方某，“1亿元存进来后要转出去使用”。 　　2013年年末，酒鬼酒供销公司在农行杭州华丰路支行开立账户，共存入1亿元存款。但随后在2013年12月份，酒鬼酒发现，有嫌疑人在酒鬼酒供销有限责任公司不知情的情况下，先后分三次转取了3500万元、3500万元以及3000万元。 　　发现亿元存款涉嫌被盗取后，酒鬼酒向公安机关报案。该案件给酒鬼酒当年的业绩带来了严重影响，酒鬼酒2013年归属于上市公司股东的净利润下降超过100%，由盈利转为亏损。 　　梳理本案信息可以发现，“存款+购酒+贴息”是个容易被利用的商业模式。据该案件相关判决书相关信息披露，由于“贴息存款”处于灰色地带，资金掮客利用购酒存款贴息为诱饵，骗取了酒鬼酒的信任，从而将1亿元存款转出进行高息放贷。 　　资金掮客转手赚695万元中介费 　　侦查机关提取的罗某与寿某江签订的存款协议书证明：双方约定由罗某安排资金方在寿某江方指定的农行华丰路支行办理开户并定期存款1亿元，银行方予以协助，寿某江方向罗某支付16.5%的贴息，罗某保证资金方对存款不提前支取、不质押、不转让、不挂失、不查询、不开通网银及电话银行（即“六不承诺”）。同年12月5日，罗某与寿某江修订了存款协议书，贴息率由16.5%改为19.4%。 　　判决书披露，寿某江提出：“案件当中我与罗某间有合同，罗某与酒鬼酒供销公司间也有合同，是酒鬼酒供销公司违约，不构成诈骗；先有非法融资合同，再付款给酒厂利息，才有1亿元资金到指定银行的行为，如果不允许使用（1亿元存款），凭什么支付给酒厂1940万元利息。” 　　据悉，在犯罪嫌疑人寿某江将1亿元存款成功转入皎然公司后，根据协议合同支付了19.4%贴息率（即1940万元），主要包括支付酒鬼酒公司定期利息和酒款890万元，支付给罗某垫付酒鬼酒公司存贷款利息差355万元、中介费695万元。换言之，罗某作为资金掮客，转手就赚了695万元中介费。 　　在如何将1亿元存款从银行盗出的事情上，犯罪嫌疑人玩了一出“偷印章”。 　　判决书显示，2013年12月9日，酒鬼酒公司派财务人员赵某前往杭州完成面签时应完成的在《授权委托书》上盖章的开户手续。 　　由于酒鬼酒公司印章在赵某手里，为达到转出该1亿元存款的目的，按照事先策划方案，第二天上午，罗某与赵某到西湖游玩，寿某江则驾车尾随。趁罗某陪同赵某到西湖游玩、赵某装有酒鬼酒公司印鉴的女士包放在车上之机，寿某江从车中盗取酒鬼酒公司印鉴，随即赶到农行华丰路支行外，在唐某星已准备好的银行购买凭证委托书上盖上酒鬼酒公司的财务专用章和法定代表人章。 　　不过，在填写《购买凭证委托书》时，唐与寿二人均不知道酒鬼酒公司的开户账号。这时，农行华丰路支行柜员沈某将酒鬼酒公司的账号告诉唐某星，唐某星遂填写好《购买凭证委托书》交给沈某。 　　沈某在办理业务时，接到本行会计主管吴某的电话，要求沈某不要给唐某星售卖《结算业务申请书》，因为酒鬼酒公司的开户《授权委托书》还没有交给她。支行行长方某得知此情况后，对沈某说《授权委托书》已面签，于是沈某将《结算业务申请书》一本（25份）出售给唐某星。 　　唐某星将《结算业务申请书》交给寿某江盖上酒鬼酒公司的财务专用章和法定代表人章，然后寿某江开车返回凯悦大酒店停车场，将盗取的印章放回赵某的包内。 　　结束西湖游玩后，赵某前往农行华丰路支行完善手续。在已签字的开户《授权委托书》上加盖了公司公章。期间方某按唐某星要求，没有将唐某星已购买《结算业务申请书》的事告诉赵某。 　　两天后，唐某星拿着盖上酒鬼酒公司银行预留印章的《结算业务申请书》，来到农行华丰路支行，分三次将酒鬼酒公司账户内的1亿元资金，全部转入寿某江的皎然实业的账户。 　　除掉贴息用的1940万元，剩余的8060万元，寿某江继续拆借给了其它公司和个人使用，一部分用于支付好处费，其余偿还所欠银行贷款、个人债务以及自己使用和借给他人使用。 　　“盗款”在大约一个月后才被发现。2014年1月3日，酒鬼酒公司与农行华丰路支行电话联系，要求寄送对账单。同月6日，酒鬼酒公司收到对账单，发现账户存款只剩1176.03元，随即事发。 　　据该案关联文书显示，此案的被告人寿某江、方某、罗某、唐某星因犯诈骗罪，分别被处以无期徒刑、有期徒刑15年、有期徒刑13年、有期徒刑11年等处罚。 　　“内外勾结”被盗，银行过错是根本原因 　　根据判决书披露，案发后，公安机关从寿某江处追回款项96.13万元；从方某处追回款项143万元；从罗某处追回款项540.98万元，追回酒价值558.29万元。此外，寿某江还支付酒鬼酒公司定活存款利息差290万元，退还酒鬼酒公司100万元；罗某还支付酒鬼酒公司存贷款利息差355万元等。1亿元存款共追回4066.33万元。 　　在本案一审中，法院判决农行华丰路支行支付原告酒鬼酒供销公司5933.67万元及与被告寿某江、陈沛铭、唐某星、罗某、郭贤斌连带承担利息损失。农行华丰路支行不服一审法院判决，向湖南省高级人民法院提起上诉。 　　在上诉请求中，农行华丰路支行方面指出，本案系酒鬼酒公司为获取融资高息参与的以“购酒存款”为名的非法金融活动，向寿某江等人作出“六不承诺”，放弃支付密码器、电子余额对账、网上银行对账等功能，没有开通短信通知，面签当日没有在《授权委托书》上盖章，让财务人员独自将财务专用章和法定代表人章带至杭州导致被骗，应自行承担损失。 　　酒鬼酒方面回应，公司对资金被盗取并不明知，也从未作出“六不承诺”，没有对动用存款持放任态度。此外，农行华丰路支行在办理开户、凭证出售、转款行为均存在过错，方某一直利用行长身份、职权以及熟知银行业务积极出谋划策并协调关系。 　　针对农行华丰路支行是否构成民事侵权，是否应承担民事赔偿责任的问题。二审法院认为，时任农行华丰路支行行长方某，明知寿某江等人欲骗取酒鬼酒公司的存款，仍然利用自身行长职位的便利，积极参与盗取存款，其参与盗取存款的行为虽不是职务授权行为，但其放弃履行职责及利用行长身份的便利则是农行华丰路支行的过错所在。 　　此外，判决书指出，农行华丰路支行风险防患意识不强，对大额可疑交易不及时警醒：比如唐某星不知道账号、大额资金频繁出入、短时间内开户人与转账人不一样等。种种迹象均会引起一般正常人的怀疑，但农行华丰路支行临柜人员却未及时采取风险防范措施，致使犯罪嫌疑人得逞。 　　综上，农行华丰路支行存在过错，且其过错是导致本案发生的根本原因，农行华丰路支行违规开户的行为导致账户被提前激活，满足了购买结算业务申请书需在账户激活三天后的条件，泄露账号信息促成了结算业务申请书被顺利售出，最终导致酒鬼酒公司的存款被盗取。虽然酒鬼酒公司印章被盗用，但在本案中不具有期待可能。因此，农行华丰路支行侵犯了酒鬼酒公司的资金权益，应当承担民事赔偿责任。 　　最终判决指出，农行华丰路支行、寿某江、唐某星、罗某等人在本判决生效之日起十五日内连带赔偿酒鬼酒供销有限责任公司人民币5933.67万元及利息。 　　根据酒鬼酒公司公告，农行华丰路支行已履行判决，支付赔偿款（含利息）7194.12元，酒鬼酒供销有限责任公司近日已收到湘西中院转来的赔偿款，本案已终结。加上之前追回的4066.33万元，共收回资金1.126亿元。 　　“贴息存款”被盗案件频出 　　除了酒鬼酒，泸州老窖、洋河股份也曾因“异地存款销酒”出现巨额存款失踪案。 　　2014年10月，泸州老窖发公告称，存在农业银行长沙迎新支行的1.5亿元定期存款不翼而飞。 　　原来，泸州老窖推出“资源交换”业务，将5000万元为单位以定期方式存入银行一年，合作银行按照国家规定的一年定期利率上浮10%付息给泸州老窖，先购酒后存款，每5000万元存款对应购酒在600万元以上。合作银行必须确保存款安全，并承诺保证该笔存款在一年期内不查询。 　　据判决书披露，4名犯罪嫌疑人为了偷出存款使用，采用虚假购销合同、伪造泸州老窖公司和银行印章、伪造银行存单等一系列手段，骗取泸州老窖公司在银行的存款上亿元，用于高利放贷、购买不动产等牟利。 　　洋河股份发布的2014年年报显示，公司控股子公司苏酒集团贸易股份有限公司在中国工商银行郑州解放路支行储蓄存款1亿元，储蓄账户余额仅为3.37万元。此外，同样是苏酒集团贸易公司在中国工商银行开封豪德支行储蓄存款3000万元，储蓄账户余额仅为669.4万元。综上，洋河子公司总计1.3亿元存款丢失了1.23亿元。 　　中南财经政法大学数字经济研究院执行院长盘和林指出，“现实状况是，所谓的存款卖酒常常被用来作为信贷资源供其他企业使用，以获取高额的贴现利息，因此‘存款卖酒’在酒企间便成为一种流行。” 　　白酒行业专家肖竹青称，通过银行存款卖酒在行业内是普遍现象，银行向酒企拉存款，同时帮助酒企卖酒，但由于银行吸存的压力越来越大，一些银行也跟小贷公司一块向酒企拉存款，以提供更高的存款利息，这种做法也意味着酒企需要承担更高的风险。 　　2014年9月，银监会、财政部和央行在《关于加强商业银行存款偏离度管理有关事项的通知》中，明确商业银行不得违反规定，擅自提高存款利率或高套利率档次，不得另设专门账户支付存款户高息。 　　贴息存款分为阳光贴息和非阳光贴息。存款储户的资金始终存放在自己的账户，叫阳光贴息；不符合贷款条件的企业为了获得资金，在资金掮客的帮助下付出高利息拉存款，与银行内鬼合作套出存款进行使用，叫非阳光贴息。可见非阳光贴息存款实质上属于企业融资借款。 　　回顾酒鬼酒和农行案件，“六不承诺”成为双方争论的一个焦点。一位银行内部人士指出，“非阳光贴息存款的情况下，银行会要求资金在存续期间不允许提前支取，很多情况下还不允许开通网上银行、手机银行、短信通知等，甚至不允许查账，因此，储户在存款到期之前无法自由支配存款也无法知晓账户变动情况，更无法保证其安全。” 　　近年来，非阳光贴息存款导致储户存款“神秘失踪”案件屡有发生，从热钱较多的江浙一带，再到全国各地，上自省级市，下至小县城，国有银行也涉及其中。 　　从贴息存款发生存款失踪案看，大都是不具备条件贷款企业为骗取储户资金而产生，而银行部分“内鬼”利用内控漏洞，积极配合企业诈骗储户资金，导致储户资金被骗受损，滋生了不少违法犯罪案件。 　　中国地方金融研究院研究员莫开伟分析称，从原来银行自己暗地掏腰包组织贴息存款，发展到由企业自掏腰包拉贴息存款，银行巧妙实现了存款成本转嫁，企业则获得了贷款，形成了巨大灰色利益链，银行及其员工、资金掮客均获得了收益，看似皆大欢喜。但同时也为资质不良、别有用心的企业和个人“骗钱”提供了通道。 　　券商中国是证券市场权威媒体《证券时报》旗下新媒体，券商中国对该平台所刊载的原创内容享有著作权，未经授权禁止转载，否则将追究相应法律责任。</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/a3bba76f68dc19d25ee6f8a00da4d2e?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot ">5</span>「解局」美国首次否定中国在南海主权，这是作啥妖？</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：63天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：大鱼号</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;0.00%</span></div>
+															</div>
+															<div class="text-over-2">【侠客岛按】 美国又作妖。 当地时间7月13日，美国国务院发布了一份针对南海问题的声明，外媒称之为“美国首次就南海领土争议公开表明立场”。 美国疫情这么严重，不专心抗疫怎么又开始“关心”南海了？我们采访了北京大学海洋战略研究中心主任胡波，一起来看。 1.侠客岛：美国在声明中说“中国对大部分南海海上资源的声索是完全非法的”，还声称南海周边国家受到中国“前所未有的威胁和霸凌”。您如何评价这份声明的内容？ 胡波：虽然美国国务院想搞个大新闻，在发声明之前就向众媒体透露，提前做预告、打广告，吊足大家胃口，但就声明内容而言，老调重谈和无病呻吟的成分居多。 2014年初，美国官员开始公开质疑中国的“断续线”主张，实际上已经是在海域划界争议问题上“选边站”；2016年7月12日“南海仲裁案”裁决结果出炉，美国即要求中国承认；近年来，在历次中国与其他南海声索国间发生摩擦时，美国无一例外反对中国。 这些年，同样的观点和论调，美国重复了N多次，大家耳朵都起茧了。 这次要说有什么新玩意，那就是美国更加明火执仗了。声明口口声声说以裁决结果为依据，但实际上走得更远，直接否定了中国在万安滩、南北康暗沙和曾母暗沙的主权。要知道，即便是“南海仲裁案”也没有涉及这些地物，美国是要自己既当世界法官，又做世界警察。 2.侠客岛：“南海仲裁案”已经过去4年，美国为什么又要翻旧账？ 胡波：美国表面上谈的是主义，背后全是生意，归根结底是为了所谓的大国战略竞争。当下的美国希望从各方面打压中国，这次不外乎是想利用南海问题对中国进行围堵和掣肘。 在美国本届政府治下，美国国务院士气低迷、资源有限，相较国防部和军方，在南海问题上没有多少工具和抓手，于是就只能频繁发声明和喊话。此次借所谓“南海仲裁案”4周年进一步搞事，无非是想刷存在感，继续恶心中国。 正如中方回应指出的那样，美国在南海问题上过于积极，自己未批准《联合国海洋法公约》（以下简称《公约》），却拿《公约》说事，用心昭然若揭。 3.侠客岛：本月美国海军派出“里根号”与“尼米兹号”两艘航空母舰在南海演习。“双航母”意味着什么？ 胡波：自2009年以来，美国在南海就刻意与中国较劲，大场面的炫耀武力时有发生。美军此次航母部署的政治意义大于军事意义，主要是向盟友及伙伴显摆：尽管有疫情，但美军在该地区的力量还是更“强大”了。 美国派航母来南海也是常规套路，每年“里根”号航母都会到南海进行春季和秋季巡航，今年因为疫情计划被推迟，此行算是重启。至于“尼米兹号”，则属于疫情期间的特殊安排，搞个“双航母”，战略和传播效果当然更好。 美军两航母一同行动，其实还有个难言之隐，就是兵力严重不足，有暂时抱团取暖的味道，这次一共才配置5艘水面舰艇。这阵势比2016年五六月份时要差了许多，当时两个航母配置了10余艘舰艇。 4.侠客岛：美国在声明中花了很大笔墨来挑拨离间，鼓动南海周边国家和美国一起抵抗中国。当前，南海周边国家对南海问题持什么立场？ 胡波：中国与越南、菲律宾、马来西亚、文莱和印度尼西亚存在程度不一的海洋争议，这是事实。 虽然这些国家希望美国能对华进行一定的制衡，但除了个别国家外，多数国家不愿意在中美战略竞争中“选边站”，对卷入中美竞争十分警惕。 特别是这些外交辞令出自蓬佩奥，他是美国历史上最不讲规则和国际法的国务卿，估计南海大多数声索方都很难相信美国的诚意。 5.侠客岛：您说的个别国家是指？ 胡波：越南是少有乐见中美战略竞争的。一方面，中越在南海的矛盾最为尖锐，另一方面，越南政策正在经历重大调整。近年来，不少越南政界人士认为越南可在中美竞争中左右逢源，成为三角关系之一角。 另一个需要多加关注的是菲律宾。菲律宾本届政府对华友好，但菲军方和外交系统由于长期与美国联系密切，容易受美影响。但菲总统杜特尔特本人老成谋国，应该能对官僚体系有一定的制约。 6.侠客岛：近年来，中国与东盟国家在解决南海问题上有哪些进展？ 胡波：在南海争议问题上，中国继续保持高度的克制，是南海局势和平稳定的定盘星。中国在南海进行的油气开发、渔业捕捞等活动均是在中国管辖海域进行。 目前南海争议海域有上千口油井，没有一口是中国的。中国始终致力于同南海周边国家商谈搁置海上争议，推动油气资源共同开发，实现互利共赢。 除了积极推动“南海行为准则”磋商外，中国还分别与菲律宾、马来西亚和越南建立了海洋问题双边磋商机制，并大力推动海上务实合作及危机管控。 7.侠客岛：针对美国在军事以及外交上挑动南海问题，您认为中方应该保持怎样的态度？采取怎样的措施？ 胡波：日久见人心。中美究竟谁在破坏南海地区的和平与稳定，时间终会证明。中美南海竞争的关键是，美国根本不接受中国的崛起。 我认为，无论美国如何做，中方都要坚持以下政策：坚决维护中国的主权和安全；坚持维护南海的开放，包容美国在内的所有国家在该地区的合理关切及利益；推动建立真正平等、开放及包容的区域秩序。 美国要搞封闭、搞对抗，那么中国就要更开放更包容。当然，一切选项都在中方的桌面上。 采访/宇文雷格 （来源：侠客岛）</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/7cd0d8910985312a1307b350f4ce0db0?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot ">6</span>【解局】美国首次否定中国在南海主权，这是作啥妖？</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：63天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：网易号</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;0.00%</span></div>
+															</div>
+															<div class="text-over-2">　　【侠客岛按】 　　美国又作妖。 　　当地时间7月13日，美国国务院发布了一份针对南海问题的声明，外媒称之为“美国首次就南海领土争议公开表明立场”。 　　美国疫情这么严重，不专心抗疫怎么又开始“关心”南海了？我们采访了北京大学海洋战略研究中心主任胡波，一起来看。 　　1.侠客岛：美国在声明中说“中国对大部分南海海上资源的声索是完全非法的”，还声称南海周边国家受到中国“前所未有的威胁和霸凌”。您如何评价这份声明的内容？ 　　胡波：虽然美国国务院想搞个大新闻，在发声明之前就向众媒体透露，提前做预告、打广告，吊足大家胃口，但就声明内容而言，老调重谈和无病呻吟的成分居多。 　　2014年初，美国官员开始公开质疑中国的“断续线”主张，实际上已经是在海域划界争议问题上“选边站”；2016年7月12日“南海仲裁案”裁决结果出炉，美国即要求中国承认；近年来，在历次中国与其他南海声索国间发生摩擦时，美国无一例外反对中国。 　　这些年，同样的观点和论调，美国重复了N多次，大家耳朵都起茧了。 　　这次要说有什么新玩意，那就是美国更加明火执仗了。声明口口声声说以裁决结果为依据，但实际上走得更远，直接否定了中国在万安滩、南北康暗沙和曾母暗沙的主权。要知道，即便是“南海仲裁案”也没有涉及这些地物，美国是要自己既当世界法官，又做世界警察。 　　2.侠客岛：“南海仲裁案”已经过去4年，美国为什么又要翻旧账？ 　　胡波：美国表面上谈的是主义，背后全是生意，归根结底是为了所谓的大国战略竞争。当下的美国希望从各方面打压中国，这次不外乎是想利用南海问题对中国进行围堵和掣肘。 　　在美国本届政府治下，美国国务院士气低迷、资源有限，相较国防部和军方，在南海问题上没有多少工具和抓手，于是就只能频繁发声明和喊话。此次借所谓“南海仲裁案”4周年进一步搞事，无非是想刷存在感，继续恶心中国。 　　正如中方回应指出的那样，美国在南海问题上过于积极，自己未批准《联合国海洋法公约》（以下简称《公约》），却拿《公约》说事，用心昭然若揭。 　　3.侠客岛：本月美国海军派出“里根号”与“尼米兹号”两艘航空母舰在南海演习。“双航母”意味着什么？ 　　胡波：自2009年以来，美国在南海就刻意与中国较劲，大场面的炫耀武力时有发生。美军此次航母部署的政治意义大于军事意义，主要是向盟友及伙伴显摆：尽管有疫情，但美军在该地区的力量还是更“强大”了。 　　美国派航母来南海也是常规套路，每年“里根”号航母都会到南海进行春季和秋季巡航，今年因为疫情计划被推迟，此行算是重启。至于“尼米兹号”，则属于疫情期间的特殊安排，搞个“双航母”，战略和传播效果当然更好。 　　美军两航母一同行动，其实还有个难言之隐，就是兵力严重不足，有暂时抱团取暖的味道，这次一共才配置5艘水面舰艇。这阵势比2016年五六月份时要差了许多，当时两个航母配置了10余艘舰艇。 　　4.侠客岛：美国在声明中花了很大笔墨来挑拨离间，鼓动南海周边国家和美国一起抵抗中国。当前，南海周边国家对南海问题持什么立场？ 　　胡波：中国与越南、菲律宾、马来西亚、文莱和印度尼西亚存在程度不一的海洋争议，这是事实。 　　虽然这些国家希望美国能对华进行一定的制衡，但除了个别国家外，多数国家不愿意在中美战略竞争中“选边站”，对卷入中美竞争十分警惕。 　　特别是这些外交辞令出自蓬佩奥，他是美国历史上最不讲规则和国际法的国务卿，估计南海大多数声索方都很难相信美国的诚意。 　　5.侠客岛：您说的个别国家是指？ 　　胡波：越南是少有乐见中美战略竞争的。一方面，中越在南海的矛盾最为尖锐，另一方面，越南政策正在经历重大调整。近年来，不少越南政界人士认为越南可在中美竞争中左右逢源，成为三角关系之一角。 　　另一个需要多加关注的是菲律宾。菲律宾本届政府对华友好，但菲军方和外交系统由于长期与美国联系密切，容易受美影响。但菲总统杜特尔特本人老成谋国，应该能对官僚体系有一定的制约。 　　6.侠客岛：近年来，中国与东盟国家在解决南海问题上有哪些进展？ 　　胡波：在南海争议问题上，中国继续保持高度的克制，是南海局势和平稳定的定盘星。中国在南海进行的油气开发、渔业捕捞等活动均是在中国管辖海域进行。 　　目前南海争议海域有上千口油井，没有一口是中国的。中国始终致力于同南海周边国家商谈搁置海上争议，推动油气资源共同开发，实现互利共赢。 　　除了积极推动“南海行为准则”磋商外，中国还分别与菲律宾、马来西亚和越南建立了海洋问题双边磋商机制，并大力推动海上务实合作及危机管控。 　　7.侠客岛：针对美国在军事以及外交上挑动南海问题，您认为中方应该保持怎样的态度？采取怎样的措施？ 　　胡波：日久见人心。中美究竟谁在破坏南海地区的和平与稳定，时间终会证明。中美南海竞争的关键是，美国根本不接受中国的崛起。 　　我认为，无论美国如何做，中方都要坚持以下政策：坚决维护中国的主权和安全；坚持维护南海的开放，包容美国在内的所有国家在该地区的合理关切及利益；推动建立真正平等、开放及包容的区域秩序。 　　美国要搞封闭、搞对抗，那么中国就要更开放更包容。当然，一切选项都在中方的桌面上。 　　采访/宇文雷格 　　（来源：侠客岛）</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/31b91cbc8cf38482256b6775a41f1d90?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot ">7</span>258家配资平台被曝光后仍有近半在运营 这些宣传套路要提防!</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：63天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：baidu.com</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;0.00%</span></div>
+															</div>
+															<div class="text-over-2">经济观察网 实习记者 王语嫣 记者 姜鑫 监管的曝光似乎并没有压住场外配资兴盛的势头。 场外配资平台黑名单曝光后，记者对名单中258家平台进行盘点发现，截至7月13日，有110家平台的网站链接可以点击进入，仍在运营。 “虽说查的严，但线上线下还有很多机构没查到。”曾在线上配资平台工作过的张启（化名）说。 此前，经济观察网刊发的《被证监会集中曝光后 有配资平台仍在继续运营》一文中探究了场外配资平台可能涉及的虚假营销、虚拟盘操作等，记者此次试图进一步揭开配资平台的运营套路，以期投资者避免落入配资“陷阱”。 游击运营、单线操作、多重诱惑 自7月8日证监会集中曝光场外配资平台后，7月11日银保监会也发声表示，严禁银行保险机构违规参与场外配资，严查乱加杠杆和投机炒作行为。 不少分析人士认为，这是对7月初以来出现的牛市行情进行降温，避免形成“疯牛”趋势，严查实则是推进股市朝“健康牛”迈进。 不过，有些平台被曝光后，仍在运营，且各出“奇招”吸引投资者。 记者打开仍在运营的网站，映入眼帘的多为来自平台的“提醒”，包括充值账户与二维码时常更换，以及网站域名可能无法打开、投资者需记住备用域名等，某平台甚至有4个备用域名可供投资者进入。此外，也有网站在打开后会进行自动跳转，从而投资者可在新域名网站进行配资。同时，也有平台机构的名称相似、但运用不同网站，但最终共同指向同一家公司。这一切仿佛暗示着配资平台已做好了与官方监管打游击战的准备。 此外，记者在新浪微博搜索“配资”时仍能发现有多位个人用户宣传推广配资机构，并附上网站链接引流；同时，若在APP store中搜索“股票策略”、“股票杠杆”等关键词也可找到配资平台APP。 张启向记者解释，目前能在APP store上搜到的配资平台至少已经运营了3-5个月，还有很多配资平台是搜不到的；此外，大多数平台主要依靠代理商发展新客户，包括邀请客户加入股票群、通过直播宣传、通过电话营销等方式，因此，仍有许多平台虽无法直接被搜索到网站，但仍旧在暗中运作。 一位券商营业部工作人员则向记者介绍了目前更为普遍的运营模式，即“单线操作”。由于近年来官方监管趋严，诸多平台无法明目张胆地对外宣传，有部分平台选择撤销线上公开平台，而在线下维持老客户关系，将自身账户借给老客户配资炒股；通过此，以往较为流行的场外软件分仓操作被取代，母账户也不再被分仓为多个子账户，单线操作即一人一个账户，平台与客户间以人情关系为基础而进行配资，这种方式不易被证券机构、证监会发现查处，更为隐蔽。 有证券机构业务人员表示，其实官方曝光、打压等举措对大部分配资平台影响有限，但可以曝光部分平台的恶性操作。这里所谓的“恶性操作”即以诱导与承诺收益等为营销策略的平台操作。 记者发现某些平台存在此类“恶性操作”，如“红牡丹配资”平台首页显示宣传语：稳赢财富、享受升值；再如“红太阳配资”、“米涂配资”等平台则会宣传道：一个涨停即赚110%。 事实上，配资风险极高，杠杆炒股并不能保证稳赢稳赚，若股市稍有波动，投资者可能就会触及配资平台设置的平仓线。而多数配资平台仅仅在宣传页面上谈收益，避谈风险，新手极易被迷惑。 锦天城律师事务所高级合伙人、律师邹文龙表示，“如若配资平台以诱导性话语（包括承诺收益、避谈风险等）引诱投资人进行配资，那么配资平台应负法律责任，如若配资公司已提示投资人相关的投资风险、政策风险、道德风险等，那么投资人需自行承担损失。”然而，上有政策、下有对策，目前部分平台为规避法律责任，仅在网站页面用小号字体标明“投资有风险”等提示，但投资人极易忽视。 记者发现也有配资平台以高杠杆为诱惑吸引投资者。如名为“明珠国际”的配资平台表示，该平台提供100倍固定杠杆配资资金，即投资1000元用作保证金，即可操作10万元的交易资金，并且该平台仅收取0.15%的手续费、0.04%留仓费以及点差费，不收取利息。对比于证券公司融资业务的低杠杆、高利息来说，此类场外配资高杠杆、零利息的操作不常见。 对此类平台宣传，张启解释道，“场外配资赚的就是高利息、高管理费，像这种完全不赚钱的机构，多半是假的。”另一证券公司人士则谈到，这类机构如果不收利息等费用，很可能就是赚投资者的本金，背后或许是A/B盘操作或直接收了钱跑路。 此外，平台机构的诱导手段还包括代理拉新机制与举办炒股比赛等。有平台以“加盟做代理、月赚百万佣金”为噱头吸引用户加入并拉新，也有平台可为用户返最高90%的新用户利息作为拉新佣金。此外，名为“牛360配资”的平台还举办了实盘炒股比赛，前六名均有现金奖励，据其网站页面显示，炒股比赛第一名的投资者7天收益率高达205.26%，可获得平台奖励10000元现金。正是重重诱惑之下，诸多配资平台屡禁不止，有配资平台官网显示，平台已运营超过8年，服务用户数十万，配资金额达到百亿元。 “白名单”、穿仓免责背后的套路 记者在向某配资平台进行咨询时，其客服人员表示，部分股票被禁止购买，包括ST股、首日上市新股、僵尸股、三块钱以下低价股等。此外，雪球论坛中有用户分析道，目前配资公司相比于2015年做了一些改动，对股票设置白名单，投资者可购买所谓的“大白马”股与蓝筹股，而亏损股、甚至券商股都被禁止购买，该用户还表示，这一举措实际是配资公司选最好的票，并再次强化股票市场的“抱团效应”。 张启解释，“这样的操作很少见，如若真的按照此来运作，那么就不符合配资平台的运营逻辑了，配资公司会回避一些明显危险的个股，但不会设置太多标的范围，不然等于自断财路，因为配资公司的心理就是赌投资者大部分时候是亏损的。” 另一私募机构工作者向记者表示，其实在目前的大环境下，配资公司已经在主动降低风险了，对投资股票也有所限制，只让投资者购买风险低的股票，而这无形中也会让投资者更放心地选择用配资来进行操作。 此外，记者发现，不少配资平台首页都会赫然显示：穿仓免责。某配资平台客服人员向记者谈到，目前配资市场上每家平台都会承诺穿仓免责，投资者不用为此担心。 穿仓免责，即投资者本金亏损为负数后，平台将为投资者出资填补清零，投资者自身不用负责。听起来，投资者最多只会亏损自己出的本金部分，而不会额外亏损，但这样的好事真的有吗？平台做出这样的承诺是否可信呢？ 记者试图向某配资平台索要穿仓免责的合同，但客服人员多次推脱，并未给出白纸黑字的合同文件，其网站上的交易指南也未提及穿仓免责的合约。另一家平台则展示了穿仓免责的交易规则，即当投资者由于当天新持有股票，导致平台强平不成功，继续亏损至本金100%情况下，券商有权强制收回交易账号进行结算，穿仓部分客户无需赔偿。 针对此，上述证券机构人士表示，平台展示的交易细则多半不会出现问题，但有平台会在穿仓后找到帮助客户办理开户的平台员工，迫使其向客户追回穿仓亏损的资金。 上述证券机构人士解释道，穿仓免责是大部分平台都会实施的，毕竟场外配资是隐蔽交易链，若平台真的亏损资金，平台会优先考虑自保而放弃追讨亏损资金，但部分平台若有一定社会背景，恐会违约；此外，为了保证平台自身利益，平台会像上述所说设置禁购股，从而降低自身风险，保证平台借出的钱不会亏损。 锦天城律师事务所高级合伙人、律师邹文龙则补充道，穿仓免责与强行平仓等操作都是配资公司惯用的手法，其导致的后果及法律责任如何判定，主要基于在交易前平台与投资者是否达成协议、是否明确可能承担的风险与损失。显然，上述强行追讨亏损资金的行为若违背交易前签署的合约，那么平台应负一定的法律责任。 另一方面，邹文龙表示，配资平台本质是以“配资”名义行券商机构之事，其并未取得证监会颁发的牌照或资质，不论从哪一方面来说，这都是违法行为，双方签订的合同也属于无效合同；目前法律对投资人的保护仅能在投资人资金受损时从双方交易合约、配资平台操作等方面给予相应支持，但在这其中，平台若有意规避相应责任、或进行了恶性操作，投资人恐难以全身而退。</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/36da0077a30ddd5e40ac165e13a423b7?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot ">8</span>RNG女主持长文求助！同意解约后被要求赔钱：口头承诺不算</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：63天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：百家号</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;0.00%</span></div>
+															</div>
+															<div class="text-over-2">女主播和公会因为合同问题闹矛盾，这样的事情已经不算新鲜了。但除了女主播外，某些电竞工作者或职业选手也会和战队公司发生争执，比如之前RNG的xdd就曾因为直播合同问题，和RNG闹得不可开交。 不过就在近日，又一名电竞女主持和RNG产生了合同纠纷，这名女主持就是RNG北京主场的主持人“王萌”。在近日王萌的动态里，王萌将自己如何加入RNG，并且如何离开RNG都清晰地讲述了一遍。王萌表示自己非常喜欢RNG战队，但对于RNG这个公司，却喜欢不起来，因为RNG直接毁掉了自己的电竞之路。 据王萌动态里的描述，自己当初确实受到了RNG的帮助，但是由于自身原因始终事业不顺。因此决定解约，但王萌申请解约书的时候却始终得不到RNG公司的同意，所以就没办法找其它的工作，眼看着开销越来越大，只能重回直播挣钱，但自己找好了公会后，RNG却表示必须要公会支付违约金才行。 高额的违约金自然没有工会愿意接手，所以王萌也决定彻底离开电竞行业，虽然RNG带领自己走进电竞行业，但是也是因为RNG毁掉了自己的电竞之路。 看到王萌诉说自己的遭遇，也是很快引起了网友们的讨论。不少网友吐槽RNG：“这是成绩上不去，从粉丝那赚不到钱，所以只能从法务捞钱了是吗？” 甚至还有网友猜测UZI退役，也很可能是因为RNG阴阳合同的关系，才不得不退役的。 不过除了网友们的发声外，还有目前LPL的知名解说瞳夕也发声表示安慰，希望王萌能够早日走出困境。 虽然王萌目前拿不出实打实的证据，但之前xdd和RNG闹矛盾的时候就已经有些说法了，无论是新人主播还是新人主持，在签约的时候还是得把合同拿到手才行。对此，各位小伙伴怎么看呢？ #LPL#</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/6d9d1fb9c0e33f9f6319aab2ade78578?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot ">9</span>315晚会|美容院套路多：学生被称“小白鼠” 推荐网贷借钱美容</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：62天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：新浪</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;0.00%</span></div>
+															</div>
+															<div class="text-over-2">　　新浪财经讯 7月16日晚间消息，2020年中央广播电视总台3·15晚会今日举行，在美容院套路推销的案例中，涉世未深的学生成了“被宰”的对象。学生没有固定收入，商家甚至会推荐各种网贷让学生来借钱美容。　　据央视报道，在美容院所谓的“体验”环节，美容师会不失时机，以申请优惠的名义把“学生证”从房间里拿出来，在学生面前溜一圈再送回去。让学生们以为自己可以通过“学生证”来获得优惠。而实际上，对于手头没钱的学生，可诺丹婷美容院的梁经理告诉记者，“没钱也能有办法让她们花钱办卡”，她们会推荐各种网贷让学生来借钱美容，有一个月收入只有3500元的女孩，就在劝说下从网上借了20000元来做美容。　　为了防止顾客事后反悔，美容院还会以格式条款或其它各种借口，拒绝消费者的退款请求。这样一来，即便顾客事后意识到自己遭遇套路上当受骗，也很难把钱要回来。一位员工告诉记者，“我们这里就这样子的，为了钱不择手段。”&nbsp;&nbsp;美容贷好借难退：南昌韩美医院伪造身份证 强收预付款美容贷纠纷难解：蕾特恩否认失误 乔融金服难自圆其说&nbsp;责任编辑：张缘成</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div style="display:flex;">
+																<a target="_blank" style="font-weight: 500;" href="/monitor/detail/13ba6617e78555ca18352ff0a61a42ec?menu=report&amp;groupid=1251486011708542976&amp;projectid=1251814795196370944"><span class="v-hot ">10</span>LOL:别天天rank了,没玩过这些套路,算是白玩英雄联盟了!</a>
+																<div style="margin-left: auto;"><span style="white-space: nowrap;margin-right: 15px;"><i class="mdi mdi-clock"></i> 时间：63天前</span><span style="white-space: nowrap;margin-right: 15px;">来源：baidu.com</span><span style="margin-right: 15px;" class="link moodfm">负面</span><span style="font-size: smaller;"><i class=" fa fas fa-fire"></i>&nbsp;0.00%</span></div>
+															</div>
+															<div class="text-over-2">前言：学姐在刚上大学的时候（15年韦神夏季赛夺冠）开始玩LOL，玩了两年后来电脑越来越卡，就遗憾退出了英雄联盟，但是每到世界赛都会关注比赛，今天学姐写这篇文章是因为前几天跟姐妹聊一起开黑的日子，追忆本科的时光。后来我们一致得出结论，天天rank没什么意思，没玩过这些套路，算是白玩英雄联盟了。（由于太久没上线，今日笔下所写内容，依然将记忆停留在霞洛刚出之时） AP打法 AP亚索：都说亚索是快乐风男，所谓“多行不E必自闭”，亚索只要E来E去就完事了，后来有一次和同学亚索solo，学姐玩的是AP亚索，将对面揍得自闭。 中单AP牛头：牛头是公认的辅助英雄，但是当时有攻略说，AP纯输出牛头EQ二连要对面老命，于是中路happy一把，偶遇对面“快乐风男”，对面直呼内行！ AD打法 AD卡牌：玩卡牌还是因为“大鼻子”，一手落地金身让人记忆犹新，于是开始苦练切牌，发现实在卡不好秒切黄牌，最后看攻略，说是卡牌可以玩AD，于是学姐练了一手主E的卡牌大师，您还别说，还挺好玩。 AD阿狸：阿狸那段时间走中路打亚索真是让人自闭，由于射程较长，走下路打AD在手长上吃亏不多，6级后三段位移，追着对面A，那种飘逸的感觉真让人怀念LOL的快乐记忆。 快乐组合 猴子+赵信：学姐当时和同学玩这两个英雄走下路，开局就和对面刚，只有活下来的人才有资格补兵！提到这里，不得不说学姐为什么要玩赵信，当时信了红尘的邪，飓风赵信，一枪挑起三人！ 小法+火男：当时和火男对线贼恶心，于是学姐和姐妹开黑就来了一手孤儿打法，小法把对面圈起来，火男再放技能，对面AD气得破口大骂！ 机器人+锤石：锤石打AD，机器人出纯输出，不要怂就是刚，对线什么的，我不补兵你也得不准补兵！ 说到这里，大家伙应该发现了，学姐是个LOL小菜鸡，的确！那是我都不知道啥叫排位，在匹配玩了3000把才第一次打排位，后来天天rank，玩了不久就退坑了。那时职业选手中最喜欢的是厂长、faker和pawn，最希望lpl的队伍夺冠（无论哪支队伍都是骄傲）。看的第一场职业比赛，厂长复出玩的卡兹克，蜻蜓点水惊若天人。 可惜玩lol的那几年，lpl成绩都不好，rng就不想说了，那段时间的皇杂真是如洪水猛兽。老实说，即使把某某吹成永远的神，老玩家也必须承认，他曾经干过什么，大赛傲娇起来像是演员，真心喜欢不起来。（或许很多粉丝都喜欢他的操作吧） 一下说多了，不知道有多少人和我一样虽然退游却默默关注比赛并祝福lpl的队伍呢？</div>
+															<div style="display: flex;"></div>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div> -->
+					</div>
+					<!-- ============================================================== -->
+					<!-- footer start  -->
+					<!-- ============================================================== -->
+					 <div class="page-footer">
+						 © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+					</div>
+					<!-- ============================================================== -->
+					<!-- footer end  -->
+					<!-- ============================================================== -->
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Page wrapper  -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Wrapper -->
+		<!-- ============================================================== -->
+		<!-- All Jquery -->
+		<!-- ============================================================== -->
+		<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+		<!-- Bootstrap tether Core JavaScript -->
+		<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+		<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+		<!-- apps -->
+		<script th:src="@{/dist/js/app.min.js}"></script>
+		<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+		<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+		<!-- slimscrollbar scrollbar JavaScript -->
+		<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+		<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+		<!--Wave Effects -->
+		<script th:src="@{/dist/js/waves.js}"></script>
+		<!--Menu sidebar -->
+		<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+		<!--Custom JavaScript -->
+		<script th:src="@{/dist/js/custom.min.js}"></script>
+
+		<!-- this pages -->
+		<script th:src="@{/assets/extra-libs/c3/d3.min.js}"></script>
+		<script th:src="@{/assets/extra-libs/c3/c3.min.js}"></script>
+		<script th:src="@{/assets/libs/chart.js/dist/Chart.min.js}"></script>
+		<script th:src="@{/assets/libs/gaugeJS/dist/gauge.min.js}"></script>
+		<script th:src="@{/assets/libs/flot/excanvas.min.js}"></script>
+		<script th:src="@{/assets/libs/flot/jquery.flot.js}"></script>
+		<script th:src="@{/assets/libs/jquery.flot.tooltip/js/jquery.flot.tooltip.min.js}"></script>
+		<script th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js}"></script>
+		<script th:src="@{/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js}"></script>
+		<!-- <script th:src="@{/dist/displayboard.js}"></script> -->
+		<script th:src="@{/dist/displayboard/displayboard.js?t=0616}"></script>
+		<!-- <script src=" dist/js/pages/dashboards/dashboard2.js"></script> -->
+		<script th:src="@{/assets/libs/sweetalert/sweetalert.min.js}"></script>
+		<script>
+		// var ctx = getRootPath();
+		let user = "[[${user}]]"
+		let push_PO = "[[${push_PO}]]"
+		let report_day = "[[${report_day}]]"
+		let report_week = "[[${report_week}]]"
+		let hot_All = "[[${hot_all}]]"
+		let hot_weibo = "[[${hot_weibo}]]"
+		let leaders_PO = "[[${leaders_PO}]]"
+		let warning_PO = "[[${warning_PO}]]"
+		let upload_PO = "[[${upload_PO}]]"
+		let today_PO_status = "[[${today_PO_status}]]"
+		let project_PO_status = "[[${project_PO_status}]]"
+		let reprint_PO = "[[${reprint_PO}]]"
+		let collection_po = "[[${collection_po}]]"
+		let hot_wechat = "[[${hot_wechat}]]"
+		let hot_douyin = "[[${hot_douyin}]]"
+		let hot_bilibili = "[[${hot_bilibili}]]"
+		let hot_tecentvedio = "[[${hot_tecentvedio}]]";
+		let hot_36kr = "[[${hot_36kr}]]";
+		let hot_finaceData = "[[${hot_finaceData}]]";
+		let hot_policydata = "[[${hot_policydata}]]";
+		
+		
+		user = escape2Html(user)
+		user = JSON.parse(user)
+		console.log(user)
+		
+		function escape2Html(str) {
+		 var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+		 return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+		}
+		
+		function getProjects(){
+			$.ajax({
+				url:ctxPath+'project/getProjects',
+				type:'get',
+				data:{},
+				success:function(res){
+					console.log(res)
+					projectSet(res)
+				},
+				error:function(res){
+					console.log(res)
+				}
+			})
+		}
+		
+		$(function() {
+				if(user.is_change_pas==0){
+					swal({
+			             title: "第一次登陆请先修改密码！",
+			             type: "warning",
+			             showCancelButton: false,
+			             confirmButtonColor: "#36bea6",
+			             confirmButtonText: "确定",
+			             closeOnConfirm: false },
+			            function (isConfirm) {
+			                if (isConfirm) {
+			                	window.location.href="/user"
+			                }
+			            });
+				}
+			
+				var chart = c3.generate({
+					bindto: '#visitor',
+					data: {
+						columns: [
+							['正面', 290],
+							['中性', 423],
+							['负面', 128],
+						],
+						type: 'donut',
+
+					},
+					donut: {
+						label: {
+							show: false
+						},
+						title: " ",
+						width: 30,
+					},
+
+					legend: {
+						hide: true
+						//or hide: 'data1'
+						//or hide: ['data1', 'data2']
+					},
+					color: {
+						pattern: ['#d65353', '#ffae00', '#43c0ab']
+					}
+				});
+
+				// loadding
+				setTimeout(() => {
+					$("#loading1").remove()
+					$("#loading2").remove()
+					$("#loading3").remove();
+					$("#loading4").remove()
+					$("#loading5").remove()
+					$("#loading6").remove()
+					$("#loading7").remove()
+					$("#loading8").remove()
+					$("#loading9").remove()
+					$("#loading10").remove()
+					$("#loading11").remove()
+					$("#loading12").remove()
+				}, 100);
+			})
+		</script>
+		<script>
+		let hot_search_terms = "[[${hot_search_terms}]]"
+		
+			var a = [{
+                x: "第一季度",
+                value: "999721"
+            },
+            {
+                x: "中共中央政治局",
+                value: 51721
+            },
+            {
+                x: "常务委员会",
+                value: 269721
+            },
+            {
+                x: "会议",
+                value: 385721
+            },
+            {
+                x: "听取",
+                value: 342721
+            },
+            {
+                x: "吉林长春",
+                value: 477721
+            },
+            {
+                x: "长生",
+                value: 368721
+            },
+            {
+                x: "公司",
+                value: 421721
+            },
+            {
+                x: "疫苗",
+                value: 43721
+            },
+            {
+                x: "案件",
+                value: 368721
+            },
+            {
+                x: "调查",
+                value: 411721
+            },
+            {
+                x: "问责",
+                value: 219721
+            },
+            {
+                x: "情况",
+                value: 412721
+            },
+            {
+                x: "汇报",
+                value: 174721
+            },
+            {
+                x: "中共中央",
+                value: 371721
+            },
+            {
+                x: "总书记",
+                value: 475721
+            },
+            {
+                x: "习近平",
+                value: 372721
+            },
+            {
+                x: "主持会议",
+                value: 489721
+            },
+            {
+                x: "发表",
+                value: 259721
+            },
+            {
+                x: "重要讲话",
+                value: 388721
+            },
+            {
+                x: "这起",
+                value: 422721
+            },
+            {
+                x: "发生",
+                value: 195721
+            },
+            {
+                x: "高度重视",
+                value: 102721
+            },
+            {
+                x: "作出",
+                value: 75721
+            },
+            {
+                x: "指示",
+                value: 116721
+            },
+            {
+                x: "查清",
+                value: 273721
+            },
+            {
+                x: "事实真相",
+                value: 299721
+            },
+            {
+                x: "严肃",
+                value: 349721
+            },
+            {
+                x: "依法",
+                value: 219721
+            },
+            {
+                x: "从严处理",
+                value: 448721
+            },
+            {
+                x: "守住",
+                value: 276721
+            },
+            {
+                x: "底线",
+                value: 270721
+            },
+            {
+                x: "保障",
+                value: 404721
+            },
+            {
+                x: "群众",
+                value: 246721
+            },
+            {
+                x: "切身利益",
+                value: 94721
+            },
+            {
+                x: "社会",
+                value: 440721
+            },
+        ]
+		if(!(!hot_search_terms)){
+			a = JSON.parse(escape2Html(hot_search_terms))
+		}
+		anychart.onDocumentReady(function() {
+			var chart = anychart.tagCloud(a);
+			chart.container("keywords");
+			chart.draw();
+		});
+		setTimeout(function() {
+			$('.anychart-credits').remove();
+		}, 150);
+			
+			
+			
+			   function getRootPath(){  
+			        //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp  
+			        var curWwwPath=window.document.location.href;  
+			        //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp  
+			        var pathName=window.document.location.pathname;  
+			        var pos=curWwwPath.indexOf(pathName);  
+			        //获取主机地址，如： http://localhost:8083  
+			        var localhostPaht=curWwwPath.substring(0,pos);  
+			        //获取带"/"的项目名，如：/uimcardprj  
+			        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+			        return(localhostPaht+projectName);  
+			    }  
+		</script>
+ <script th:inline="javascript" type="text/javascript">
+ //alert(1);
+    let projectid = [[${projectId}]];
+    let groupId = [[${groupid}]];
+	
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), groupId, projectid);
+    })
+    
+    
+    
+    
+    $('#searchBtn').click(function(){
+    	let search = $("#searchWord").val()
+    	if(!(!search) && search.replace(/^\s*|\s*$/g,"").length>0){
+	    	window.location.href = ctxPath + 'fullsearch/result?searchword='+search+'&menuStyle=1&fulltype=1&page=1'
+    	}else{
+	    	window.location.href = ctxPath + 'fullsearch';
+    	}
+    })
+    $('#OffSitesearchBtn').click(function(){
+    	
+    	let search = $("#OffSitesearchWord").val()
+    	if(!(!search) && search.replace(/^\s*|\s*$/g,"").length>0){
+	    	window.location.href = ctxPath + 'fullsearch/result?searchword='+search+'&menuStyle=1&fulltype=1&page=1'
+    	}else{
+    		window.location.href = ctxPath + 'fullsearch';
+    	}
+    })
+    
+    
+    function moreHotdata(website){
+    	window.location.href = ctxPath + 'fullsearch/result?searchword=&menuStyle=1&fulltype=8&page=1&sourcename='+website
+    }
+    
+    
+    
+    
+    
+</script>
+		
+		
+	</body>
+
+</html>

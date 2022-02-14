@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>全文搜索·网络情报分析系统</title>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <!--<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+<![endif]-->
+	<style>
+		.timeline.timeline-left.hot-content-list>.nodata{
+		    margin-left: -55px;
+		}
+		.timeline.timeline-left.hot-content-list>.text-center.over-load{
+			margin-left: 25px;
+		}
+	</style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+<!--     <div class="preloader"> -->
+<!--         <div class="lds-ripple"> -->
+<!--             <div class="lds-pos"></div> -->
+<!--             <div class="lds-pos"></div> -->
+<!--         </div> -->
+<!--     </div> -->
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <div th:replace="common/header::header"></div>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div th:replace="common/monitor_left::monitor_left"></div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <div class="right-part right-content">
+                <!-- nav start-->
+                <!-- <div class="page-breadcrumb">
+                    <div class="row">
+                        <div class="col-lg-5 align-self-center">
+                            <div class="d-flex align-items-center">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">全文搜索</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 align-self-center ">
+                            <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                                <small>24H数据量</small>
+                                <h4 class="text-info m-b-0 m-l-10"> 58256</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- nav end-->
+                <div class="p-20">
+                    <div class="card">
+                        <div class="card-body p-45">
+                            <div class="full-search-box">
+                                <div class="search-group d-flex">
+                                    <!-- <button class="btn search-select">
+                                        <span id="showselect">全部</span><i class="fa fa-angle-down"> </i> 
+                                    </button> -->
+                                    <button style="z-index: 1;" class="btn btn-info"><i class="fa fa-bars"></i>&nbsp;搜索</button>
+                                    <div>
+                                        <input id="searchText" type="text" class="form-control" placeholder="请输入搜索内容">
+                                        <i id="searchI" class="fa fa-search"></i>
+                                    </div>
+                                    <!-- <button class="btn btn-info">
+                                        <i class="fa fa-search"></i>
+                                        	搜索
+                                    </button> -->
+                                    <ul class="select-menu">
+                                        <li>全部</li>
+                                        <li>百度</li>
+                                        <li>自媒体</li>
+                                        <li>客户端APP</li>
+                                        <li>政府网站</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 24h start-->
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- 24h start -->
+                            <div class="hot-con-box m-b-20">
+                                <div class="hot-content">
+                                    <span><i class="fa fas fa-fire"></i> 12小时热点内容</span>
+                                </div>
+                            </div>
+                            <!-- 24h end -->
+                            <!-- content start -->
+                            <ul class="timeline timeline-left hot-content-list" id="articleList">
+<!--                                 <li class="timeline-inverted timeline-item"> -->
+<!--                                     <div class="hot-time"> 18:28</div> -->
+<!--                                     <div class="timeline-panel"> -->
+<!--                                         <div class="timeline-heading"> -->
+<!--                                             <h4 class="timeline-title font-14"> <a th:href="@{/monitor/detail/123}">唐山钢坯周降50 库存仍处高位 本周钢材指数（Myspic）下跌</a> -->
+<!--                                             </h4> -->
+<!--                                             <p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago via Twitter</small> </p> -->
+<!--                                         </div> -->
+<!--                                         <div class="timeline-body"> -->
+<!--                                             <p class="text-over-2">唐山钢坯周降50 库存仍处高位 本周钢材指数（Myspic）下跌本周Myspic综合指数报131.12点，较上一周下跌1.06。本周建筑钢材市场价格下跌，全国25个主要市场螺纹HRB400（20mm）均价为3647元/吨，较上周下跌25元/吨。本周全国钢坯价格下行为主，截止3月27日，唐山钢坯价格出厂报3110元/吨，周比降50元/吨。下游产销利润的压力以及目前厂内钢坯库存水平导致采坯情绪显弱，下游厂家更多以降库为主（成品库存以及钢坯库存）。库存方面，虽然本周国内钢厂及市场建筑钢材库存双双下降，但目前库存量仍处于高位。综上，目前国内下游建筑工程用钢需求逐步恢复，同时建材产量亦呈现持续攀升态势，建筑钢材高位库存仍需时间消化，预计短期国内建筑钢材价格弱势震荡为主。 库存仍处高位 本周钢材指数（Myspic）下跌本周Myspic综合指数报131.12</p> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </li> -->
+                            </ul>
+                            <!-- content end -->
+                        </div>
+                    </div>
+                    <!-- 24h end -->
+                </div>
+                <!-- ============================================================== -->
+                <!-- footer start  -->
+                <!-- ============================================================== -->
+                <div class="page-footer">
+                    © 2014-2021 南京涌亿思信息技术有限公司  苏ICP备17066984号-1
+                </div>
+                <!-- ============================================================== -->
+                <!-- footer end  -->
+                <!-- ============================================================== -->
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- apps -->
+    <script th:src="@{/dist/js/app.min.js}"></script>
+    <script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+    <script th:src="@{/dist/js/app-style-switcher.js}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+    <script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+    <!--Wave Effects -->
+    <script th:src="@{/dist/js/waves.js}"></script>
+    <!--Menu sidebar -->
+    <script th:src="@{/dist/js/sidebarmenu.js}"></script>
+    <!--Custom JavaScript -->
+    <script th:src="@{/dist/js/custom.min.js}"></script>
+    <script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+    <script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/dist/js/pages.js}"></script>
+    <script th:src="@{/dist/search.js}"></script>
+
+    <!--<script th:inline="javascript" type="text/javascript">-->
+    <!---->
+<!--//    	twelveHotArticle();-->
+	<!---->
+    	<!--// 搜索按钮-->
+    	<!--$('#searchI').click(function(){-->
+    		<!--alert($('#searchText').val().trim());-->
+    	<!--});-->
+    	<!---->
+	    <!--// 左侧方案切换-->
+	    <!--function switchProject(event) {-->
+	        <!--let $event = $(event);-->
+	        <!--var groupId = $event.attr("data-groupid");-->
+	        <!--var projectId = $event.attr("data-index");-->
+	        <!--window.location.href = ctxPath+'monitor?groupid='+groupId+'&projectid='+projectId;-->
+	    <!--}-->
+    	<!---->
+	 	<!--// 回车搜索-->
+	    <!--$(document).keydown(function (event) {-->
+	        <!--if (event.keyCode == 13) {-->
+	        	<!--$('#searchI').trigger("click");-->
+	        <!--}-->
+	    <!--});-->
+	 	<!---->
+	 	<!--// 12小时热点内容-->
+	 	<!--function twelveHotArticle(){-->
+	 		<!--$.ajax({-->
+	 			<!--url: ctxPath + 'search/twelveHotArticle',-->
+	 			<!--type: 'post',-->
+	 			<!--dataType: 'json',-->
+	 			<!--data: {},-->
+	 			<!--beforeSend: function(){-->
+	 				<!--loading('#articleList');-->
+	 			<!--},-->
+	 			<!--success: function(res){-->
+	 				<!--var list = res;-->
+	 				<!--$('#articleList').html('');-->
+	 				<!--for(var i=0; i<list.length; i++){-->
+	 					<!--var html = '<li class="timeline-inverted timeline-item">'+-->
+				                        <!--'<div class="hot-time">'+list[i].publish_time.substring(11, 16)+'</div>'+-->
+				                        <!--'<div class="timeline-panel">'+-->
+				                            <!--'<div class="timeline-heading">'+-->
+				                                <!--'<h4 class="timeline-title font-14"> <a href="'+ctxPath+'monitor/detail/'+list[i].article_public_id+'?menu=search">'+list[i].title+'</a>'+-->
+				                                <!--'</h4>'+-->
+<!--// 				                                '<p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago via Twitter</small> </p>'+-->
+				                            <!--'</div>'+-->
+				                            <!--'<div class="timeline-body">'+-->
+				                                <!--'<p class="text-over-2">'+list[i].content+'</p>'+-->
+				                            <!--'</div>'+-->
+				                        <!--'</div>'+-->
+				                    <!--'</li>';-->
+				        <!--$('#articleList').append(html);-->
+	 				<!--}-->
+	 				<!--if(list.length == 0){-->
+	 					<!--nodata('#articleList');-->
+	 				<!--}-->
+	 			<!--},-->
+	 			<!--error: function(){-->
+	 				<!--dataerror('#articleList');-->
+	 			<!--}-->
+	 		<!--});-->
+	 	<!--}-->
+    <!--</script>-->
+</body>
+
+</html>

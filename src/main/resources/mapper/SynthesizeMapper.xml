@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.SynthesizeDao">
+	
+<insert id="insertSynthesize" >
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            select count(1) from synthesize where user_id = #{map.user_id}
+        </selectKey>
+        <if test="count > 0">
+        UPDATE `synthesize` 
+            <set>
+                `user_id` = #{map.user_id},
+				
+				<if test="null != map.hot_weibo">
+					`hot_weibo` = #{map.hot_weibo},
+                </if>
+                <if test="null != map.hot_wechat">
+					`hot_wechat` = #{map.hot_wechat},
+                </if>
+				
+				<if test="null != map.hot_all">
+					`hot_all` = #{map.hot_all},
+                </if>
+				
+				<if test="null != map.hot_search_terms">
+					`hot_search_terms` = #{map.hot_search_terms},
+                </if>
+                
+                <if test="null != map.hot_douyin">
+					`hot_douyin` = #{map.hot_douyin},
+                </if>
+				
+				<if test="null != map.hot_bilibili">
+					`hot_bilibili` = #{map.hot_bilibili},
+                </if>
+                <if test="null != map.hot_tecentvedio">
+					`hot_tecentvedio` = #{map.hot_tecentvedio},
+                </if>
+                
+                 <if test="null != map.hot_policydata">
+					`hot_policydata` = #{map.hot_policydata},
+                </if>
+                 <if test="null != map.hot_finaceData">
+					`hot_finaceData` = #{map.hot_finaceData},
+                </if>
+                 <if test="null != map.hot_36kr">
+					`hot_36kr` = #{map.hot_36kr},
+                </if>
+                
+                
+				`update_time` = now()
+            </set>
+            <where>
+                `user_id` = #{map.user_id}
+            </where>
+        </if>
+        <if test="count==0">
+            INSERT INTO `synthesize`
+            (`cteate_time`,`update_time`,`hot_wechat`,`hot_weibo`,`hot_all`,`hot_search_terms`,`hot_douyin`,`hot_bilibili`,`hot_tecentvedio`,hot_policydata,hot_finaceData,hot_36kr) VALUES (
+            #{now(),now(),#{map.hot_wechat},#{map.hot_weibo},#{map.hot_all},#{map.hot_search_terms},#{map.hot_douyin},#{map.hot_bilibili},#{map.hot_tecentvedio,#{map.hot_policydata},#{map.hot_finaceData},#{map.hot_36kr}}
+            )
+        </if>
+</insert>
+
+
+
+</mapper>

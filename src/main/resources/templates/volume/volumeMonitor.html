@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>声量监测·网络情报分析系统</title>
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <!-- this pages  -->
+    <link th:href="@{/assets/extra-libs/css-chart/css-chart.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/dist/anycharts/anychart-font.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/anycharts/anychart-ui.min.css}">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+</head>
+
+<body>
+<!-- ============================================================== -->
+<!-- Preloader - style you can find in spinners.css -->
+<!-- ============================================================== -->
+<!-- <div class="preloader"> -->
+<!--     <div class="lds-ripple"> -->
+<!--         <div class="lds-pos"></div> -->
+<!--         <div class="lds-pos"></div> -->
+<!--     </div> -->
+<!-- </div> -->
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/monitor_left::monitor_left"></div>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb" id="navname">
+                                    <li class="breadcrumb-item">声量监测</li>
+                                    <li class="breadcrumb-item"></li>
+                                    <li class="breadcrumb-item"></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center ">
+                        <div class="d-flex no-block justify-content-end align-items-center data-number-min">
+                            <select name="time1" id="select" class="form-control custom-select select-outline"
+                                    style="width: 100px;" onchange="func()">
+                                <option value="1">24小时</option>
+                                <option value="2">3天</option>
+                                <option value="3">7天</option>
+                                <option value="4">15天</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body p-10" style="min-height:570px">
+                                <div class="card-title volume-title">
+                                    <span>关键词情感分析数据统计分布</span>
+                                </div>
+                                <div class="volume-tips" id="keywordsMood"></div>
+                                <div id="category-data" style="height: 500px;position: relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body p-10">
+                                <div class="card-title volume-title">
+                                    <span>关键词数据来源分布</span>
+                                </div>
+                               	<div id="biaoge" style="min-height: 100px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- line2 start-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body p-10">
+                                <div class="card-title volume-title">
+                                    <span>关键词情感分析数据走势</span>
+                                </div>
+                                <div id="category-line" style="height: 370px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- line2 end -->
+                <!-- point start -->
+<!--                 <div class="bg-white" -->
+<!--                      style="display: flex;width: 100%;margin-bottom: 20px;justify-content: space-between;"> -->
+<!--                     <div style="width: 100%;"> -->
+<!--                         <div class="card m-b-0"> -->
+<!--                             <div class="card-body p-10"> -->
+<!--                                 <div class="card-title volume-title"> -->
+<!--                                     <span>主题观点聚类分析</span> -->
+<!--                                 </div> -->
+<!--                                 <div class="volume-data"> -->
+<!--                                     line -->
+<!--                                     <div class="volume-line" id="guandian"> -->
+<!--                                         <div class="viewpoint-title"> -->
+<!--                                             <span>#观点</span> -->
+<!--                                             <span>#数量</span> -->
+<!--                                             <span>#占比</span> -->
+<!--                                         </div> -->
+<!--                                         <div id="viewponitbox"> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span class="v-hot1">1</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>33%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span class="v-hot2">2</span> -->
+<!--                                                 <span><span class="text-over"> <a th:href="@{/monitor/detail/123}"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>99793</span> -->
+<!--                                                 <span>21%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span class="v-hot3">3</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>8493</span> -->
+<!--                                                 <span>17%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span>4</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>67%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span>5</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>67%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span>6</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>67%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span>7</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>67%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span>8</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>67%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span>9</span> -->
+<!--                                                 <span><span class="text-over"> <a th:href="@{/monitor/detail/123}"> 近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>67%</span> -->
+<!--                                             </div> -->
+<!--                                             <div class="viewpoint-content"> -->
+<!--                                                 <span>10</span> -->
+<!--                                                 <span><span class="text-over">  <a th:href="@{/monitor/detail/123}">近来，随着各地陆续复工、部分省市中小学开学，一款被称作具有除菌抑菌功效的随身消毒卡开始在朋友圈里推销</a></span></span> -->
+<!--                                                 <span>908938493</span> -->
+<!--                                                 <span>67%</span> -->
+<!--                                             </div> -->
+
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div style="width:40%;">
+<!--                         <div class="card m-b-0"> -->
+<!--                             <div class="card-body p-10"> -->
+<!--                                 <div class="volume-data"> -->
+<!--                                     <div style="width: 100%; height: 350px;margin:0;"> -->
+<!--                                         <div id="pie-chart"></div> -->
+<!--                                     </div> -->
+<!--                                     <div style="width: 80%;margin: 0 auto;">观点一：977</div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+                <!-- point end -->
+                <!-- line keywords  start-->
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="card" id="">
+                            <div class="card-body  p-10">
+                                <div class="card-title volume-title">
+                                    <span>关键词资讯数量排名</span>
+                                </div>
+                                <div class="volume-data" style="min-height:450px">
+                                    <div class="volume-line2">
+                                        <div class="volume-line2-title">
+                                            <span>关键词</span>
+                                            <span></span>
+                                            <span>占比</span>
+                                        </div>
+                                        <div id="keyword_news_rank"></div>
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot v-hot1">1</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 95%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot v-hot2">2</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 55%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot v-hot3">3</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 45%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot">4</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 25%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot">5</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 25%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot">6</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 25%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot">7</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 25%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot">8</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 25%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot">9</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 25%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="volume-line2-content"> -->
+<!--                                             <span> <span class="v-hot">10</span>新能源qiche车</span> -->
+<!--                                             <span><span title="263312条" style="width: 25%;"></span></span> -->
+<!--                                             <span>75%</span> -->
+<!--                                         </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card">
+                            <div class="card-body p-10">
+                                <div class="card-title volume-title">
+                                    <span>关键词高频分布统计</span>
+                                </div>
+                                <div class="volume-data">
+                                    <div id="keywords" style="height: 450px;width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- line keywords end -->
+                <!-- line 3 start-->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body  p-10">
+                                <div class="card-title volume-title">
+                                    <span>关键词曝光度环比排行</span>
+                                </div>
+                                <div class="volume-data" id="keyword_exposure_rank" style="min-height: 450px">
+                                    <div class="expose-rank-title">
+                                        <span>关键词</span>
+                                        <span>曝光量</span>
+                                        <span>环比增速(%)</span>
+                                        <span>排名</span>
+                                    </div>
+<!--                                     <div class="expose-rank-content"> -->
+<!--                                         <span>武汉</span> -->
+<!--                                         <span> -->
+<!--                                                 <div>986665</div> -->
+<!--                                                 <div> -->
+<!--                                                     <div class="expose-zm" style="width: 55%;"></div> -->
+<!--                                                     <div class="expose-fm" style="width: 40%;left: 55%;"></div> -->
+<!--                                                 </div> -->
+<!--                                             </span> -->
+<!--                                         <span>0.21 <i class="e-zm mdi mdi-arrow-up"></i></span> -->
+<!--                                         <span>1</span> -->
+<!--                                     </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="card">
+                            <div class="card-body p-10">
+                                <h4 class="card-title volume-title">自媒体渠道声量排名</h4>
+                                <div class="table-responsive" style="min-height: 455px;position:relative;">
+                                    <table class="table v-middle" style="margin-bottom: 0 !important;">
+                                        <thead>
+                                        <tr>
+                                            <th class="border-top-0">媒体号</th>
+                                            <th class="border-top-0">平台(数量)</th>
+<!--                                             <th class="border-top-0">发布量</th> -->
+<!--                                             <th class="border-top-0">阅读量</th> -->
+                                            <th class="border-top-0">声量</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="media_user_volume_rank">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                     <div class="col-lg-6"> -->
+<!--                         <div class="card"> -->
+<!--                             <div class="card-body  p-10"> -->
+<!--                                 <div class="card-title volume-title"> -->
+<!--                                     <span>热点内容聚类分析排名</span> -->
+<!--                                 </div> -->
+<!--                                 <div class="volume-data" style="height: 450px" id="rdian"> -->
+<!--                                     <div class="info-list"> -->
+<!--                                         <div class="line3-title"> -->
+<!--                                             <span>关键词</span> -->
+<!--                                             <span>资讯</span> -->
+<!--                                             <span>时间</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span class="text-over"> <a th:href="@{/monitor/detail/123}"> 世茂房地产：拟改名“世茂集团”，准备分拆旗下业务上市，先物业、</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                         <div class="line3-content"> -->
+<!--                                             <span>藤野康成</span> -->
+<!--                                             <span> <a th:href="@{/monitor/detail/123}">田中精机受累剥离子公司 龚伦勇彭君被责令改正</a></span> -->
+<!--                                             <span>04-03 14:58</span> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                </div>
+                <!-- line 3 end -->
+                <!-- line4 start -->
+<!--                 <div class="row"> -->
+<!--                     <div class="col-lg-12"> -->
+<!--                         <div class="card"> -->
+<!--                             <div class="card-body p-10"> -->
+<!--                                 <div class="card-title volume-title"> -->
+<!--                                     <span>用户画像标签数据分析</span> -->
+<!--                                 </div> -->
+<!--                                 <div class="volume-data" style="overflow: hidden;max-height: 550px;"> -->
+<!--                                     <div id="container2" style="width: 100%;height: 550px;"> -->
+<!--                                         <img src="userpro.png" alt="" width="100%"> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+                <!-- line4 end -->
+                <!-- line6 start -->
+<!--                 <div class="row"> -->
+<!--                     <div class="col-sm-12 col-lg-6"> -->
+<!--                         <div class="card"> -->
+<!--                             <div class="card-body p-10"> -->
+<!--                                 <h4 class="card-title volume-title">社交网络用户声量排名</h4> -->
+<!--                                 <div class="table-responsive" style="min-height: 460px;position: relative;"> -->
+<!--                                     <table class="table v-middle"> -->
+<!--                                         <thead> -->
+<!--                                         <tr> -->
+<!--                                             <th class="border-top-0">用户名</th> -->
+<!--                                             <th class="border-top-0">转发量</th> -->
+<!--                                             <th class="border-top-0">评论量</th> -->
+<!--                                             <th class="border-top-0">点赞量</th> -->
+<!--                                         </tr> -->
+<!--                                         </thead> -->
+<!--                                         <tbody id="shejiao"> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <div class="m-r-10"><img src="  assets/images/users/d1.jpg" -->
+<!--                                                                              alt="user" class="rounded-circle" -->
+<!--                                                                              width="45"/> -->
+<!--                                                     </div> -->
+<!--                                                     <div class=""> -->
+<!--                                                         <h4 class="m-b-0 font-16">Hanna Gover</h4> -->
+<!--                                                         <span>hgover@gmail.com</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td>4334009</td> -->
+<!--                                             <td>35</td> -->
+<!--                                             <td class="font-medium">$96K</td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <div class="m-r-10"><img src="  assets/images/users/d2.jpg" -->
+<!--                                                                              alt="user" class="rounded-circle" -->
+<!--                                                                              width="45"/> -->
+<!--                                                     </div> -->
+<!--                                                     <div class=""> -->
+<!--                                                         <h4 class="m-b-0 font-16 font-medium">Daniel Kristeen -->
+<!--                                                         </h4><span>Kristeen@gmail.com</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td>4334009</td> -->
+<!--                                             <td>35</td> -->
+<!--                                             <td class="font-medium">$96K</td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <div class="m-r-10"><img src="  assets/images/users/d3.jpg" -->
+<!--                                                                              alt="user" class="rounded-circle" -->
+<!--                                                                              width="45"/> -->
+<!--                                                     </div> -->
+<!--                                                     <div class=""> -->
+<!--                                                         <h4 class="m-b-0 font-16 font-medium">Julian Josephs -->
+<!--                                                         </h4><span>Josephs@gmail.com</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td>4334009</td> -->
+<!--                                             <td>35</td> -->
+<!--                                             <td class="font-medium">$96K</td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <div class="m-r-10"><img src="  assets/images/users/2.jpg" -->
+<!--                                                                              alt="user" class="rounded-circle" -->
+<!--                                                                              width="45"/> -->
+<!--                                                     </div> -->
+<!--                                                     <div class=""> -->
+<!--                                                         <h4 class="m-b-0 font-16 font-medium">Jan Petrovic</h4> -->
+<!--                                                         <span>hgover@gmail.com</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td>4334009</td> -->
+<!--                                             <td>35</td> -->
+<!--                                             <td class="font-medium">$96K</td> -->
+<!--                                         </tr> -->
+<!--                                         <tr> -->
+<!--                                             <td> -->
+<!--                                                 <div class="d-flex align-items-center"> -->
+<!--                                                     <div class="m-r-10"><img src="  assets/images/users/d2.jpg" -->
+<!--                                                                              alt="user" class="rounded-circle" -->
+<!--                                                                              width="45"/> -->
+<!--                                                     </div> -->
+<!--                                                     <div class=""> -->
+<!--                                                         <h4 class="m-b-0 font-16 font-medium">Daniel Kristeen -->
+<!--                                                         </h4><span>Kristeen@gmail.com</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                             </td> -->
+<!--                                             <td>4334009</td> -->
+<!--                                             <td>35</td> -->
+<!--                                             <td class="font-medium">$96K</td> -->
+<!--                                         </tr> -->
+<!--                                         </tbody> -->
+<!--                                     </table> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+                    
+<!--                 </div> -->
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/dist/anycharts/anychart-base.min.js}"></script>
+<script th:src="@{/dist/anycharts/anychart-exports.min.js}"></script>
+<script th:src="@{/dist/anycharts/anychart-tag-cloud.min.js}"></script>
+<script th:src="@{/dist/anycharts/anychart-ui.min.js}"></script>
+<script th:src="@{/dist/anycharts/data.js}"></script>
+<script th:src="@{/common/tools.js}"></script>
+<script th:src="@{/dist/volume.js}"></script>
+
+<script th:inline="javascript" type="text/javascript">
+    
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), groupId, projectid);
+    })
+</script>
+
+</body>
+</html>

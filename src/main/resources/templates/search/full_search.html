@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>全文搜索·网络情报分析系统</title>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <style>
+        .timeline.timeline-left.hot-content-list > .nodata {
+            margin-left: -55px;
+        }
+
+        .timeline.timeline-left.hot-content-list > .text-center.over-load {
+            margin-left: 25px;
+        }
+
+        .search-record li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/search_left::search_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body p-45">
+                        <div class="full-search-box">
+                            <div class="search-group d-flex" style="padding-left: 0;">
+                                <div style="width: 100%;">
+                                    <input id="searchWord" type="text" class="form-control"
+                                           placeholder="请输入企业名称、企业简称、产品名、行业名称、政策法规、人名等，多关键词用空格隔开">
+                                </div>
+                                <button id="searchBtn"
+                                        style="z-index: 1; border-radius: 0 2px 2px 0 !important;width: auto;"
+                                        class="btn btn-info">全文搜索
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="hot-con-box m-b-20">
+                            <div class="hot-content" style="margin-left: 40px;">
+                                <span>搜索记录</span>
+                            </div>
+                        </div>
+                        <div class="search-record" style="width: 1000px; margin: 0 auto;">
+                            <div style="display: flex; width: calc(100% - 80px); margin: 0 auto;" id="searchwords">
+                                <!--<ul class="timeline timeline-left hot-content-list"-->
+                                <!--style="padding-left: 200px;">-->
+                                <!--<li><span class="v-hot">1</span> <a href=""><span>习近平</span></a>-->
+                                <!--</li>-->
+                                <!--<li><span class="v-hot">3</span> <a href=""><span>南京</span></a>-->
+                                <!--</li>-->
+                                <!--<li><span class="v-hot">5</span> <a href=""><span>中共中央</span></a>-->
+                                <!--</li>-->
+                                <!--</ul>-->
+                                <!--<ul class="timeline timeline-left hot-content-list"-->
+                                <!--style="padding-left: 100px;">-->
+                                <!--<li><span class="v-hot">2</span> <a href=""><span>微博</span></a>-->
+                                <!--</li>-->
+                                <!--<li><span class="v-hot">4</span> <a href=""><span>威马汽车</span></a>-->
+                                <!--</li>-->
+                                <!--<li><span class="v-hot">6</span> <a href=""><span>汽车轮胎</span></a>-->
+                                <!--</li>-->
+                                <!--</ul>-->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="page-footer">© 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1</div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+
+<script th:inline="javascript" type="text/javascript">
+
+    //		var ctx = [[@{/}]];
+    var ctx = /*[[@{/}]]*/'';
+
+    $(document).ready(function () {
+        getSearchWordById();
+    });
+
+
+    $('body').on('click', '#sidebarnav li', function (e) {
+//     	alert("aaaa")
+//     	console.log(e)
+        if (!$(this).hasClass("comactive")) {
+            $(this).siblings().removeClass("comactive")
+            $(this).addClass("comactive")
+            if (menuStyle == 0) {
+                let arry = $(this).attr("data-id").split(',');
+                //full_type = arry[0]
+                idList = $(this).attr("data-id")
+                full_poly = $(this).attr("data-poly")
+                if (full_poly == 1) {
+                    $('#searchWord').attr("placeholder", "请输入竞争对手企业名称、企业简称、产品名、行业名称、人名等，多关键词用空格隔开")
+                }
+                if (full_poly == 2) {
+                    $('#searchWord').attr("placeholder", "请输入领域范围、行业名称、人名等，多关键词用空格隔开")
+                }
+                if (full_poly == 3) {
+                    $('#searchWord').attr("placeholder", "请输入政策法规、关注产品、行业名称、人名等，多关键词用空格隔开")
+                }
+                if (full_poly == 4) {
+                    $('#searchWord').attr("placeholder", "请输入产业名称、企业名称、企业简称等，多关键词用空格隔开")
+                }
+                if (full_poly == 5) {
+                    $('#searchWord').attr("placeholder", "请输入产品名称、品牌名称、企业简称等，多关键词用空格隔开")
+                }
+                if (full_poly == 6) {
+                    $('#searchWord').attr("placeholder", "请输入技术名称、专家名称、企业简称等，多关键词用空格隔开")
+                }
+            } else {
+                full_type = $(this).attr("data-id")
+            }
+        }
+    })
+
+    // 搜索按钮
+    $('#searchBtn').click(function () {
+        var searchWord = $('#searchWord').val().trim();
+        var params = '?searchword=' + searchWord + '&fulltype=' + full_type + '&full_poly=' + full_poly;
+        window.location.href = ctx + 'fullsearch/result' + params;
+    })
+
+    // 回车搜索
+    $(document).keydown(function (event) {
+        if (event.keyCode == 13) {
+            $('#searchBtn').trigger("click");
+        }
+    });
+
+    // 顶部导航跳转
+    $('.navLi').click(function () {
+        jumpNavLocation($(this).data('type'), null, null);
+    })
+
+
+    // 获取用户搜索的词
+    function getSearchWordById() {
+        $.ajax({
+            url: ctx + 'fullsearch/search',
+            type: 'post',
+            dataType: 'json',
+            data: {},
+            success: function (res) {
+                console.log(res);
+                installSearchWord(res);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+
+    /**
+     * 组装数据
+     * @param res
+     */
+    function installSearchWord(res) {
+        let code = res.code;
+        if (code == 200) {
+            let data = res.data;
+            let StrAll = '';
+            let str1 = '';
+            let str2 = '';
+            for (let i = 0; i < data.length; i++) {
+                let dataJson = data[i];
+                let search_word = dataJson.search_word;
+                let index = i % 2;
+
+                if (index == 0) {
+                    str1 += '<li><span class="v-hot">' + (i + 1) + '</span> <a href=""><span>' + search_word + '</span></a></li>';
+                } else {
+                    str2 += '<li><span class="v-hot">' + (i + 1) + '</span> <a href=""><span>' + search_word + '</span></a></li>';
+                }
+            }
+            let str3 = '<ul class="timeline timeline-left hot-content-list" style="padding-left: 200px;">' + str1 + '</ul>';
+            let str4 = '<ul class="timeline timeline-left hot-content-list" style="padding-left: 100px;">' + str2 + '</ul>';
+            StrAll = str3 + str4;
+            $("#searchwords").html(StrAll);
+        }
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.intelligence.dao.AnalysisQuartzDao">
+
+	<update id="updateAnalysisPopularInformation">
+		INSERT INTO 
+			monitor_analysis(
+				create_time, analysis_id, project_id, time_period, popular_information 
+			)
+		VALUES
+			(
+				#{create_time}, #{analysis_id}, #{project_id}, #{time_period}, #{popular_information}
+			)
+		ON DUPLICATE KEY 
+		UPDATE 
+			create_time = #{create_time},
+			popular_information = #{popular_information}
+	</update>
+	
+	<update id="updateAnalysisExceptPopularInformation">
+		INSERT INTO 
+			monitor_analysis(
+				create_time, analysis_id, project_id, time_period, data_overview, emotional_proportion, plan_word_hit,
+				keyword_emotion_trend, hot_event_ranking, highword_cloud, keyword_index, media_activity_analysis, 
+				hot_spot_ranking, data_source_distribution, data_source_analysis, keyword_exposure_rank, selfmedia_volume_rank,ner,category_rank,
+				industrial_distribution,event_statistics
+			)
+		VALUES
+			(
+				#{create_time}, #{analysis_id}, #{project_id}, #{time_period}, #{data_overview}, #{emotional_proportion}, 
+				#{plan_word_hit}, #{keyword_emotion_trend}, #{hot_event_ranking}, #{highword_cloud}, #{keyword_index}, 
+				#{media_activity_analysis}, #{hot_spot_ranking}, #{data_source_distribution}, #{data_source_analysis}, 
+				#{keyword_exposure_rank}, #{selfmedia_volume_rank},#{ner},#{category_rank},#{industrial_distribution},
+				#{event_statistics}
+			)
+		ON DUPLICATE KEY 
+		UPDATE 
+			create_time = #{create_time},
+			data_overview = #{data_overview},
+			emotional_proportion = #{emotional_proportion},
+			plan_word_hit = #{plan_word_hit},
+			keyword_emotion_trend = #{keyword_emotion_trend},
+			hot_event_ranking = #{hot_event_ranking},
+			highword_cloud = #{highword_cloud},
+			keyword_index = #{keyword_index},
+			media_activity_analysis = #{media_activity_analysis},
+			hot_spot_ranking = #{hot_spot_ranking},
+			data_source_distribution = #{data_source_distribution},
+			data_source_analysis = #{data_source_analysis},
+			keyword_exposure_rank = #{keyword_exposure_rank},
+			selfmedia_volume_rank = #{selfmedia_volume_rank},
+			ner = #{ner},
+			category_rank = #{category_rank},
+			industrial_distribution = #{industrial_distribution},
+			event_statistics = #{event_statistics}
+	</update>
+	
+<!-- 	<update id="updateAnalysisExceptPopularInformation"> -->
+<!-- 		INSERT INTO  -->
+<!-- 			monitor_analysis( -->
+<!-- 				create_time, analysis_id, project_id, time_period, keyword_index, emotional_proportion, plan_word_hit, -->
+<!-- 				hot_company, hot_people, hot_spot -->
+<!-- 			) -->
+<!-- 		VALUES -->
+<!-- 			( -->
+<!-- 				#{create_time}, #{analysis_id}, #{project_id}, #{time_period}, #{keyword_index}, #{emotional_proportion},  -->
+<!-- 				#{plan_word_hit}, #{hot_company}, #{hot_people}, #{hot_spot} -->
+<!-- 			) -->
+<!-- 		ON DUPLICATE KEY  -->
+<!-- 		UPDATE  -->
+<!-- 			create_time = #{create_time}, -->
+<!-- 			keyword_index = #{keyword_index}, -->
+<!-- 			emotional_proportion = #{emotional_proportion}, -->
+<!-- 			plan_word_hit = #{plan_word_hit}, -->
+<!-- 			hot_company = #{hot_company}, -->
+<!-- 			hot_people = #{hot_people}, -->
+<!-- 			hot_spot = #{hot_spot} -->
+<!-- 	</update> -->
+	    
+</mapper>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+    <title>偏好设置·网络情报分析系统</title>
+    <script th:src="@{/common/analyze-cloud.js}"></script>
+    <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .badge-info {
+            color: #fff !important;
+            background-color: #6184e6 !important;
+        }
+
+        .preference-time {
+            display: inline-block;
+            width: 300px;
+        }
+        .preference-time-list{
+            display: flex;
+            align-items: center;
+        }
+        .preference-time-list>span{
+            display: inline-block;
+        }
+        
+        .icon4{
+        	margin-left: auto;
+        	line-height: 15px;
+        }
+        
+        .icon4 i{
+        	margin-left: 25px;
+        	cursor: pointer;
+        }
+    </style>
+</head>
+<body style="background: #eef5f9;">
+<div id="main-wrapper">
+    <div th:replace="common/header::header"></div>
+    <div th:replace="common/setting_left::setting_left"></div>
+    <div class="page-wrapper">
+        <div class="right-part right-content">
+            <!-- nav start-->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-lg-5 align-self-center">
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">系统设置</li>
+                                    <li class="breadcrumb-item">偏好设置</li>
+                                    <li class="breadcrumb-item" id="groupName">涉及国家</li>
+                                    <li class="breadcrumb-item" id="projectName">国家高层</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 align-self-center "></div>
+                </div>
+            </div>
+            <!-- nav end-->
+            <div class="p-20">
+                <div class="card">
+                    <div class="card-body" style="min-height: 250px;">
+                        <div class="d-flex no-block justify-content-start align-items-center m-b-20">
+                            <span>选择方案组＆方案</span>
+                            <select id="groupSelect" class="form-control m-l-10 custom-select" style="width: 120px;">
+                            </select>
+                            <select id="projectSelect" class="form-control m-l-10 custom-select" style="width: 120px;">
+                            </select>
+                            <div style="display:flex;" class="icon4" id="iconall">
+                            	<i id="icon1" data-type="analysis" class="fa fa-chart-bar" title="监测分析"></i>
+                            	<i id="icon2" data-type="monitor" class="mdi mdi-eye-outline" title="数据监测"></i>
+                            	<i id="icon3" data-type="project" class="fas fa-pencil-alt" title="监测管理"></i>
+                            	<i id="icon4" data-type="volume" class="fa fa-rss" title="声量监测"></i>
+                            </div>
+                        </div>
+                        <div id="nodata"></div>
+                        <div id="loading"></div>
+                        <!-- content start -->
+                        <div class="p-t-10" id="conditionGroup">
+                            <!-- double line  start-->
+                            <div class="warning-edit-third ">
+                                <div class="warning-left">
+                                    <div>情感属性</div>
+                                    <div class=" m-l-0">
+                                        <span data-emotion=1 class="badge badge-pill badge-light">正面</span>
+                                        <span data-emotion=2 class="badge badge-pill badge-light">中性</span>
+                                        <span data-emotion=3 class="badge badge-pill badge-light">负面</span>
+                                    </div>
+                                </div>
+                                <div class="warning-center">
+                                    <div>相似文章</div>
+                                    <div class=" m-l-0">
+                                        <span data-similar=1 class="badge badge-pill badge-light">合并文章</span>
+                                        <span data-similar=0 class="badge badge-pill badge-light">取消合并</span>
+                                    </div>
+                                </div>
+                                <div class="warning-right">
+                                    <div>精准筛选</div>
+                                    <div class=" m-l-0">
+                                        <span data-precise=1 class="badge badge-pill badge-light">打开精准</span>
+                                        <span data-precise=0 class="badge badge-pill badge-light">关闭精准</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- double line end-->
+                            <!-- double line  start-->
+                            <div class="warning-edit-double">
+                                <div class="warning-left">
+                                    <div>信息排序</div>
+                                    <div class=" m-l-0">
+                                        <span data-sort=1 class="badge badge-pill badge-light">时间降序</span>
+                                        <span data-sort=2 class="badge badge-pill badge-light">时间升序</span>
+                                        <span data-sort=3 class="badge badge-pill badge-light">相似数量</span>
+                                    </div>
+                                </div>
+                                <div class="warning-right">
+                                    <div>匹配方式</div>
+                                    <div>
+                                        <span data-matchs=1 class="badge badge-pill badge-light">全文匹配</span>
+                                        <span data-matchs=2 class="badge badge-pill badge-light">标题匹配</span>
+                                        <span data-matchs=3 class="badge badge-pill badge-light">正文匹配</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- double line end-->
+                            <!-- double line  start-->
+                            <div class="warning-edit-double">
+                                <div class="warning-left w-100">
+                                    <div class="preference-left">时间范围</div>
+                                    <div class=" m-l-0 preference-time-list">
+                                        <span data-time=1 class="badge badge-pill badge-light">24小时</span>
+                                        <span data-time=2 class="badge badge-pill badge-light">昨天</span>
+                                        <span data-time=3 class="badge badge-pill badge-light">今天</span>
+                                        <span data-time=4 class="badge badge-pill badge-light">3天</span>
+                                        <span data-time=5 class="badge badge-pill badge-light">7天</span>
+                                        <span data-time=6 class="badge badge-pill badge-light">15天</span>
+                                        <span data-time=7 class="badge badge-pill badge-light">30天</span>
+                                        <span data-time=8 class="badge badge-pill badge-light">自定义</span>
+                                        <div class="input-daterange monitor-date preference-time" style="display:none"
+                                             id="date-range">
+                                            <input type="text" class="form-control" name="start" placeholder="开始日期"/>
+                                            <input type="text" class="form-control" name="end" placeholder="结束日期"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="card-body m-t-20" id="btnGroup" style="margin-top: 0;">-->
+                    <!--<div style="width: 140px; display: flex; justify-content: space-between;margin: 0 auto;">-->
+                    <!--<button class="btn btn-info" id="saveBtn">保存</button>-->
+                    <!--<button class="btn btn-secondary">取消保存</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <div class="page-footer">
+                © 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/dist/js/app.min.js}"></script>
+<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+<script th:src="@{/dist/js/waves.js}"></script>
+<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+<script th:src="@{/dist/js/custom.min.js}"></script>
+<script th:src="@{/dist/js/projectlist.js}"></script>
+<script th:src="@{/dist/js/pages.js}"></script>
+<script th:src="@{/common/common.js}"></script>
+<script th:src="@{/assets/libs/block-ui/jquery.blockUI.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    var groupIdParam = [[${groupId}]];
+    var projectIdParam = [[${projectId}]];
+    var opinion_condition_id = null;
+
+    listSolutionGroupByUserId();
+    listProjectByGroupId();
+    getOpinionConditionByProjectId();
+
+    // 方案组列表
+    function listSolutionGroupByUserId() {
+        $.ajax({
+            url: ctxPath + 'system/listSolutionGroupByUserId',
+            type: 'post',
+            dataType: 'json',
+            data: {},
+            async: false,
+            success: function (res) {
+                var list = res;
+                $('#groupSelect').html('');
+                for (var i = 0; i < list.length; i++) {
+                    var html = '';
+                    if (list[i].groupId == groupIdParam) {
+                        html = '<option value="' + list[i].groupId + '" selected>' + list[i].groupName + '</option>';
+                    } else {
+                        html = '<option value="' + list[i].groupId + '">' + list[i].groupName + '</option>';
+                    }
+                    $('#groupSelect').append(html);
+                }
+                if (list.length == 0) {
+                    var html = '<option value="">暂无方案组！</option>';
+                    $('#groupSelect').html(html);
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        });
+    }
+
+    // 方案列表
+    function listProjectByGroupId() {
+        var groupId = $('#groupSelect').val();
+        $.ajax({
+            url: ctxPath + 'system/listProjectByGroupId',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                groupId: groupId
+            },
+            async: false,
+            success: function (res) {
+                var list = res;
+                $('#projectSelect').html('');
+                $('#iconall i').show();
+                for (var i = 0; i < list.length; i++) {
+                    var html = '';
+                    if (list[i].projectId == projectIdParam) {
+                        html = '<option value="' + list[i].projectId + '" selected>' + list[i].projectName + '</option>';
+                    } else {
+                        html = '<option value="' + list[i].projectId + '">' + list[i].projectName + '</option>';
+                    }
+                    $('#projectSelect').append(html);
+                }
+                if (list.length == 0) {
+                    var html = '<option value="">暂无方案！</option>';
+                    $('#projectSelect').html(html);
+                    $('#iconall i').hide();
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        });
+    }
+
+    $('#groupSelect').change(function () {
+        listProjectByGroupId();
+        getOpinionConditionByProjectId();
+    });
+
+    $('#projectSelect').change(function () {
+        getOpinionConditionByProjectId();
+    });
+
+    // 偏好设置信息
+    function getOpinionConditionByProjectId() {
+        let projectId = $('#projectSelect').val();
+        $.ajax({
+            url: ctxPath + 'system/getOpinionConditionByProjectId',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                projectId: projectId
+            },
+            beforeSend: function () {
+                loading('#loading');
+            },
+            complete: function () {
+                $('#loading').html('');
+            },
+            success: function (res) {
+                if (!$.isEmptyObject(res) && res) {
+                    $('#conditionGroup').show();
+                    $('#btnGroup').show();
+                    $('#nodata').html('');
+                    opinion_condition_id = res.opinion_condition_id;
+                    let times = res.times;
+                    let timee = res.timee;
+                    if (res.time == 8) {
+                        $("#date-range").css("display","block");
+                        $('span[data-time=' + res.time + ']').addClass('badge-info');
+                        $('span[data-time=' + res.time + ']').siblings().removeClass('badge-info');
+                        $("#date-range input[name=start]").val(times.substring(0, 10));
+                        $("#date-range input[name=end]").val(timee.substring(0, 10));
+                    } else {
+                        $('span[data-time=' + res.time + ']').addClass('badge-info');
+                        $('span[data-time=' + res.time + ']').siblings().removeClass('badge-info');
+                    }
+                    $('span[data-precise=' + res.precise + ']').addClass('badge-info');
+                    $('span[data-precise=' + res.precise + ']').siblings().removeClass('badge-info');
+
+                    $('span[data-similar=' + res.similar + ']').addClass('badge-info');
+                    $('span[data-similar=' + res.similar + ']').siblings().removeClass('badge-info');
+
+                    $('span[data-sort=' + res.sort + ']').addClass('badge-info');
+                    $('span[data-sort=' + res.sort + ']').siblings().removeClass('badge-info');
+
+                    $('span[data-matchs=' + res.matchs + ']').addClass('badge-info');
+                    $('span[data-matchs=' + res.matchs + ']').siblings().removeClass('badge-info');
+
+
+                    $('span[data-emotion]').removeClass('badge-info');
+                    if (res.emotion) {
+                        var emotion = JSON.parse(res.emotion);
+                        for (var i = 0; i < emotion.length; i++) {
+                            $('span[data-emotion=' + emotion[i] + ']').addClass('badge-info');
+                        }
+                    }
+                } else {
+                    $('#conditionGroup').hide();
+                    $('#btnGroup').hide();
+                    nodata('#nodata', '暂无方案！去创建>', ctxPath + 'project');
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        });
+    }
+
+    $('span[data-time]').click(function () {
+        $(this).addClass('badge-info');
+        $(this).siblings().removeClass('badge-info');
+        let time = $(this).attr("data-time");
+        if (time == 8) {
+            $("#date-range").css("display", "block");
+            let times = getnow();
+            let timed = getnow();
+            $("#date-range input[name=start]").val(times);
+            $("#date-range input[name=end]").val(timed);
+            changeCondition();
+        } else {
+            $("#date-range").css("display", "none");
+            changeCondition();
+        }
+    });
+
+    $('span[data-precise]').click(function () {
+        $(this).addClass('badge-info');
+        $(this).siblings().removeClass('badge-info');
+        changeCondition();
+    });
+
+    $('span[data-similar]').click(function () {
+        $(this).addClass('badge-info');
+        $(this).siblings().removeClass('badge-info');
+        changeCondition();
+    });
+
+    $('span[data-sort]').click(function () {
+        $(this).addClass('badge-info');
+        $(this).siblings().removeClass('badge-info');
+        changeCondition();
+    });
+
+    $('span[data-matchs]').click(function () {
+        $(this).addClass('badge-info');
+        $(this).siblings().removeClass('badge-info');
+        changeCondition();
+    });
+
+    $('span[data-emotion]').click(function () {
+        if ($(this).hasClass('badge-info')) {
+            $(this).removeClass('badge-info');
+        } else {
+            $(this).addClass('badge-info');
+        }
+        changeCondition();
+    });
+
+    //     保存按钮点击事件
+    //        $('#saveBtn').click(function () {
+    //            var time = 1;
+    //            var precise = 0;
+    //            var emotion = [];
+    //            var similar = 0;
+    //            var sort = 1;
+    //            var matchs = 1;
+    //            let times = '';
+    //            let timee = '';
+    //
+    //            $('span[data-time]').each(function () {
+    //                if ($(this).hasClass('badge-info')) {
+    //                    time = $(this).data('time');
+    //                }
+    //            });
+    //
+    //            if (time == 8) {
+    //                times = '';
+    //                timee = '';
+    //            }
+    //
+    //            $('span[data-emotion]').each(function () {
+    //                if ($(this).hasClass('badge-info')) {
+    //                    emotion.push($(this).data('emotion'));
+    //                }
+    //            })
+    //            $('span[data-precise]').each(function () {
+    //                if ($(this).hasClass('badge-info')) {
+    //                    precise = $(this).data('precise');
+    //                }
+    //            })
+    //            $('span[data-similar]').each(function () {
+    //                if ($(this).hasClass('badge-info')) {
+    //                    similar = $(this).data('similar');
+    //                }
+    //            })
+    //            $('span[data-sort]').each(function () {
+    //                if ($(this).hasClass('badge-info')) {
+    //                    sort = $(this).data('sort');
+    //                }
+    //            })
+    //            $('span[data-matchs]').each(function () {
+    //                if ($(this).hasClass('badge-info')) {
+    //                    matchs = $(this).data('matchs');
+    //                }
+    //            })
+    //            if (opinion_condition_id) {
+    //                $.ajax({
+    //                    url: ctxPath + 'system/updateOpinionCondition',
+    //                    type: 'post',
+    //                    dataType: 'json',
+    //                    data: {
+    //                        opinion_condition_id: opinion_condition_id,
+    //                        time: time,
+    //                        emotion: JSON.stringify(emotion),
+    //                        precise: precise,
+    //                        similar: similar,
+    //                        sort: sort,
+    //                        matchs: matchs,
+    //                        times: timee,
+    //                        timee: timee
+    //                    },
+    //                    success: function (res) {
+    //                        if (res.status) {
+    //                            showtips("保存成功！");
+    //                        } else {
+    //                            showtips("保存失败！");
+    //                        }
+    //                    },
+    //                    error: function (xhr, ajaxOptions, thrownError) {
+    //                        if (xhr.status == 403) {
+    //                            window.location.href = ctxPath + "login";
+    //                        }
+    //                    }
+    //                });
+    //            }
+    //        });
+
+
+    $("#date-range input").change(function () {
+        let times = $("#date-range input[name=start]").val();
+        let timed = $("#date-range input[name=end]").val();
+        if (times > timed) {
+            showtips("开始时间不能迟于结束时间");
+        } else {
+            if (times != "" && timed != "") {
+                let project_id = $('#projectSelect').val();
+                let condition = getCondition();
+                condition.project_id = project_id;
+                condition.timee = timed;
+                condition.times = times;
+                let parambasic = new Object(); // ajax基本的参数
+                parambasic.type = "POST";
+                parambasic.url = ctxPath + 'system/updateOpinionCondition';
+                parambasic.contentType = 'application/json;charset=utf-8';
+                sendCondition(parambasic, JSON.stringify(condition), conditionTip);
+            } else {
+                showtips("开始时间或结束时间不能为空");
+            }
+        }
+    });
+
+
+    /**
+     * @author liyoulin
+     * @date 2020/04/16
+     * @description  Date Picker  时间控件
+     */
+
+    $('#date-range').datepicker({
+        language: 'zh-CN',
+        format: "yyyy-mm-dd",
+        orientation: "bottom auto",
+        toggleActive: true,
+        keyboardNavigation: true,
+        enableOnReadonly: false,
+        todayHighlight: true,
+        endDate: getnow(),
+        autoclose: true
+    });
+
+    function getnow() {
+        var now = new Date();
+        var month = now.getMonth() + 1;
+        if(month < 10) month = '0' + month;
+        var day = now.getDate();
+        if(day < 10) day = '0' + day;
+        var nowday = now.getFullYear() + "-" + month + "-" + day;
+        return nowday
+    }
+
+
+    /**
+     * @author hujiancheng
+     * @date 2020/04/22
+     * @description  改变更新偏好设置
+     */
+    function changeCondition() {
+        let project_id = $('#projectSelect').val();
+        let condition = getCondition();
+        condition.project_id = project_id;
+        let parambasic = new Object(); // ajax基本的参数
+        parambasic.type = "POST";
+        parambasic.url = ctxPath + 'system/updateOpinionCondition';
+        parambasic.contentType = 'application/json;charset=utf-8';
+        console.log(condition)
+        sendCondition(parambasic, JSON.stringify(condition), conditionTip);
+    }
+
+    /**
+     * @author hujiancheng
+     * @date 2020/04/22
+     * @description  请求偏好设置数据
+     */
+    function sendCondition(param, data, funcname) {
+        $.ajax({
+            type: param.type,
+            url: param.url,
+            dataType: 'json',
+            data: data,
+            contentType: param.contentType,
+            success: function (res) {
+                funcname(res);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+
+    /**
+     * @author hujiancheng
+     * @date 2020/04/22
+     * @description  提示
+     */
+    function conditionTip(res) {
+        console.log(res);
+        let message = res.message;
+        showtips(message)
+    }
+
+
+    /**
+     * @author hujiancheng
+     * @date 2020/04/22
+     * @description  获取编号设置条件
+     */
+    function getCondition() {
+        let time = 1;
+        let precise = 0;
+        let emotion = [];
+        let similar = 0;
+        let sort = 1;
+        let matchs = 1;
+        let times = '';
+        let timee = '';
+
+        $('span[data-time]').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                time = $(this).data('time');
+            }
+        });
+
+        if (time == 8) {
+            times = $("#date-range input[name=start]").val();
+            timee = $("#date-range input[name=end]").val();
+        }
+
+        $('span[data-emotion]').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                emotion.push($(this).data('emotion'));
+            }
+        });
+
+        $('span[data-precise]').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                precise = $(this).data('precise');
+            }
+        });
+
+        $('span[data-similar]').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                similar = $(this).data('similar');
+            }
+        });
+
+        $('span[data-sort]').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                sort = $(this).data('sort');
+            }
+        });
+
+        $('span[data-matchs]').each(function () {
+            if ($(this).hasClass('badge-info')) {
+                matchs = $(this).data('matchs');
+            }
+        });
+        let condition = new Object();
+        condition.time = time;
+        condition.precise = precise;
+        condition.emotion = emotion;
+        condition.similar = similar;
+        condition.sort = sort;
+        condition.matchs = matchs;
+        condition.times = times;
+        condition.timee = timee;
+        condition.opinion_condition_id = opinion_condition_id;
+        return condition;
+    }
+    
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), null, null);
+    })
+    
+    $('#iconall i').click(function(){
+    	var type = $(this).data('type');
+    	var groupId = $('#groupSelect').val();
+    	var projectId = $('#projectSelect').val();
+    	var param = '';
+    	if(groupId){
+    		param = '?groupid='+groupId;
+    		if(projectId){
+    			if(type == 'project'){
+    				param = '/editproject' + param + '&projectid='+projectId;
+    			}else{
+    			 	param += '&projectid='+projectId;
+    			}
+    		}
+    	}
+    	window.location.href = ctxPath + type + param;
+    })
+</script>
+</body>
+
+</html>

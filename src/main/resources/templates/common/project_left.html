@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<aside class="left-sidebar" th:fragment="project_left">
+    <!-- Sidebar scroll-->
+    <div class="allleft-menu">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <!--<li class="p-15">-->
+                    <!--<a onclick="createNewPro()" class="btn btn-block create-btn text-white d-flex align-items-center">-->
+                        <!--<i class="fa fa-plus-square"></i>-->
+                        <!--<span class="hide-menu m-l-10">新建监测方案组</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+            </ul>
+            <div class="left-foot-wechact">
+	         	<div class="wechat-logo-box-card">
+	         		<div class="manual-logo-box" title="产品手册在线查看">
+	         			<a target="_blank" th:href="@{/system/productmanual/online}">
+			         		<svg class="icon" aria-hidden="true">
+						    <use xlink:href="#icon-manual3"></use>
+							</svg>
+						</a>
+	         		</div>
+	         		<!-- <div class="wechat-logo-box">
+		         		<svg class="icon" aria-hidden="true">
+					    <use xlink:href="#icon-wechat-logo"></use>
+						</svg>
+	         		</div> -->
+	         		<div class="home-footer__bottom-content__share__qrcode" id ="home-footer__bottom-content__share__qrcode">
+			          	<!-- <img th:src="@{/assets/images/QRcode.jpg}" alt="wechat" style="width:120px;height:120px;border-radius:4px;"> -->
+			        </div>
+	         		<div class="download-logo-box" title="反馈建议">
+	         			<!-- <a th:href="@{/system/feedback}"> -->
+	         			<a href="#">
+			         		<svg class="icon" aria-hidden="true">
+						    <use xlink:href="#icon-serve"></use>
+							</svg>
+						</a>
+	         		</div>
+	         	</div>
+         	</div>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+    <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/dist/project.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        var ctxPath = /*[[@{/}]]*/'';
+        let group_Id = '[[${groupid}]]';
+        $(document).ready(function () {
+            getgroupId(group_Id);
+            sendGroup();  // 请求方案组信息
+            /* getwechatqrcode(); */
+        });
+        
+        
+        
+    </script>
+</aside>
+</body>
+</html>

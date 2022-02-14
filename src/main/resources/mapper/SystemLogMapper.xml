@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.SystemLogDao">
+
+
+<insert id="addData" parameterType="com.stonedt.intelligence.entity.SystemLogEntity">
+
+insert into systemlog(user_browser,user_id,user_browser_version,operatingSystem,username,loginip,module,submodule,type,createtime)
+values(#{user_browser},#{user_id},#{user_browser_version},#{operatingSystem},#{username},#{loginip},#{module},#{submodule},#{type},now())
+
+</insert>
+
+
+
+</mapper>

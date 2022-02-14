@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.stonedt.intelligence.dao.PublicOptionDao">
+
+	
+
+<select id="getlist" resultType="com.stonedt.intelligence.entity.PublicoptionEntity">
+
+
+select * from publicoptionevent where isdelete = 1
+and user_id =#{user_id}
+<if test="searchkeyword!='' and searchkeyword !=null">
+			and eventname like concat(concat('%',#{searchkeyword}),'%')
+</if>
+
+order by createtime desc
+
+</select>
+
+
+<select id="getpublicoptionreportlist" resultType="com.stonedt.intelligence.entity.PublicoptionEntity">
+
+
+select p.* from publicoptionevent p 
+left join publicoption_detail d
+on p.id=d.publicoption_id group by p.id
+having p.user_id=#{user_id} and p.isdelete=1 and count(d.id)>0
+<if test="searchkeyword!='' and searchkeyword !=null">
+			and p.eventname like concat(concat('%',#{searchkeyword}),'%')
+</if>
+order by create_time desc
+
+</select>
+<select id="getdatabyid" resultType="com.stonedt.intelligence.entity.PublicoptionEntity">
+
+select id,eventname,eventkeywords,eventstarttime,eventendtime,createtime,status,updatetime,user_id,ifnull(eventstopwords,'') eventstopwords 
+from publicoptionevent where id = #{reportId} and isdelete =1 and user_id=#{userId} order by updatetime desc
+
+</select>
+
+<select id="getdatabyid2" resultType="com.stonedt.intelligence.entity.PublicoptionEntity">
+
+select id,eventname,eventkeywords,eventstarttime,eventendtime,createtime,status,updatetime,user_id,ifnull(eventstopwords,'') eventstopwords 
+from publicoptionevent where id = #{id} and isdelete =1 order by updatetime desc
+
+</select>
+
+<update id="updatedatabyid" parameterType="com.stonedt.intelligence.entity.PublicoptionEntity">
+
+
+		update publicoptionevent set eventname = #{eventname},
+		eventkeywords = #{eventkeywords},
+		eventstarttime = #{eventstarttime},
+		eventendtime = #{eventendtime},
+		eventstopwords = #{eventstopwords},
+		updatetime = Now() where id = #{id}
+
+</update>
+
+
+<update id="updateStatusbyid">
+
+
+		update publicoptionevent set 
+		status = #{status},
+		updatetime = Now() where id = #{id}
+
+</update>
+
+<insert id="savepublicoptionDetail" parameterType="map">
+
+	INSERT INTO `publicoption_detail`
+  (
+  `publicoption_id`,
+  `back_analysis`,
+  `event_context`,
+  `event_trace`,
+  `hot_analysis`,
+  `netizens_analysis`,
+  `statistics`,
+  `propagation_analysis`,
+  `thematic_analysis`,
+  `unscramble_content`,
+  `create_time`,
+  `detail_status`
+  ) 
+  VALUES 
+  (
+  #{publicoption_id},
+  #{back_analysis},
+  #{event_context},
+  #{event_trace},
+  #{hot_analysis},
+  #{netizens_analysis},
+  #{statistics},
+  #{propagation_analysis},
+  #{thematic_analysis},
+  #{unscramble_content},
+  now(),
+  0
+  )
+</insert>
+
+
+
+<insert id="addpublicoptiondata" parameterType="com.stonedt.intelligence.entity.PublicoptionEntity">
+insert into publicoptionevent (eventname,eventkeywords,eventstarttime,eventendtime,createtime,updatetime,user_id,eventstopwords)
+values(#{eventname},#{eventkeywords},#{eventstarttime},#{eventendtime},Now(),Now(),#{user_id},#{eventstopwords})
+
+</insert>
+
+<update id="DeleteupinfoByIds" parameterType="map">
+	update publicoptionevent set isdelete = 0 where id = #{id}
+</update>
+
+
+<select id="getdetail" parameterType="java.util.Map" resultType="com.stonedt.intelligence.entity.PublicoptionDetailEntity">
+	SELECT d.* FROM `publicoption_detail` d
+	left join `publicoptionevent` p on d.publicoption_id=p.id 
+	where d.publicoption_id = #{id} and p.user_id=#{userId}
+</select>
+
+<select id="getBackAnalysisById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select back_analysis from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getEventContextById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select event_context from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getEventTraceById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select event_trace from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getHotAnalysisById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select hot_analysis from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getNetizensAnalysisById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select netizens_analysis from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getStatisticsById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select statistics from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getPropagationAnalysisById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select propagation_analysis from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getThematicAnalysisById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select thematic_analysis from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getUnscrambleContentById" parameterType="java.lang.Integer" resultType="java.lang.String">
+	select unscramble_content from `publicoption_detail` where publicoption_id=#{id}
+</select>
+
+<select id="getUnfinishedPublicoptionevent" resultType="com.stonedt.intelligence.entity.PublicoptionEntity">
+	select * from `publicoptionevent` where isdelete =1 and status =2 limit 1
+</select>
+
+</mapper>

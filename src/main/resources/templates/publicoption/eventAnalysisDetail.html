@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!-- Favicon icon -->
+		<link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
+		<title>事件分析详情·网络情报分析系统</title>
+		<!-- Custom CSS -->
+		<link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
+		<link th:href="@{/dist/css/custom.css}" rel="stylesheet">
+		<link th:href="@{/assets/libs/sweetalert2/dist/sweetalert2.min.css}" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" th:href="@{/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css}">
+<!-- 		<script src="//at.alicdn.com/t/font_1709263_w16payhc3l.js"></script>
+ -->		<!-- any charts -->
+		<link rel="stylesheet" th:href="@{/dist/anycharts/anychart-ui.min.css}">
+		<script th:src="@{/dist/anycharts/anychart-base.min.js}"></script>
+		<script th:src="@{/dist/anycharts/anychart-ui.min.js}"></script>
+		<script th:src="@{/dist/anycharts/anychart-tag-cloud.min.js}"></script>
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+	</head>
+
+	<body>
+		<!-- ============================================================== -->
+		<!-- Preloader - style you can find in spinners.css -->
+		<!-- ============================================================== -->
+		<div class="preloader">
+			<div class="lds-ripple">
+				<div class="lds-pos"></div>
+				<div class="lds-pos"></div>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- Main wrapper - style you can find in pages.scss -->
+		<!-- ============================================================== -->
+		<div id="main-wrapper">
+			<!-- ============================================================== -->
+			<!-- Topbar header - style you can find in pages.scss -->
+			<!-- ============================================================== -->
+			<div th:replace="common/header::header"></div>
+			<div th:replace="common/publicoptionl_left::publicoptionl_left"></div>
+			<!-- ============================================================== -->
+			<!-- End Topbar header -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Page wrapper  -->
+			<!-- ============================================================== -->
+			<div class="page-wrapper">
+
+				<div class="right-part right-content">
+					<!-- nav start-->
+					<div class="page-breadcrumb">
+						<div class="row">
+							<div class="col-lg-5 align-self-center">
+								<div class="d-flex align-items-center">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item">事件分析</li>
+											<li class="breadcrumb-item">报告详情</li>
+										</ol>
+									</nav>
+								</div>
+							</div>
+							<div class="col-lg-7 align-self-center">
+								<div class="d-flex no-block justify-content-end align-items-center data-number-min">
+									<!-- <button type="button" class="btn btn-outline-secondary btn-sm bnone" id="goexportlist">
+                                    <i class="ti ti-cloud-down"></i>
+                                    分析下载
+                                </button> -->
+									<button class="btn btn-outline-secondary btn-sm bnone" type="button" id="goback">
+                                    <i class="mdi mdi-redo-variant"></i> 返回
+                                </button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- nav end-->
+					<div class="p-20">
+						<!--  start-->
+						<div class="card">
+							<div class="card-body">
+								<!-- <div class="text-center over-load t2" id="loading1">
+                                <div class="spinner-border spinner-border text-info" role="status">
+                                  <span class="sr-only">加载中...</span>
+                                </div>
+                            </div> -->
+								<ul class="eventAnalysisUl">
+									<li>
+										<!-- title -->
+										<div th:if="${publicoption ne null}" class="ev-analysis-detail-title">
+											[[${publicoption.eventname}]]
+										</div>
+									</li>
+									<!-- <div class="ev-analysis-detail-abstract">
+											<span>司法舆情分析研判对象</span>
+										</div> -->
+									<!-- <div class="event-card-box-content">
+												<div class="event-top">
+													<ul id="information" class="TopicClustering">
+														<li>
+															<span>标题</span>
+															<span>来源</span>
+															<span>时间</span>
+															<span>情感</span>
+														</li>
+													</ul>
+												</div>
+											</div> -->
+											<!-- <div class="all-pagebox m-t-20">
+                                                <ul class="pagination float-right" id="page"></ul>
+                                            </div> -->
+									<li>
+										<!-- 事件概述 -->
+										<div class="ev-analysis-detail-abstract">
+											<span>溯源分析</span>
+										</div>
+										<div th:if="${publicoption ne null}" class="ev-analysis-detail-abs-con">
+											本报告围绕关键词“[[${publicoption.eventkeywords}]]”，对[[${publicoption.eventstarttime}]]~[[${publicoption.eventendtime}]]期间，互联网上采集到的<span id="total"></span>条信息进行了深入分析。全网声量最高峰出现在<span id="highest"></span>，共产生<span id="highest_total"></span>篇相关讯息；事件源头于<span id="fa_publish_time"></span>分发布在<span id="fa_source_name"></span>上，题名为『<span id="fa_title"></span>』。后续报道主要来源于<span id="source_ranking"></span>等几大站点。总体来说，整个事件的发展趋势较为<span id="trend"></span>，详细报告如下。
+										</div>
+									</li>
+									<li>
+										<!-- 事件走势 -->
+										<div class="ev-analysis-detail-abstract">
+											<span>事件脉络</span>
+										</div>
+										<div class="ev-ana-timeline" id="timeline">
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-start ev-trend-con">
+													<span id="start_date"></span>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time1"></span>]【<span id="title1"></span>】<span id="contenta1"></span> 影响力：<span id="heat1"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time2"></span>]【<span id="title2"></span>】<span id="contenta2"></span> 影响力：<span id="heat2"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time3"></span>]【<span id="title3"></span>】<span id="contenta3"></span> 影响力：<span id="heat3"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time4"></span>]【<span id="title4"></span>】<span id="contenta4"></span> 影响力：<span id="heat4"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time5"></span>]【<span id="title5"></span>】<span id="contenta5"></span> 影响力：<span id="heat5"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time6"></span>]【<span id="title6"></span>】<span id="contenta6"></span> 影响力：<span id="heat6"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time7"></span>]【<span id="title7"></span>】<span id="contenta7"></span> 影响力：<span id="heat7"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time8"></span>]【<span id="title8"></span>】<span id="contenta8"></span> 影响力：<span id="heat8"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time9"></span>]【<span id="title9"></span>】<span id="contenta9"></span> 影响力：<span id="heat9"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-con">
+													<div class="contenteditable">
+														[<span id="publish_time10"></span>]【<span id="title10"></span>】<span id="contenta10"></span> 影响力：<span id="heat10"></span>
+													</div>
+												</div>
+											</div>
+											<div class="ev-analysis-detail-trend-con">
+												<div class="ev-trend-start ev-trend-con">
+													<span>结束</span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<li>
+										<!-- 数据类型 -->
+										<div class="ev-analysis-detail-abstract">
+											<span>事件跟踪</span>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title">
+												数据来源情感占比分析
+											</div>
+											<div class="event-card-box-content">
+												<div id="container" style="width: 100%;height: 400px;"></div>
+											</div>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title">
+												时间线范围对应情感分析
+											</div>
+											<div class="event-card-box-content">
+												<div id="linecontainer" style="width: 100%;height: 400px;"></div>
+											</div>
+										</div>
+										<div class="row  m-b-20">
+											<div class="col-lg-6">
+												<div class="event-card-box">
+													<div class="event-card-box-title">
+														正面对应的社交帐号以及网站列表排名
+													</div>
+													<div class="event-zm-top event-top ">
+														<ul>
+															<li><span id="p_webname0"></span><span id="p_account_count0"></span></li>
+															<li><span id="p_webname1"></span><span id="p_account_count1"></span></li>
+															<li><span id="p_webname2"></span><span id="p_account_count2"></span></li>
+															<li><span id="p_webname3"></span><span id="p_account_count3"></span></li>
+															<li><span id="p_webname4"></span><span id="p_account_count4"></span></li>
+															<li><span id="p_webname5"></span><span id="p_account_count5"></span></li>
+															<li><span id="p_webname6"></span><span id="p_account_count6"></span></li>
+															<li><span id="p_webname7"></span><span id="p_account_count7"></span></li>
+															<li><span id="p_webname8"></span><span id="p_account_count8"></span></li>
+															<li><span id="p_webname9"></span><span id="p_account_count9"></span></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="event-card-box">
+													<div class="event-card-box-title">
+														负面对应的社交帐号以及网站列表排名
+													</div>
+													<div class="event-fm-top event-top ">
+														<ul>
+															<li><span id="n_webname0"></span><span id="n_account_count0"></span></li>
+															<li><span id="n_webname1"></span><span id="n_account_count1"></span></li>
+															<li><span id="n_webname2"></span><span id="n_account_count2"></span></li>
+															<li><span id="n_webname3"></span><span id="n_account_count3"></span></li>
+															<li><span id="n_webname4"></span><span id="n_account_count4"></span></li>
+															<li><span id="n_webname5"></span><span id="n_account_count5"></span></li>
+															<li><span id="n_webname6"></span><span id="n_account_count6"></span></li>
+															<li><span id="n_webname7"></span><span id="n_account_count7"></span></li>
+															<li><span id="n_webname8"></span><span id="n_account_count8"></span></li>
+															<li><span id="n_webname9"></span><span id="n_account_count9"></span></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+
+									<!--热点分析-->
+									<!-- <li>
+										数据类型
+										<div class="ev-analysis-detail-abstract">
+											<span>热点分析</span>
+										</div>
+
+										<div class="row m-b-20">
+											<div class="col-lg-12">
+												<div class="monitor-content" id="monitor-content" style="min-height: 180px;">
+													<div class="wb-content just-bet">
+														<div class="monitor-check"><input type="checkbox" id="check1"><span></span></div>
+														<div class="monitor-right">
+															<div class="monitor-content-title">
+																<a id="url0" target="_blank" href="" class="link font-bold"> <span id="logo0" class="content-logo"></span><span id="topic0"></span> </a> <span id="issueTime0" class="sl-date  "> </span> </div>
+															<div class="wb-content-imgbox">
+																<div class="wb-right-content">
+																	<div class="monitor-content-con font-13"></div>
+																</div>
+															</div>
+															<div class="like-comm m-t-10 font-13"> <span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 <span id="source_name0"></span></span><span id="emotionalIndex0" class="link f-right moodzm"></span><span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"> <i class="fas fa-fire" style="color: #fe475d;"> </i>  <span id="original_weight0"></span></span> </div>
+														</div>
+													</div>
+													<hr>
+													<div class="wb-content just-bet">
+														<div class="monitor-check"><input type="checkbox" id="check1"><span></span></div>
+														<div class="monitor-right">
+															<div class="monitor-content-title">
+																<a id="url1" target="_blank" href="#" class="link font-bold"> <span id="logo1" class="content-logo"></span><span id="topic1"></span> </a> <span id="issueTime1" class="sl-date  "> </span> </div>
+															<div class="wb-content-imgbox">
+																<div class="wb-right-content">
+																	<div class="monitor-content-con font-13"></div>
+																</div>
+															</div>
+															<div class="like-comm m-t-10 font-13"> <span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 <span id="source_name1"></span></span><span id="emotionalIndex1" class="link f-right moodzm"></span><span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"> <i class="fas fa-fire" style="color: #fe475d;"> </i>  <span id="original_weight1"></span></span> </div>
+														</div>
+													</div>
+													<hr>
+													<div class="wb-content just-bet">
+														<div class="monitor-check"><input type="checkbox" id="check1"><span></span></div>
+														<div class="monitor-right">
+															<div class="monitor-content-title">
+																<a id="url2" target="_blank" href="#" class="link font-bold"> <span id="logo2" class="content-logo"></span><span id="topic2"></span> </a> <span id="issueTime2" class="sl-date  "> </span> </div>
+															<div class="wb-content-imgbox">
+																<div class="wb-right-content">
+																	<div class="monitor-content-con font-13"></div>
+																</div>
+															</div>
+															<div class="like-comm m-t-10 font-13"> <span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 <span id="source_name2"></span></span><span id="emotionalIndex2" class="link f-right moodzm"></span><span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"> <i class="fas fa-fire" style="color: #fe475d;"> </i>  <span id="original_weight2"></span></span> </div>
+														</div>
+													</div>
+													<hr>
+													<div class="wb-content just-bet">
+														<div class="monitor-check"><input type="checkbox" id="check1"><span></span></div>
+														<div class="monitor-right">
+															<div class="monitor-content-title">
+																<a id="url3" target="_blank" href="#" class="link font-bold"> <span id="logo3" class="content-logo"></span><span id="topic3"></span> </a> <span id="issueTime3" class="sl-date  "> </span> </div>
+															<div class="wb-content-imgbox">
+																<div class="wb-right-content">
+																	<div class="monitor-content-con font-13"></div>
+																</div>
+															</div>
+															<div class="like-comm m-t-10 font-13"> <span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 <span id="source_name3"></span></span><span id="emotionalIndex3" class="link f-right moodzm"></span><span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"> <i class="fas fa-fire" style="color: #fe475d;"> </i>  <span id="original_weight3"></span></span> </div>
+														</div>
+													</div>
+													<hr>
+													<div class="wb-content just-bet">
+														<div class="monitor-check"><input type="checkbox" id="check1"><span></span></div>
+														<div class="monitor-right">
+															<div class="monitor-content-title">
+																<a id="url4" target="_blank" href="#" class="link font-bold"> <span id="logo4" class="content-logo"></span><span id="topic4"></span> </a> <span id="issueTime4" class="sl-date  "> </span> </div>
+															<div class="wb-content-imgbox">
+																<div class="wb-right-content">
+																	<div class="monitor-content-con font-13"></div>
+																</div>
+															</div>
+															<div class="like-comm m-t-10 font-13"> <span class="link m-r-10"> <i class="mdi mdi-earth "></i> 来源 <span id="source_name4"></span></span><span id="emotionalIndex4" class="link f-right moodzm"></span><span class="link f-right moodfm" style="color: #9ca8b3;margin: 0;"> <i class="fas fa-fire" style="color: #fe475d;"> </i>  <span id="original_weight4"></span></span> </div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li> -->
+
+									<!-- <li>
+										网民观点 
+										<div class="ev-analysis-detail-abstract">
+											<span>重点网民分析</span>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title ev-b">
+												重点人
+											</div>
+											<div class="event-card-box-content">
+												<div class="event-top">
+													<ul class="TopicClustering" id="nafigure">
+														<li>
+															<span>昵称</span>
+															<span>粉丝数</span>
+															<span>微博数</span>
+															<span style="width:15%;">参与微博个数(转发)</span>
+														</li>
+
+														<li>
+															<span id="nickname0"></span>
+															<span id="fans0"></span>
+															<span id="weiboNum0"></span>
+															<span style="width:15%;" id="publish_related0"></span>
+														</li>
+														<li>
+															<span id="nickname1"></span>
+															<span id="fans1"></span>
+															<span id="weiboNum1"></span>
+															<span style="width:15%;" id="publish_related1"></span>
+														</li>
+														<li>
+															<span id="nickname2"></span>
+															<span id="fans2"></span>
+															<span id="weiboNum2"></span>
+															<span style="width:15%;" id="publish_related2"></span>
+														</li>
+														<li>
+															<span id="nickname3"></span>
+															<span id="fans3"></span>
+															<span id="weiboNum3"></span>
+															<span style="width:15%;" id="publish_related3"></span>
+														</li>
+														<li>
+															<span id="nickname4"></span>
+															<span id="fans4"></span>
+															<span id="weiboNum4"></span>
+															<span style="width:15%;" id="publish_related4"></span>
+														</li>
+														<li>
+															<span id="nickname5"></span>
+															<span id="fans5"></span>
+															<span id="weiboNum5"></span>
+															<span style="width:15%;" id="publish_related5"></span>
+														</li>
+														<li>
+															<span id="nickname6"></span>
+															<span id="fans6"></span>
+															<span id="weiboNum6"></span>
+															<span style="width:15%;" id="publish_related6"></span>
+														</li>
+														<li>
+															<span id="nickname7"></span>
+															<span id="fans7"></span>
+															<span id="weiboNum7"></span>
+															<span style="width:15%;" id="publish_related7"></span>
+														</li>
+														<li>
+															<span id="nickname8"></span>
+															<span id="fans8"></span>
+															<span id="weiboNum8"></span>
+															<span style="width:15%;" id="publish_related8"></span>
+														</li>
+														<li>
+															<span id="nickname9"></span>
+															<span id="fans9"></span>
+															<span id="weiboNum9"></span>
+															<span style="width:15%;" id="publish_related9"></span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title ev-b">
+												重点网民关系
+											</div>
+											<div class="event-card-box-content">
+												<img th:src="@{/assets/images/网民关系.jpg}" style="width: 100%;" />
+												<div id="wmgxt" style="width:1000px;height:800px"></div>
+							
+											</div>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title ev-b">
+												重点对象事件
+											</div>
+											<div class="event-card-box-content">
+												<div class="event-top">
+													<ul class="TopicClustering" id="naobject">
+														<li>
+															<span>标题</span>
+															<span>作者</span>
+															<span>时间</span>
+															<span>热度</span>
+														</li>
+
+														<li>
+															<span><span
+                                                                class="v-hot v-hot1">1</span><span id="objeventTitle0"></span></span>
+															<span id="author0"></span>
+															<span id="objeventTime0"></span>
+															<span id="hot0"></span>
+														</li>
+
+														<li>
+															<span><span
+                                                                class="v-hot v-hot2">2</span><span id="objeventTitle1"></span></span>
+															<span id="author1"></span>
+															<span id="objeventTime1"></span>
+															<span id="hot1"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot v-hot3">3</span><span id="objeventTitle2"></span>
+															</span>
+															<span id="author2"></span>
+															<span id="objeventTime2"></span>
+															<span id="hot2"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot">4</span><span id="objeventTitle3"></span></span>
+															<span id="author3"></span>
+															<span id="objeventTime3"></span>
+															<span id="hot3"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot">5</span><span id="objeventTitle4"></span></span>
+															<span id="author4"></span>
+															<span id="objeventTime4"></span>
+															<span id="hot4"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot">6</span><span id="objeventTitle5"></span></span>
+															<span id="author5"></span>
+															<span id="objeventTime5"></span>
+															<span id="hot5"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot">7</span><span id="objeventTitle6"></span></span>
+															<span id="author6"></span>
+															<span id="objeventTime6"></span>
+															<span id="hot6"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot">8</span><span id="objeventTitle7"></span></span>
+															<span id="author7"></span>
+															<span id="objeventTime7"></span>
+															<span id="hot7"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot">9</span><span id="objeventTitle8"></span></span>
+															<span id="author8"></span>
+															<span id="objeventTime8"></span>
+															<span id="hot8"></span>
+														</li>
+
+														<li>
+															<span><span class="v-hot">10</span><span id="objeventTitle9"></span></span>
+															<span id="author9"></span>
+															<span id="objeventTime9"></span>
+															<span id="hot9"></span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										
+									</li> -->
+
+									<li>
+										<!-- 网站统计 -->
+										<div class="ev-analysis-detail-abstract">
+											<span>统计</span>
+										</div>
+
+										<div class="row">
+											<div class="col-lg-4">
+												<div class="event-card-box">
+													<div class="event-card-box-title">
+														来源网站排名列表
+													</div>
+													<div class="event-top">
+														<ul>
+															<li><span id="sm_name0"></span><span id="sm_num0"></span></li>
+															<li><span id="sm_name1"></span><span id="sm_num1"></span></li>
+															<li><span id="sm_name2"></span><span id="sm_num2"></span></li>
+															<li><span id="sm_name3"></span><span id="sm_num3"></span></li>
+															<li><span id="sm_name4"></span><span id="sm_num4"></span></li>
+															<li><span id="sm_name5"></span><span id="sm_num5"></span></li>
+															<li><span id="sm_name6"></span><span id="sm_num6"></span></li>
+															<li><span id="sm_name7"></span><span id="sm_num7"></span></li>
+															<li><span id="sm_name8"></span><span id="sm_num8"></span></li>
+															<li><span id="sm_name9"></span><span id="sm_num9"></span></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<!-- 2 -->
+											<div class="col-lg-4">
+												<div class="event-card-box">
+													<div class="event-card-box-title">
+														微博帐号排名
+													</div>
+													<div class="event-top">
+														<ul>
+															<li><span id="weibo_name0"></span> <span id="weibo_num0"></span></li>
+															<li><span id="weibo_name1"></span> <span id="weibo_num1"></span></li>
+															<li><span id="weibo_name2"></span> <span id="weibo_num2"></span></li>
+															<li><span id="weibo_name3"></span><span id="weibo_num3"></span></li>
+															<li><span id="weibo_name4"></span><span id="weibo_num4"></span></li>
+															<li><span id="weibo_name5"></span><span id="weibo_num5"></span></li>
+															<li><span id="weibo_name6"></span><span id="weibo_num6"></span></li>
+															<li><span id="weibo_name7"></span> <span id="weibo_num7"></span></li>
+															<li><span id="weibo_name8"></span><span id="weibo_num8"></span></li>
+															<li><span id="weibo_name9"></span><span id="weibo_num9"></span></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<!-- 3 -->
+											<!-- <div class="col-lg-3">
+												<div class="event-card-box">
+													<div class="event-card-box-title">
+														社交媒体排名
+													</div>
+													<div class="event-top">
+														<ul>
+															<li><span id="website_name0"></span> <span id="website_num0"></span></li>
+															<li><span id="website_name1"></span> <span id="website_num1"></span></li>
+															<li><span id="website_name2"></span> <span id="website_num2"></span></li>
+															<li><span id="website_name3"></span><span id="website_num3"></span></li>
+															<li><span id="website_name4"></span><span id="website_num4"></span></li>
+															<li><span id="website_name5"></span><span id="website_num5"></span></li>
+															<li><span id="website_name6"></span><span id="website_num6"></span></li>
+															<li><span id="website_name7"></span> <span id="website_num7"></span></li>
+															<li><span id="website_name8"></span><span id="website_num8"></span></li>
+															<li><span id="website_name9"></span><span id="website_num9"></span></li>
+														</ul>
+													</div>
+												</div>
+											</div> -->
+											<!-- 3 end -->
+											<!-- 4 -->
+											<div class="col-lg-4">
+												<div class="event-card-box">
+													<div class="event-card-box-title">
+														自媒体帐号排名
+													</div>
+													<div class="event-top">
+														<ul>
+															<li><span id="wemedia_name0"></span> <span id="wemedia_num0"></span></li>
+															<li><span id="wemedia_name1"></span> <span id="wemedia_num1"></span></li>
+															<li><span id="wemedia_name2"></span> <span id="wemedia_num2"></span></li>
+															<li><span id="wemedia_name3"></span><span id="wemedia_num3"></span></li>
+															<li><span id="wemedia_name4"></span><span id="wemedia_num4"></span></li>
+															<li><span id="wemedia_name5"></span><span id="wemedia_num5"></span></li>
+															<li><span id="wemedia_name6"></span><span id="wemedia_num6"></span></li>
+															<li><span id="wemedia_name7"></span> <span id="wemedia_num7"></span></li>
+															<li><span id="wemedia_name8"></span><span id="wemedia_num8"></span></li>
+															<li><span id="wemedia_name9"></span><span id="wemedia_num9"></span></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<!-- 4 end -->
+										</div>
+									</li>
+									<li>
+										<!-- 网民观点  -->
+										<div class="ev-analysis-detail-abstract">
+											<span>传播分析</span>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title">
+												媒体活跃度分析
+											</div>
+											<div class="event-card-box-content">
+												<div class="table-responsive" id="selfMediaRankingListDiv">
+													<table class="table no-wrap v-middle">
+														<thead>
+															<tr class="border-0">
+																<th class="border-0">名称</th>
+																<th class="border-0">平台名称</th>
+																<th class="border-0">粉丝关注</th>
+																<th class="border-0">发表数量</th>
+															</tr>
+														</thead>
+														<tbody id="selfMediaRankingList">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title">
+												数据来源分析
+											</div>
+											<div class="event-card-box-content">
+												<div class="card-body overview-content">
+													<ul class="create-tab-report pro-bb" id="search-tab2" style="margin-left:15px;">
+														<li class="create-tab-act" onclick="change(1)" id="item1">全部</li>
+														<li id="item2" onclick="change(2)" class="">客户端</li>
+														<li id="item3" onclick="change(3)" class="">网站</li>
+														<li id="item4" onclick="change(4)" class="">政府网站</li>
+														<li id="item5" onclick="change(5)" class="">微信</li>
+														<li id="item6" onclick="change(6)" class="">微博</li>
+													</ul>
+													<div class="volume-data" style="margin-left:15px;">
+														<div class="overview-media-title">
+															<span>排名</span>
+															<span>媒体/账号名称</span>
+															<span>媒体类型</span>
+															<!--<span>舆情条数</span>-->
+															<span>总条数</span>
+															<!--<span>敏感舆情条数</span>-->
+															<span>敏感舆情</span>
+														</div>
+														<div id="dataSourceAnalysis1">
+														</div>
+														<div id="dataSourceAnalysis2">
+														</div>
+														<div id="dataSourceAnalysis3">
+														</div>
+														<div id="dataSourceAnalysis4">
+														</div>
+														<div id="dataSourceAnalysis5">
+														</div>
+														<div id="dataSourceAnalysis6">
+														</div>
+													</div>
+													<!--<div class="m-t-10 over-event-box">
+                                    <div id="activewebsite" style="height: 320px;"></div>
+                                </div>-->
+													<!-- more -->
+													<!-- <div class="over-more">
+                                  <a href="#">查看更多</a>
+                              </div> -->
+												</div>
+											</div>
+										</div>
+									</li>
+
+									<li>
+										<!-- 词云分布 -->
+										<div class="ev-analysis-detail-abstract">
+											<span>专题分析</span>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title ev-b">
+												观点聚类
+											</div>
+											<div class="event-card-box-content">
+												<div class="event-top">
+													<ul id="view" class="TopicClustering">
+														<li>
+															<span>标题</span>
+															<span>最早来源</span>
+															<span>时间</span>
+															<span>热度</span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title ev-b">
+												网民观点
+											</div>
+											<div class="event-card-box-content">
+												<div class="event-top">
+													<ul id="netizen" class="TopicClustering">
+														<li>
+															<span>标题</span>
+															<span>最早来源</span>
+															<span>时间</span>
+															<span>热度</span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="event-card-box m-b-20">
+											<div class="event-card-box-title ev-b">
+												媒体观点
+											</div>
+											<div class="event-card-box-content">
+												<div class="event-top">
+													<ul id="media" class="TopicClustering">
+														<li>
+															<span>标题</span>
+															<span>最早来源</span>
+															<span>时间</span>
+															<span>热度</span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</li>
+
+									<li>
+										<!-- 舆情总结 -->
+										<div class="ev-analysis-detail-abstract">
+											<span>内容解读</span>
+										</div>
+
+										<div th:if="${publicoption ne null}" class="ev-analysis-detail-abs-con">
+											综上所述，在『[[${publicoption.eventname}]]』事件/话题中，媒体主流报道为『<span id="main_media"></span>』，网民主流意见为『#<span id="wemedia"></span>#』；应深入挖掘网民意见和情感倾向，识别事件传播过程中的意见领袖和主要信息来源，预测或追踪舆论走向，以便对不良舆论进行疏导。
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!-- 24h end -->
+					</div>
+					<!-- ============================================================== -->
+					<!-- footer start  -->
+					<!-- ============================================================== -->
+					 <div class="page-footer">
+						© 2014-2021 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+					</div> 
+					<!-- ============================================================== -->
+					<!-- footer end  -->
+					<!-- ============================================================== -->
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Page wrapper  -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Wrapper -->
+		<!-- ============================================================== -->
+		<!-- All Jquery -->
+		<!-- ============================================================== -->
+		<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+		<!-- Bootstrap tether Core JavaScript -->
+		<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+		<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+		<!-- apps -->
+		<script th:src="@{/dist/js/app.min.js}"></script>
+		<script th:src="@{/dist/js/app.init.light-sidebar.js}"></script>
+		<script th:src="@{/dist/js/app-style-switcher.js}"></script>
+		<!-- slimscrollbar scrollbar JavaScript -->
+		<script th:src="@{/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js}"></script>
+		<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+		<!--Wave Effects -->
+		<script th:src="@{/dist/js/waves.js}"></script>
+		<!--Menu sidebar -->
+		<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+		<!--Custom JavaScript -->
+		<script th:src="@{/dist/js/custom.min.js}"></script>
+		<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+		<script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
+		<script th:src="@{/dist/js/pages.js}"></script>
+		<script th:src="@{/dist/js/echarts.min.js}"></script>
+		<script th:src="@{/dist/js/echarts-wordcloud.min.js}"></script>
+		<script th:src="@{/dist/js/china.js}"></script>
+		<script th:src="@{/dist/js/publicoption.js?unixtemp=888888}"></script>
+		<script th:src="@{/dist/eventAnalysisDetail.js?unixtemp=888888}"></script>
+		<script th:src="@{/dist/eventAnalysisReport.js?unixtemp=888888}"></script>
+		<script type="text/javascript" th:inline="javascript">
+		var publicoption=[[${publicoption}]]
+		var start_time='[[${publicoption ne null ? publicoption.eventstarttime : ""}]]'
+		var back_analysis = '[[${back_analysis}]]'
+		var event_context = '[[${event_context}]]'
+		var event_trace = '[[${event_trace}]]'
+		var hot_analysis = '[[${hot_analysis}]]'
+		var netizens_analysis = '[[${netizens_analysis}]]'
+		var statistics = '[[${statistics}]]'
+		var propagation_analysis = '[[${propagation_analysis}]]'
+		var thematic_analysis = '[[${thematic_analysis}]]'
+		var unscramble_content = '[[${unscramble_content}]]'
+		try {
+			if(back_analysis!=''){
+		    	back_analysis  =  JSON.parse(escape2Html(back_analysis))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(event_context!=''){
+		    	event_context  =  JSON.parse(escape2Html(event_context))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(event_trace!=''){
+		   	 	event_trace  =  JSON.parse(escape2Html(event_trace))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(hot_analysis!=''){
+		    	hot_analysis  =  JSON.parse(escape2Html(hot_analysis))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(netizens_analysis!=''){
+		    	netizens_analysis  =  JSON.parse(escape2Html(netizens_analysis))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(statistics!=''){
+		    	statistics  =  JSON.parse(escape2Html(statistics))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(propagation_analysis!=''){
+		    	propagation_analysis  =  JSON.parse(escape2Html(propagation_analysis))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(thematic_analysis!=''){
+		    	thematic_analysis  =  JSON.parse(escape2Html(thematic_analysis))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		try {
+			if(unscramble_content!=''){
+		    	unscramble_content  =  JSON.parse(escape2Html(unscramble_content))
+			}
+		} catch(err) {
+		    console.log(err)
+		}
+		
+		function change(num){
+			for(let i=1;i<7;i++){
+				if(num==i){
+					$('#dataSourceAnalysis'+i).show()
+					$('#item'+i).attr('class','create-tab-act')
+				}else{
+					$('#dataSourceAnalysis'+i).hide()
+					$('#item'+i).attr('class','')
+				}
+			}
+		}
+		function escape2Html(str) {
+    	  var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+    	  return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+    	}
+		 anychart.onDocumentReady(function () {
+			 	let dataArr=new Array()
+			 	let arr=event_trace.feelings_of_source
+			 	for(let i in arr){
+			 		let arr2=new Array()
+			 		for(let j in arr[i]){
+			 			arr2.push(arr[i][j])
+			 		}
+			 		dataArr.push(arr2)
+			 	}
+	            // create data set on our data
+	            var dataSet = anychart.data.set(dataArr);
+
+	            // map data for the first series, take x from the zero column and value from the first column of data set
+	            var seriesData_1 = dataSet.mapAs({ 'x': 0, 'value': 1 });
+
+	            // map data for the second series, take x from the zero column and value from the second column of data set
+	            var seriesData_2 = dataSet.mapAs({ 'x': 0, 'value': 2 });
+
+	            var seriesData_3 = dataSet.mapAs({ 'x': 0, 'value': 3 });
+	            // create column chart
+	            var chart = anychart.column();
+
+	            // turn on chart animation
+	            chart.animation(true);
+
+	            // set chart title text settings
+	            chart.title('');
+
+	            // temp variable to store series instance
+	            var series;
+
+	            // helper function to setup label settings for all series
+	            var setupSeries = function (series, name) {
+	                series.name(name);
+	                series.selected()
+	                    .fill('#f48fb1')
+	                    .stroke('1.5 #c2185b');
+	            };
+
+	            // create first series with mapped data
+	            series = chart.column(seriesData_1);
+	            series.xPointPosition(0.35);
+	            setupSeries(series, '正面');
+
+	            // create second series with mapped data
+	            series = chart.column(seriesData_2);
+	            series.xPointPosition(0.55);
+	            setupSeries(series, '中性');
+	            
+	            series = chart.column(seriesData_3);
+	            series.xPointPosition(0.75);
+	            setupSeries(series, '负面');
+
+	            // set chart padding
+	            chart.barGroupsPadding(0.3);
+
+	            // format numbers in y axis label to match browser locale
+	            chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
+
+	            // set titles for Y-axis
+	            chart.yAxis().title('');
+
+	            // turn on legend
+	            chart.legend()
+	                .enabled(true)
+	                .fontSize(13)
+	                .padding([0, 0, 20, 0]);
+
+	            chart.interactivity().hoverMode('single');
+
+	            chart.tooltip().format('{%Value}{groupsSeparator: }');
+
+	            // set container id for the chart
+	            chart.container('container');
+
+	            // initiate chart drawing
+	            chart.draw();
+	            setTimeout(() => {
+	                $(".anychart-credits").hide()
+	            }, 10);
+	        });
+		
+		 </script>
+		<!-- line -->
+		<script>
+			anychart.onDocumentReady(function() {
+				// create data set on our data
+				var dataSet = anychart.data.set(getData());
+
+				// map data for the first series, take x from the zero column and value from the first column of data set
+				var seriesData_1 = dataSet.mapAs({
+					'x': 0,
+					'value': 1
+				});
+
+				// map data for the second series, take x from the zero column and value from the second column of data set
+				var seriesData_2 = dataSet.mapAs({
+					'x': 0,
+					'value': 2
+				});
+
+				// map data for the third series, take x from the zero column and value from the third column of data set
+				var seriesData_3 = dataSet.mapAs({
+					'x': 0,
+					'value': 3
+				});
+
+				// create line chart
+				var chart = anychart.line();
+
+				// turn on chart animation
+				chart.animation(true);
+
+				// set chart padding
+				chart.padding([10, 20, 5, 20]);
+
+				// turn on the crosshair
+				chart.crosshair()
+					.enabled(true)
+					.yLabel(false)
+					.yStroke(null);
+
+				// set tooltip mode to point
+				chart.tooltip().positionMode('point');
+
+				// set chart title text settings
+				chart.title('情感趋势');
+
+				// set yAxis title
+// 				chart.yAxis().title('Number of Bottles Sold (thousands)');
+				chart.xAxis().labels().padding(5);
+
+				// create first series with mapped data
+				var series_1 = chart.line(seriesData_1);
+				series_1.name('正面');
+				series_1.hovered().markers()
+					.enabled(true)
+					.type('circle')
+					.size(4);
+				series_1.tooltip()
+					.position('right')
+					.anchor('left-center')
+					.offsetX(5)
+					.offsetY(5);
+
+				// create second series with mapped data
+				var series_2 = chart.line(seriesData_2);
+				series_2.name('中性');
+				series_2.hovered().markers()
+					.enabled(true)
+					.type('circle')
+					.size(4);
+				series_2.tooltip()
+					.position('right')
+					.anchor('left-center')
+					.offsetX(5)
+					.offsetY(5);
+
+				// create third series with mapped data
+				var series_3 = chart.line(seriesData_3);
+				series_3.name('负面');
+				series_3.hovered().markers()
+					.enabled(true)
+					.type('circle')
+					.size(4);
+				series_3.tooltip()
+					.position('right')
+					.anchor('left-center')
+					.offsetX(5)
+					.offsetY(5);
+
+				// turn the legend on
+				chart.legend()
+					.enabled(true)
+					.fontSize(13)
+					.padding([0, 0, 10, 0]);
+
+				// set container id for the chart
+				chart.container('linecontainer');
+				// initiate chart drawing
+				chart.draw();
+			});
+
+			function getData() {
+				let dataArr=new Array()
+			 	let arr=event_trace.feelings_of_timeline
+			 	for(let i in arr){
+			 		let arr2=new Array()
+			 		for(let j in arr[i]){
+			 			arr2.push(arr[i][j])
+			 		}
+			 		dataArr.push(arr2)
+			 	}
+				return dataArr
+			}
+			
+			/**
+			 * @author huajiancheng
+			 * @date 2020/04/16
+			 * @description 分页
+			 */
+			function pageHelper(currentPage, totalPages) {
+				$("#page")
+						.bootstrapPaginator(
+								{
+									bootstrapMajorVersion : 3, // 版本
+									currentPage : currentPage, // 当前页数
+									numberOfPages : 10, // 每次显示页数
+									totalPages : totalPages > 500 ? 500 : totalPages, // 总页数
+									shouldShowPage : true, // 是否显示该按钮
+									useBootstrapTooltip : false,
+									onPageClicked : function(event, originalEvent, type,
+											page) {
+										console.log("PAGE = " + page);
+										if (page > 500) {
+											page = 500;
+										}
+										popular_feelings_analys2(publicoption,page)
+									}
+								});
+			}
+			
+			// createEvent
+		    $("#createEvent").click(function (param) {
+		        createEvent()
+		     })
+		</script>
+		<!-- line -->
+		<script>
+// 			anychart.onDocumentReady(function() {
+// 				// create data set on our data
+// 				var dataSet = anychart.data.set(getData());
+
+// 				// map data for the first series, take x from the zero column and value from the first column of data set
+// 				var seriesData_1 = dataSet.mapAs({
+// 					'x': 0,
+// 					'value': 1
+// 				});
+
+// 				// map data for the second series, take x from the zero column and value from the second column of data set
+// 				var seriesData_2 = dataSet.mapAs({
+// 					'x': 0,
+// 					'value': 2
+// 				});
+
+// 				// map data for the third series, take x from the zero column and value from the third column of data set
+// 				var seriesData_3 = dataSet.mapAs({
+// 					'x': 0,
+// 					'value': 3
+// 				});
+
+// 				// create line chart
+// 				var chart = anychart.line();
+
+// 				// turn on chart animation
+// 				chart.animation(true);
+
+// 				// set chart padding
+// 				chart.padding([10, 20, 5, 20]);
+
+// 				// turn on the crosshair
+// 				chart.crosshair()
+// 					.enabled(true)
+// 					.yLabel(false)
+// 					.yStroke(null);
+
+// 				// set tooltip mode to point
+// 				chart.tooltip().positionMode('point');
+
+// 				// set chart title text settings
+// 				chart.title('Trend of Sales of the Most Popular Products of ACME Corp.');
+
+// 				// set yAxis title
+// 				chart.yAxis().title('Number of Bottles Sold (thousands)');
+// 				chart.xAxis().labels().padding(5);
+
+// 				// create first series with mapped data
+// 				var series_1 = chart.line(seriesData_1);
+// 				series_1.name('Brandy');
+// 				series_1.hovered().markers()
+// 					.enabled(true)
+// 					.type('circle')
+// 					.size(4);
+// 				series_1.tooltip()
+// 					.position('right')
+// 					.anchor('left-center')
+// 					.offsetX(5)
+// 					.offsetY(5);
+
+// 				// create second series with mapped data
+// 				var series_2 = chart.line(seriesData_2);
+// 				series_2.name('Whiskey');
+// 				series_2.hovered().markers()
+// 					.enabled(true)
+// 					.type('circle')
+// 					.size(4);
+// 				series_2.tooltip()
+// 					.position('right')
+// 					.anchor('left-center')
+// 					.offsetX(5)
+// 					.offsetY(5);
+
+// 				// create third series with mapped data
+// 				var series_3 = chart.line(seriesData_3);
+// 				series_3.name('Tequila');
+// 				series_3.hovered().markers()
+// 					.enabled(true)
+// 					.type('circle')
+// 					.size(4);
+// 				series_3.tooltip()
+// 					.position('right')
+// 					.anchor('left-center')
+// 					.offsetX(5)
+// 					.offsetY(5);
+
+// 				// turn the legend on
+// 				chart.legend()
+// 					.enabled(true)
+// 					.fontSize(13)
+// 					.padding([0, 0, 10, 0]);
+
+// 				// set container id for the chart
+// 				chart.container('linecontainer2');
+// 				// initiate chart drawing
+// 				chart.draw();
+// 			});
+
+// 			function getData() {
+// 				return [
+// 					['1986', 3.6, 2.3, 2.8, 11.5],
+// 					['1987', 7.1, 4.0, 4.1, 14.1],
+// 					['1988', 8.5, 6.2, 5.1, 17.5],
+// 					['1989', 9.2, 11.8, 6.5, 18.9],
+// 					['1990', 10.1, 13.0, 12.5, 20.8],
+// 					['1991', 11.6, 13.9, 18.0, 22.9],
+// 					['1992', 16.4, 18.0, 21.0, 25.2],
+// 					['1993', 18.0, 23.3, 20.3, 27.0],
+// 					['1994', 13.2, 24.7, 19.2, 26.5],
+// 					['1995', 12.0, 18.0, 14.4, 25.3],
+// 					['1996', 3.2, 15.1, 9.2, 23.4],
+// 					['1997', 4.1, 11.3, 5.9, 19.5],
+// 					['1998', 6.3, 14.2, 5.2, 17.8],
+// 					['1999', 9.4, 13.7, 4.7, 16.2],
+// 					['2000', 11.5, 9.9, 4.2, 15.4],
+// 					['2001', 13.5, 12.1, 1.2, 14.0],
+// 					['2002', 14.8, 13.5, 5.4, 12.5],
+// 					['2003', 16.6, 15.1, 6.3, 10.8],
+// 					['2004', 18.1, 17.9, 8.9, 8.9],
+// 					['2005', 17.0, 18.9, 10.1, 8.0],
+// 					['2006', 16.6, 20.3, 11.5, 6.2],
+// 					['2007', 14.1, 20.7, 12.2, 5.1],
+// 					['2008', 15.7, 21.6, 10, 3.7],
+// 					['2009', 12.0, 22.5, 8.9, 1.5]
+// 				]
+// 			}
+		</script>
+
+		<script>
+			hotSpotRankingChart()
+			// 15、热点地区排名 图表
+			function hotSpotRankingChart(datas) {
+				// 地图
+				//	window.onload = function () {
+				var url = "dist/js/reportdata.json" /* json文件url，本地的就写本地的位置，如果是服务器的就写服务器的路径 */
+				var request = new XMLHttpRequest();
+				request.open("get", url); /* 设置请求方法与路径 */
+				request.send(null); /* 不发送数据到服务器 */
+				request.onload = function() { /* XHR对象获取到返回信息后执行 */
+					if(request.status == 200) { /* 返回状态为200，即为数据获取成功 */
+						var jsondata = JSON.parse(request.responseText);
+						var myChartdt = echarts.init(document.getElementById("chinadt"))
+						echarts.registerMap('china', jsondata);
+						var geoCoordMap = {
+							'台湾': [121.5135, 25.0308],
+							'黑龙江': [127.9688, 45.368],
+							'内蒙古': [110.3467, 41.4899],
+							"吉林": [125.8154, 44.2584],
+							'北京市': [116.4551, 40.2539],
+							"辽宁": [123.1238, 42.1216],
+							"河北": [114.4995, 38.1006],
+							"天津": [117.4219, 39.4189],
+							"山西": [112.3352, 37.9413],
+							"陕西": [109.1162, 34.2004],
+							"甘肃": [103.5901, 36.3043],
+							"宁夏": [106.3586, 38.1775],
+							"青海": [101.4038, 36.8207],
+							"新疆": [87.9236, 43.5883],
+							"西藏": [91.11, 29.97],
+							"四川": [103.9526, 30.7617],
+							"重庆": [108.384366, 30.439702],
+							"山东": [117.1582, 36.8701],
+							"河南": [113.4668, 34.6234],
+							"江苏": [118.8062, 31.9208],
+							"安徽": [117.29, 32.0581],
+							"湖北": [114.3896, 30.6628],
+							"浙江": [119.5313, 29.8773],
+							"福建": [119.4543, 25.9222],
+							"江西": [116.0046, 28.6633],
+							"湖南": [113.0823, 28.2568],
+							"贵州": [106.6992, 26.7682],
+							"云南": [102.9199, 25.4663],
+							"广东": [113.12244, 23.009505],
+							"广西": [108.479, 23.1152],
+							"海南": [110.3893, 19.8516],
+							'上海': [121.4648, 31.2891],
+
+						};
+						var data = [{
+								"name": "北京",
+								"value": 0
+							},
+							{
+								name: "香港",
+								value: 42
+							},
+							{
+								name: "天津",
+								value: 42
+							},
+							{
+								name: "河北",
+								value: 102
+							},
+							{
+								name: "山西",
+								value: 81
+							},
+							{
+								name: "内蒙古",
+								value: 47
+							},
+							{
+								name: "辽宁",
+								value: 67
+							},
+							{
+								name: "吉林",
+								value: 82
+							},
+							{
+								"name": "黑龙江",
+								"value": 12236
+							},
+							{
+								name: "上海",
+								value: 24
+							},
+							{
+								name: "江苏",
+								value: 92
+							},
+							{
+								name: "浙江",
+								value: 114
+							},
+							{
+								name: "安徽",
+								value: 109
+							},
+							{
+								name: "福建",
+								value: 116
+							},
+							{
+								name: "江西",
+								value: 91
+							},
+							{
+								name: "山东",
+								value: 119
+							},
+							{
+								name: "河南",
+								value: 137
+							},
+							{
+								name: "湖北",
+								value: 116
+							},
+							{
+								name: "湖南",
+								value: 114
+							},
+							{
+								name: "重庆",
+								value: 91
+							},
+							{
+								name: "四川",
+								value: 125
+							},
+							{
+								name: "贵州",
+								value: 62
+							},
+							{
+								name: "云南",
+								value: 83
+							},
+							{
+								name: "西藏",
+								value: 9
+							},
+							{
+								name: "陕西",
+								value: 80
+							},
+							{
+								name: "甘肃",
+								value: 56
+							},
+							{
+								name: "青海",
+								value: 10
+							},
+							{
+								name: "宁夏",
+								value: 18
+							},
+							{
+								name: "新疆",
+								value: 180
+							},
+							{
+								name: "广东",
+								value: 123
+							},
+							{
+								name: "广西",
+								value: 59
+							},
+							{
+								name: "海南",
+								value: 14
+							},
+						];
+						var max = 480,
+							min = 9; // todo
+						var maxSize4Pin = 100,
+							minSize4Pin = 20;
+						var convertData = function(data) {
+							var res = [];
+							for(var i = 0; i < data.length; i++) {
+								var geoCoord = geoCoordMap[data[i].name];
+								if(geoCoord) {
+									res.push({
+										name: data[i].name,
+										value: geoCoord.concat(data[i].value)
+									});
+								}
+							}
+							return res;
+						};
+
+						var optiondt = {
+							// backgroundColor: {
+							// type: 'linear',
+							// x: 0,
+							// y: 0,
+							// x2: 1,
+							// y2: 1,
+							// colorStops: [{
+							// offset: 0, color: '#0f378f' // 0% 处的颜色
+							// }, {
+							// offset: 1, color: '#00091a' // 100% 处的颜色
+							// }],
+							// globalCoord: false // 缺省为 false
+							// },
+
+							tooltip: {
+								trigger: 'item',
+								formatter: function(params) {
+									if(typeof(params.value)[2] == "undefined") {
+										return params.name + ' : ' + params.value;
+									} else {
+										return params.name + ' : ' + params.value[2];
+									}
+								}
+							},
+							/*
+							 * legend: { orient: 'vertical', y: 'bottom', x:
+							 * 'right', data:['pm2.5'], textStyle: { color: '#fff' } },
+							 */
+							legend: {
+								orient: 'vertical',
+								y: 'bottom',
+								x: 'right',
+								data: ['pm2.5'],
+								textStyle: {
+									color: '#ccc'
+								}
+							},
+							visualMap: {
+								show: false,
+								min: 0,
+								max: 500,
+								left: 'left',
+								top: 'bottom',
+								text: ['高', '低'], // 文本，默认为数值文本
+								calculable: true,
+								seriesIndex: [1],
+								inRange: {
+
+								}
+							},
+							geo: {
+								map: 'china',
+								show: true,
+								roam: true,
+								label: {
+									normal: {
+										show: false
+									},
+									emphasis: {
+										show: false,
+									}
+								},
+								itemStyle: {
+									normal: {
+										areaColor: '#3a7fd5',
+										borderColor: '#0a53e9', // 线
+										shadowColor: '#092f8f', // 外发光
+										shadowBlur: 20
+									},
+									emphasis: {
+										areaColor: '#0a2dae', // 悬浮区背景
+									}
+								}
+							},
+							series: [{
+
+									symbolSize: 5,
+									label: {
+										normal: {
+											formatter: '{b}',
+											position: 'right',
+											show: true
+										},
+										emphasis: {
+											show: true
+										}
+									},
+									itemStyle: {
+										normal: {
+											color: '#fff'
+										}
+									},
+									name: 'light',
+									type: 'scatter',
+									coordinateSystem: 'geo',
+									data: convertData(data),
+
+								},
+								{
+									type: 'map',
+									map: 'china',
+									geoIndex: 0,
+									aspectScale: 0.8, // 长宽比
+									showLegendSymbol: false, // 存在legend时显示
+									label: {
+										normal: {
+											show: false
+										},
+										emphasis: {
+											show: false,
+											textStyle: {
+												color: '#fff'
+											}
+										}
+									},
+									roam: false,
+									itemStyle: {
+										normal: {
+											areaColor: '#031525',
+											borderColor: '#FFFFFF',
+										},
+										emphasis: {
+											areaColor: '#2B91B7'
+										}
+									},
+									animation: false,
+									data: data
+								},
+								{
+									name: 'Top 5',
+									type: 'scatter',
+									coordinateSystem: 'geo',
+									symbol: 'pin',
+									symbolSize: [50, 50],
+									label: {
+										normal: {
+											show: true,
+											textStyle: {
+												color: '#fff',
+												fontSize: 9,
+											},
+											formatter(value) {
+												return value.data.value[2]
+											}
+										}
+									},
+									itemStyle: {
+										normal: {
+											color: '#D8BC37', // 标志颜色
+										}
+									},
+									data: convertData(data),
+									showEffectOn: 'render',
+									rippleEffect: {
+										brushType: 'stroke'
+									},
+									hoverAnimation: true,
+									zlevel: 1
+								},
+							]
+						};
+						myChartdt.setOption(optiondt);
+					}
+				}
+				//	   }
+			}
+		</script>
+
+		<script>
+			var a = [{
+					x: "第一季度",
+					value: "999721"
+				},
+				{
+					x: "中共中央政治局",
+					value: 51721
+				},
+				{
+					x: "常务委员会",
+					value: 269721
+				},
+				{
+					x: "会议",
+					value: 385721
+				},
+				{
+					x: "听取",
+					value: 342721
+				},
+				{
+					x: "吉林长春",
+					value: 477721
+				},
+				{
+					x: "长生",
+					value: 368721
+				},
+				{
+					x: "公司",
+					value: 421721
+				},
+				{
+					x: "疫苗",
+					value: 43721
+				},
+				{
+					x: "案件",
+					value: 368721
+				},
+				{
+					x: "调查",
+					value: 411721
+				},
+				{
+					x: "问责",
+					value: 219721
+				},
+				{
+					x: "情况",
+					value: 412721
+				},
+				{
+					x: "汇报",
+					value: 174721
+				},
+				{
+					x: "中共中央",
+					value: 371721
+				},
+				{
+					x: "总书记",
+					value: 475721
+				},
+				{
+					x: "习近平",
+					value: 372721
+				},
+				{
+					x: "主持会议",
+					value: 489721
+				},
+				{
+					x: "发表",
+					value: 259721
+				},
+				{
+					x: "重要讲话",
+					value: 388721
+				},
+				{
+					x: "这起",
+					value: 422721
+				},
+				{
+					x: "发生",
+					value: 195721
+				},
+				{
+					x: "高度重视",
+					value: 102721
+				},
+				{
+					x: "作出",
+					value: 75721
+				},
+				{
+					x: "指示",
+					value: 116721
+				},
+				{
+					x: "查清",
+					value: 273721
+				},
+				{
+					x: "事实真相",
+					value: 299721
+				},
+				{
+					x: "严肃",
+					value: 349721
+				},
+				{
+					x: "依法",
+					value: 219721
+				},
+				{
+					x: "从严处理",
+					value: 448721
+				},
+				{
+					x: "守住",
+					value: 276721
+				},
+				{
+					x: "底线",
+					value: 270721
+				},
+				{
+					x: "保障",
+					value: 404721
+				},
+				{
+					x: "群众",
+					value: 246721
+				},
+				{
+					x: "切身利益",
+					value: 94721
+				},
+				{
+					x: "社会",
+					value: 440721
+				},
+			]
+
+			anychart.onDocumentReady(function() {
+				var chart = anychart.tagCloud(a);
+				chart.container("keywords");
+				chart.draw();
+			});
+			setTimeout(function() {
+				$('.anychart-credits').remove();
+			}, 150);
+		</script>
+		 <script th:inline="javascript" type="text/javascript">
+    let projectid = '';
+    let groupId = '';
+	
+    $('.navLi').click(function(){
+    	jumpNavLocation($(this).data('type'), groupId, projectid);
+    })
+</script>
+		
+		
+	</body>
+
+</html>
