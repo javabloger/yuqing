@@ -14,11 +14,6 @@ public class StonedtPortalApplication{
     public static void main(String[] args) {
         SpringApplication.run(StonedtPortalApplication.class, args); 
         
-        
-        
-        
-        
-        
     }
 
 }
