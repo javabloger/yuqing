@@ -49,6 +49,11 @@
 ![输入图片说明](ProIMG/xiangqing.png)
 ![输入图片说明](ProIMG/secher.png)
 ![输入图片说明](ProIMG/jiance.png)
+![输入图片说明](ProIMG/WechatIMG12912.png)
+![输入图片说明](ProIMG/WechatIMG12910.png)
+
+
+
 
 ## 系统架构
 
