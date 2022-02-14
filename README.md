@@ -73,7 +73,9 @@
 
 1.  准备一台不小于 8 G内存的 64位 Linux 主机；
 2.  以 root 用户执行如下命令安装 思通舆情。
+
     1)下载安装脚本：wget https://gitee.com/stonedtx/yuqing/raw/2a6bf836f3f919b5d2dd32f004e94a3a307fd081/install.sh
+
     2)执行一键安装：sh install.sh
 
 
