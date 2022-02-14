@@ -66,6 +66,11 @@
 -   密码：stonedt
 
 
+## 安装依赖
+1. JavaEE 8 以上版本；
+2. MySQL 5.5 以上版本；
+3. Redis 4.0 Redis。
+
 
 ## 快速开始
 
@@ -77,6 +82,8 @@
     1)下载安装脚本：wget https://gitee.com/stonedtx/yuqing/raw/2a6bf836f3f919b5d2dd32f004e94a3a307fd081/install.sh
 
     2)执行一键安装：sh install.sh
+
+
 
 
 ## 产品手册
