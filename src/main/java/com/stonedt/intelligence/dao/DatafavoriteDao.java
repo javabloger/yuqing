@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.stonedt.intelligence.entity.DatafavoriteEntity;
 
 @Mapper
-public interface DatafavoriteDao {
+public interface DatafavoriteDao {  
 
 	int adddata(DatafavoriteEntity favorite);
 
