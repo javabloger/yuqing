@@ -1,3 +1,5 @@
+
+# 
 server:
   port: 8084
   servlet:
@@ -26,12 +28,16 @@ spring:
         enabled: true #热部署生效
   application:
     name: stonedt-portal
+  
+  # 修改设置MySQL服务器地址和用户名及密码
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/stonedt_portal?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useSSL=false
       username: root
       password: 123456
+
+ # 修改设置Redis服务器地址
   redis:
     database: 0
     host: localhost
