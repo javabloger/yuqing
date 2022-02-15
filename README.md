@@ -53,17 +53,16 @@
 ![输入图片说明](ProIMG/WechatIMG12910.png)
 
 
-
-
 ## 系统架构
 
-更新中...
+![输入图片说明](ProIMG/gongneng-jiagou.png)
 
 
 ## 功能架构
-![输入图片说明](ProIMG/gongneng-jiagou.png)
+![输入图片说明](ProIMG/%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD.png)
 
  
+
 ## 在线体验
 
 -   环境地址：<http://pro.stonedt.com/>
