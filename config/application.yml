@@ -1,5 +1,5 @@
 
-# 
+# 设置舆情系统web访问端口，默认端口号8084
 server:
   port: 8084
   servlet:
