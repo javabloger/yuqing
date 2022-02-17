@@ -806,7 +806,7 @@
 					<!-- footer start  -->
 					<!-- ============================================================== -->
 					 <div class="page-footer">
-						© 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+						© 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
 					</div> 
 					<!-- ============================================================== -->
 					<!-- footer end  -->
@@ -849,6 +849,7 @@
 		<script th:src="@{/dist/eventAnalysisDetail.js?unixtemp=888888}"></script>
 		<script th:src="@{/dist/eventAnalysisReport.js?unixtemp=888888}"></script>
 		<script type="text/javascript" th:inline="javascript">
+		$("#currentyear").text((new Date()).getFullYear());
 		var publicoption=[[${publicoption}]]
 		var start_time='[[${publicoption ne null ? publicoption.eventstarttime : ""}]]'
 		var back_analysis = '[[${back_analysis}]]'

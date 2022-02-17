@@ -82,7 +82,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="cus-footer" style="color: #5a5a5a;"> © 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1</div>
+                    <div class="cus-footer" style="color: #5a5a5a;"> © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1</div>
                 </div>
             </div>
         </div>
@@ -118,6 +118,7 @@
 <!-- This page plugin js -->
 <!-- ============================================================== -->
 <script type="application/javascript">
+$("#currentyear").text((new Date()).getFullYear());
     $('[data-toggle="tooltip"]').tooltip();
     $(".preloader").fadeOut();
     // ============================================================== 

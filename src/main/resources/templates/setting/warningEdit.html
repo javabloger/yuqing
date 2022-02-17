@@ -346,7 +346,7 @@
 
 
             <div class="page-footer">
-                © 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+                © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
             </div>
         </div>
     </div>
@@ -388,7 +388,7 @@
 
 
 <script type="text/javascript" th:inline="javascript">
-
+$("#currentyear").text((new Date()).getFullYear());
     var warningStr = [[${warningStr}]];
     var project_id = [[${project_id}]];
     var groupId = [[${groupid}]];

@@ -1579,7 +1579,7 @@
             </div>
           </div>
           <div class="page-footer">
-            © 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+            © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
           </div>
         </div>
         <!-- right filter start-->
@@ -1896,6 +1896,7 @@
 <!--    <script th:src="@{/dist/js/bootstrap-multiselect.min.js}"></script>-->
   </body>
   <script th:inline="javascript" type="text/javascript">
+  $("#currentyear").text((new Date()).getFullYear());
     let searchflag = [[${searchflag}]];
     let search_text = [[${searchword}]];  // 全文搜索的值
     let currentPage = [[${page}]];

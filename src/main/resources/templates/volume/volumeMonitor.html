@@ -549,7 +549,7 @@
 <!--                 </div> -->
             </div>
             <div class="page-footer">
-                © 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+                © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
             </div>
         </div>
     </div>
@@ -574,6 +574,7 @@
 <script th:src="@{/dist/volume.js}"></script>
 
 <script th:inline="javascript" type="text/javascript">
+$("#currentyear").text((new Date()).getFullYear());
     
     $('.navLi').click(function(){
     	jumpNavLocation($(this).data('type'), groupId, projectid);

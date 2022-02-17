@@ -156,7 +156,7 @@
             <!-- footer start  -->
             <!-- ============================================================== -->
             <div class="page-footer">
-                © 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+                © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
             </div>
             <!-- ============================================================== -->
             <!-- footer end  -->
@@ -197,7 +197,7 @@
 <script src="../assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
 <script th:src="@{/common/common.js}"></script>
 <script type="text/javascript" th:inline="javascript">
-
+$("#currentyear").text((new Date()).getFullYear());
     $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
     var radioswitch = function () {
         var bt = function () {

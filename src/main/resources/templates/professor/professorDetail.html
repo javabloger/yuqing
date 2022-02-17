@@ -241,7 +241,7 @@
 		</div>
 	</div>
 	<div class="page-footer">
-        © 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+        © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
     </div>
 </div>
 <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
@@ -265,6 +265,7 @@
 <script th:src="@{/dist/js/xsjs/circleChart.js}"></script>
 <script th:src="@{/dist/js/xsjs/circleChart.min.js}"></script>
 <script th:inline="javascript" type="text/javascript">
+$("#currentyear").text((new Date()).getFullYear());
 	var articleId = [[${articleid}]];
 	var menu = [[${menu}]];
 	$('.navLi').click(function () {

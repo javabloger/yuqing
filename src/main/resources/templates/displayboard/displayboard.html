@@ -980,7 +980,7 @@
 					<!-- footer start  -->
 					<!-- ============================================================== -->
 					 <div class="page-footer">
-						 © 2014-2022 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+						 © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
 					</div>
 					<!-- ============================================================== -->
 					<!-- footer end  -->
@@ -1029,7 +1029,7 @@
 		<!-- <script src=" dist/js/pages/dashboards/dashboard2.js"></script> -->
 		<script th:src="@{/assets/libs/sweetalert/sweetalert.min.js}"></script>
 		<script>
-		// var ctx = getRootPath();
+		$("#currentyear").text((new Date()).getFullYear());
 		let user = "[[${user}]]"
 		let push_PO = "[[${push_PO}]]"
 		let report_day = "[[${report_day}]]"
@@ -1075,6 +1075,9 @@
 				}
 			})
 		}
+		
+		
+		
 		
 		$(function() {
 				if(user.is_change_pas==0){
