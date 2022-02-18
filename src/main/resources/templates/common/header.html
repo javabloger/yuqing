@@ -30,13 +30,13 @@
                         <i class="mdi mdi-menu font-24"></i>
                     </a>
                 </li>
-                  <li data-type="displayboard" th:classappend="${menu=='displayboard'?'nav-active3':''}"
+                  <!-- <li data-type="displayboard" th:classappend="${menu=='displayboard'?'nav-active3':''}"
                     class="nav-item dropdown hover-none navLi" id="zhkb">
                     <a class="nav-link dropdown-toggle waves-effect  waves-dark">
                         <span class="d-none d-md-block"> <i class="fa fa-list-alt"></i> 今日热点</span>
                         <span class="d-block d-md-none">今日热点 </span>
                     </a>
-                </li>
+                </li> -->
                 <li data-type="analysis" th:classappend="${menu=='analysis'?'nav-active3':''}"
                     class="nav-item dropdown hover-none navLi">
                     <a class="nav-link dropdown-toggle waves-effect  waves-dark">
@@ -63,14 +63,14 @@
                 <!--                         <span class="d-block d-md-none">事件分析</span> -->
                 <!--                     </a> -->
                 <!--                 </li> -->
-                <li data-type="report" th:classappend="${menu=='report'?'nav-active3':''}"
+                <!-- <li data-type="report" th:classappend="${menu=='report'?'nav-active3':''}"
                     class="nav-item dropdown hover-none navLi">
                     <a class="nav-link dropdown-toggle waves-effect  waves-dark">
-                        <!-- <i class="fa fa-chart-pie"></i>  -->
+                        <i class="fa fa-chart-pie"></i> 
                         <span class="d-none d-md-block"> <i class="fa fa-tasks"></i> 分析报告</span>
                         <span class="d-block d-md-none">分析报告</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li data-type="project" th:classappend="${menu=='project'?'nav-active3':''}"
                     class="nav-item dropdown hover-none navLi">
@@ -80,14 +80,14 @@
                     </a>
                 </li>
 
-                <li data-type="full_search" th:classappend="${menu=='full_search'?'nav-active3':''}"
+                <!-- <li data-type="full_search" th:classappend="${menu=='full_search'?'nav-active3':''}"
                     class="nav-item dropdown hover-none navLi">
                     <a style="display: block; position: absolute; font-size: 12px; color: #fff; margin-left: 76px; margin-top: 6px; background-color: #fe475d; width: 25px; height: 17px; border-radius: 45%; padding-left: 7px;transform: scale(0.9);">新</a>
                     <a class="nav-link dropdown-toggle waves-effect  waves-dark">
                         <span class="d-none d-md-block"> <i class="fa fa-search"></i> 情报搜索</span>
                         <span class="d-block d-md-none">情报搜索</span>
                     </a>
-                </li>
+                </li> -->
                 <li data-type="public_option" th:classappend="${menu=='public_option'?'nav-active3':''}"
                     class="nav-item dropdown hover-none navLi" id="yqypfx">
                     <a class="nav-link dropdown-toggle waves-effect  waves-dark">
@@ -468,6 +468,8 @@
                 window.location.href = ctxPath + 'fullsearch';
             }else if (menu == 'public_option') {
                 window.location.href = ctxPath + 'publicoption';
+            }else if (menu == 'syswarning') {
+                window.location.href = ctxPath + '/system/warning';
             }
         }
 
