@@ -66,7 +66,7 @@
 
 ## 数据存储
 
-分为多个部分存储，MySQL、redis、kafak、Elasticsearch、MongoDB、clickhouse。
+ 为了储存海量的数据，同时还能保证系统的性能和运行效率，我们将一条数据储存了多份，用储存空间换取查询时间。
 
 -  MySQL 
 
