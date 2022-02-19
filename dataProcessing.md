@@ -39,6 +39,7 @@
 
 ### 文本分类
 
+-  由清华大学自然语言处理实验室推出的 [THUCTC(THU Chinese Text Classification)](http://http://thuctc.thunlp.org/)
 
 ### 相似文章
 
