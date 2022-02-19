@@ -286,7 +286,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="create-line2 m-b-20">
+                                <!-- <div class="create-line2 m-b-20">
                                     <span>国家/城市/地域 关键词</span>
                                     <textarea class="form-control" name="" id="proarea" rows="4"
                                               placeholder='关键词之间用逗号","隔开;例如：美国，上海，北京，滕家沟，南京西路'></textarea>
@@ -297,8 +297,8 @@
                                             <i class="fa fa-question-circle"></i>
                                         </a>
                                     </div>
-                                </div>
-                                <div class="create-line2 m-b-20">
+                                </div> -->
+                                <!-- <div class="create-line2 m-b-20">
                                     <span>人物/机构/企业 关键词</span>
                                     <textarea class="form-control" name="" id="properson" rows="4"
                                               placeholder='关键词之间用逗号","隔开；例如：马云，北京网安中心，腾讯科技'></textarea>
@@ -309,8 +309,8 @@
                                             <i class="fa fa-question-circle"></i>
                                         </a>
                                     </div>
-                                </div>
-                                <div class="create-line2 m-b-20">
+                                </div> -->
+                               <!--  <div class="create-line2 m-b-20">
                                     <span>事件/动词 关键词</span>
                                     <textarea class="form-control" name="" id="proaccident" rows="4"
                                               placeholder='关键词之间用逗号","隔开；例如：高管离职，拖欠工资，跑路，开销，焦虑'></textarea>
@@ -321,7 +321,7 @@
                                             <i class="fa fa-question-circle"></i>
                                         </a>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="create-line2 m-b-20">
                                     <!--<span>监测屏蔽歧义词</span>-->
                                     <span>
@@ -426,9 +426,15 @@ $("#currentyear").text((new Date()).getFullYear());
                     let stop_word = data.stop_word;
                     let project_name = data.project_name;
                     let group_name = data.group_name;
-                    let character_word = data.character_word;
+                    /* let character_word = data.character_word;
                     let event_word = data.event_word;
-                    let regional_word = data.regional_word;
+                    let regional_word = data.regional_word; */
+                    let character_word = '';
+                    let event_word = '';
+                    let regional_word = '';
+                    
+                    
+                    
                     let precise = data.precise;
 
                     if (project_type == 1) { // 高级方案
@@ -592,9 +598,13 @@ $("#currentyear").text((new Date()).getFullYear());
     $("#gosubmit").click(function () {
         var proname = $("#proname").val();
         var prokeywords = $("#prokeywords").val();
-        var properson = $("#properson").val();
+        /* var properson = $("#properson").val();
         var proarea = $("#proarea").val();
-        var proaccident = $("#proaccident").val();
+        var proaccident = $("#proaccident").val(); */
+        
+        var properson = '';
+        var proarea = '';
+        var proaccident = '';
         var proshield = $("#proshield").val();
         if (proname == '') {
             $("#proname").addClass("text-error");

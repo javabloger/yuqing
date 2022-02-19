@@ -38,47 +38,51 @@ $("#sidebarnav .sidebar-item").mouseleave(function () {
 
 
 function createNewPro(params) {
-    var create =
-        '<div class="shadebox" id="createmodel">' +
-        '    <div class="modal-dialog" role="document">' +
-        '        <div class="modal-content">' +
-        '            <div class="modal-header align-flexend" style="border:none">' +
-        '                <h5 class="modal-title"><i class="ti-marker-alt m-r-10"></i>创建新方案组</h5>' +
-        '                <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>' +
-        '            </div>' +
-        '            <div class="modal-body">' +
-        '                <div class="input-group mb-3">' +
-        '                    <button type="button" class="btn " style="background:#cfcfd0"><i class="mdi mdi-mailbox text-white"></i></button>' +
-        '                    <input type="text" class="form-control" id="projectName" placeholder="输入方案组名称，最六个字符" maxlength="10">' +
-        '                </div>' +
-        '            </div>' +
-        '            <div class="modal-footer" style="border:none">' +
-        '                <button type="button" class="btn btn-info" id="confirm"> 确定</button>' +
-        '                <button type="button" class="btn btn-secondary" id="cancel">取消</button>' +
-        '             </div>' +
-        '        </div>' +
-        '    </div>' +
-        '</div>'
-
-    $("body").append(create)
-    $("#closethis").click(function (param) {
-        $("#createmodel").remove()
-    })
-    $("#cancel").click(function (param) {
-        $("#createmodel").remove()
-    })
-    $("#confirm").click(function () {
-        var name = $("#projectName").val()
-        if (name == '' || name == undefined||name=="") {
-            showtips("方案组名称不能为空！")
-        }else if (name.length>6) {
-            showtips("方案组名称长度最多六个字符")
-        }else {
-            createSolutionGroup(name);
-            console.log(name)
-            $("#createmodel").remove()
-        }
-    })
+	
+	
+	window.location.href = ctxPath + "project/addproject?groupid="
+	
+//    var create =
+//        '<div class="shadebox" id="createmodel">' +
+//        '    <div class="modal-dialog" role="document">' +
+//        '        <div class="modal-content">' +
+//        '            <div class="modal-header align-flexend" style="border:none">' +
+//        '                <h5 class="modal-title"><i class="ti-marker-alt m-r-10"></i>创建新方案组</h5>' +
+//        '                <i class="mdi mdi-close-circle-outline font-18 cursor-po" id="closethis"></i>' +
+//        '            </div>' +
+//        '            <div class="modal-body">' +
+//        '                <div class="input-group mb-3">' +
+//        '                    <button type="button" class="btn " style="background:#cfcfd0"><i class="mdi mdi-mailbox text-white"></i></button>' +
+//        '                    <input type="text" class="form-control" id="projectName" placeholder="输入方案组名称，最六个字符" maxlength="10">' +
+//        '                </div>' +
+//        '            </div>' +
+//        '            <div class="modal-footer" style="border:none">' +
+//        '                <button type="button" class="btn btn-info" id="confirm"> 确定</button>' +
+//        '                <button type="button" class="btn btn-secondary" id="cancel">取消</button>' +
+//        '             </div>' +
+//        '        </div>' +
+//        '    </div>' +
+//        '</div>'
+//
+//    $("body").append(create)
+//    $("#closethis").click(function (param) {
+//        $("#createmodel").remove()
+//    })
+//    $("#cancel").click(function (param) {
+//        $("#createmodel").remove()
+//    })
+//    $("#confirm").click(function () {
+//        var name = $("#projectName").val()
+//        if (name == '' || name == undefined||name=="") {
+//            showtips("方案组名称不能为空！")
+//        }else if (name.length>6) {
+//            showtips("方案组名称长度最多六个字符")
+//        }else {
+//            createSolutionGroup(name);
+//            console.log(name)
+//            $("#createmodel").remove()
+//        }
+//    })
 }
 
 //创建方案组

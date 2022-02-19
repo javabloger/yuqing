@@ -64,7 +64,7 @@ function getProjectsearch(res) {
 function installGroup(res) {
     let code = res.code;
     let groupInfo = '';
-    let addGroup = '<li class="p-15"><a onclick="createNewPro()" class="btn btn-block create-btn text-white d-flex align-items-center"><i class="fa fa-plus-square"></i><span class="hide-menu m-l-10">新建监测方案组</span></a></li>';
+    let addGroup = '<li class="p-15"><a onclick="createNewPro()" class="btn btn-block create-btn text-white d-flex align-items-center"><i class="fa fa-plus-square"></i><span class="hide-menu m-l-10">新建监测方案</span></a></li>';
     groupInfo = addGroup;  // 整的左侧方案组列表
     if (code == 200) {
         let data = res.data;

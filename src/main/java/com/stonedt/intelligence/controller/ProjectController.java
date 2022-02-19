@@ -474,13 +474,17 @@ public class ProjectController {
                         }
                    }
                 	}
-                	
-//                String kafukaResponse = MyHttpRequestUtil.doPostKafka("ikHotWords", message, kafuka_url);
-//                RestTemplate template = new RestTemplate();
-//                MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
-//                paramMap.add("text", message);
-//                String result = template.postForObject(insert_new_words_url, paramMap, String.class);
-//                System.out.println("result========================="+result);
+                	try {
+                		String kafukaResponse = MyHttpRequestUtil.doPostKafka("ikHotWords", message, kafuka_url);
+                        RestTemplate template = new RestTemplate();
+                        MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
+                        paramMap.add("text", message);
+                        String result = template.postForObject(insert_new_words_url, paramMap, String.class);
+                        System.out.println("result========================="+result);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+                
             } else {
                 response.put("code", 500);
                 response.put("msg", "方案新增失败");
@@ -659,7 +663,17 @@ public class ProjectController {
             	
             	
             }
-            
+            try {
+            	 String kafukaResponse = MyHttpRequestUtil.doPostKafka("ikHotWords", message, kafuka_url);
+                 RestTemplate template = new RestTemplate();
+                 MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
+                 paramMap.add("text", message);
+                 String result = template.postForObject(insert_new_words_url, paramMap, String.class);
+                 System.out.println("result========================="+result);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+           
            
             
 
