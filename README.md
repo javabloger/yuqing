@@ -3,7 +3,7 @@
 
 **无论你是使用者还是共同完善的开发者，欢迎 pull request 或者 留言对我们提出建议。 **
 
-**如果你喜欢这款舆情系统请 [star](https://gitee.com/stonedtx/yuqing/star) 或者 [fork](https://gitee.com/stonedtx/yuqing)! **
+**如果你喜欢这款舆情系统请 :star:  [star](https://gitee.com/stonedtx/yuqing) 或者 [fork](https://gitee.com/stonedtx/yuqing)! **
 
 **您的支持和参与，就是我们坚持开源的动力！ ** 
 
