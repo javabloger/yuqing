@@ -17,10 +17,16 @@
 
 ## 数据总线
 
+  通过SmarterAPI与Elasticsearch对接，将内部整套数据处理流程完成后对外输出。
+
 
 ## 数据去重
-采用了redis集群
+-   URL去重
+   采用了redis集群
 
+
+-   内容去重
+   采用Elasticsearch内部的查询将文章标题一样的内容检索过滤掉。
 
 ## 数据清洗
 自动提取字段，标题、正文、时间、作者、来源 等。
@@ -43,6 +49,7 @@
 
 ### 相似文章
 
+  将文章通过“海明距离”算法生成加密串码存储在clickhouse集群中，通过clickhouse距离查询方法实现，文章相似度聚类。
 
 ### 事件分类
 
@@ -54,9 +61,15 @@
 
 ## 数据存储
 
-分为多个部分存储，MySQL、redis、kafak、ES、mongodb、clickhouse
+分为多个部分存储，MySQL、redis、kafak、Elasticsearch、Mongodb、clickhouse
 
 ## 数据运维
 ###  数据清理
+   
+需要定期对  Elasticsearch、Mongodb 中存储的数据删除，同时还要将Mongodb中的表删除，否则磁盘空间容量不会减少。
 
-###  数据归档
+###  数据备份
+
+
+
+
