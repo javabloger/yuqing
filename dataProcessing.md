@@ -69,21 +69,27 @@
 分为多个部分存储，MySQL、redis、kafak、Elasticsearch、MongoDB、clickhouse。
 
 -  MySQL 
+
    在系统中储存两部分相关的信息内容，系统配置和临时脏数据储存。
 
 - redis
+
   在系统中除了作为系统缓存，还作为站点数据采集的index索引库。
 
 - kafak
+
   由于数据处理的过程比较多，而且数据量很大，因此采用分布式以及异步的方式对海量数据加工处理。
 
 - Elasticsearch
+
   储存加工好的数据，以及打上各种标签的数据，储存在分布式搜索中，这样便于用户对数据的检索。
 
 - MongoDB
+
   带样式的文章正文原始网页储存在MongoDB中。
 
 - Clickhouse
+
   将每篇文章指纹及海明距离储存在clickhouse中，以便于对相似度和文章主题聚类的计算。
 
 
