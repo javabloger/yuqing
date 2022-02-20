@@ -12,7 +12,8 @@
 
 ## 技术架构
 
-(思维导图)
+![输入图片说明](ProIMG/Im0bekTbfnilPyHVt1rWJA.png)
+（这是最早期系统架构图）
 
 
 ## 数据处理流程
