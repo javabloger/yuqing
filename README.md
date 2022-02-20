@@ -1,5 +1,21 @@
 思通舆情 是一款开源免费的舆情系统，支持本地化部署。支持对海量舆情数据分析和挖掘。
 <br>
+ 
+无论你是使用者还是共同完善的开发者，欢迎 pull request 或者 留言对我们提出建议。 
+<br>
+您的支持和参与就是我们坚持开源的动力！请 :star:  [star](https://gitee.com/stonedtx/yuqing) 或者 [fork](https://gitee.com/stonedtx/yuqing)!  
+<br>
+
+无论你是有相关经验、技术可以一起加入我们的开源项目。
+<br><br>
+
+
+同时还会将我们的项目计划和关键性技术讲解，毫无保留的公布于众，让大家对我们有更多的认识和了解。<br>
+想了解更多，可以看这两篇文章：
+
+ [【数据采集】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataCollection.md) 和 [【数据处理】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataProcessing.md) 。
+<br>
+<br><br>
 
 ### 思通舆情 的功能：
 
@@ -73,11 +89,16 @@
 
 -  舆情数据处理 和 舆情数据采集，目前(2022-2-19)文档和代码正在规整中。
 
--  舆情数据处理 ，预计会在2022年3月份先提到开源社区。
-   [【数据处理】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataProcessing.md)
+### 舆情数据处理 
 
--  舆情数据采集 ，目前待定。
- 
+-   文档预计在2022年3月份提到开源社区。
+
+    [【数据处理】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataProcessing.md)
+
+###  舆情数据采集 
+-   目前正在整理编写文档，正式发布时间待定。
+
+    [【数据采集】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataCollection.md)
 
 ## 在线体验
 
