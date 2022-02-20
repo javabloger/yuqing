@@ -89,16 +89,20 @@
 
 -  舆情数据处理 和 舆情数据采集，目前(2022-2-19)文档和代码正在规整中。
 
+
+###  舆情数据采集 
+-   目前正在整理编写文档，正式发布时间待定。
+
+    [【数据采集】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataCollection.md)
+
+
 ### 舆情数据处理 
 
 -   文档预计在2022年3月份提到开源社区。
 
     [【数据处理】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataProcessing.md)
 
-###  舆情数据采集 
--   目前正在整理编写文档，正式发布时间待定。
 
-    [【数据采集】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataCollection.md)
 
 ## 在线体验
 
