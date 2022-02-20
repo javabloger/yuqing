@@ -7,8 +7,15 @@
 <br>
 
 无论你是有相关经验、技术可以一起加入我们的开源项目。
-<br>
+<br><br>
 
+
+同时还会将我们的项目计划和关键性技术讲解，毫无保留的公布于众，让大家对我们有更多的认识和了解。<br>
+想了解更多，可以看这两篇文章：
+
+ [【数据采集】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataCollection.md) 和 [【数据处理】技术架构说明文档](https://gitee.com/stonedtx/yuqing/blob/master/dataProcessing.md) 。
+<br>
+<br><br>
 
 ### 思通舆情 的功能：
 
