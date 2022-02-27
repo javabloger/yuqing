@@ -56,7 +56,7 @@
 
 
 ## UI 展示
-![登录页面](.ProIMG/login.png)
+![登录页面](ProIMG/login.png)
 ![系统首页](ProIMG/main2.png)
 ![输入图片说明](ProIMG/main.png)
 ![输入图片说明](ProIMG/main3.png)
