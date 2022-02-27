@@ -57,26 +57,26 @@
 
 ## UI 展示
 ![登录页面](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/login.png?raw=true)
-![系统首页](ProIMG/main2.png)
-![输入图片说明](ProIMG/main.png)
-![输入图片说明](ProIMG/main3.png)
-![输入图片说明](ProIMG/main4.png)
-![输入图片说明](ProIMG/report.png)
-![输入图片说明](ProIMG/shijian.png)
-![输入图片说明](ProIMG/xiangqing.png)
-![输入图片说明](ProIMG/secher.png)
-![输入图片说明](ProIMG/jiance.png)
-![输入图片说明](ProIMG/WechatIMG12912.png)
-![输入图片说明](ProIMG/WechatIMG12910.png)
+![系统首页](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/ProIMG/main2.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/main.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/main3.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/main4.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/report.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/shijian.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/xiangqing.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/secher.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/jiance.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/WechatIMG12912.png?raw=true)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/WechatIMG12910.png?raw=true)
 
 
 ## 系统架构
 
-![输入图片说明](ProIMG/gongneng-jiagou.png)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/gongneng-jiagou.png?raw=true)
 
 
 ## 功能架构
-![输入图片说明](ProIMG/%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD.png)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD.png?raw=true)
 
 
 ## 开源计划
@@ -149,14 +149,14 @@ https://gitee.com/stonedtx/yuqing/blob/master/%E4%BA%A7%E5%93%81%E6%89%8B%E5%86%
 
   服务流程如下
 
-![输入图片说明](ProIMG/data-plan.png)
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/data-plan.png)
 
 
 
 ## 微信
    扫描微信二维码，技术交流。
 
-<img src="./ProIMG/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC-%E4%B8%AA%E4%BA%BA%E5%BE%AE%E4%BF%A1.jpg" title="Logo"  width="220">
+<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC-%E4%B8%AA%E4%BA%BA%E5%BE%AE%E4%BF%A1.jpg" title="Logo"  width="220">
 
 
 
